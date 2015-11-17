@@ -1,0 +1,20 @@
+{% extends '@FOSUser/base_login.html.twig' %}
+
+{% block title %}Réinitialiser le mot de passe{% endblock %}
+
+{% block body %}
+    <form class="m-t" role="form" action="{{ path('fos_user_resetting_send_email') }}" method="post">
+        <div class="form-group{% if invalid_username is defined %} has-error{% endif %}">
+            <input type="text" class="form-control" placeholder="Nom d'utilisateur ou email" id="username" name="username" required="required">
+        </div>
+        {% if invalid_username is defined %}
+            <div class="label-danger">
+                Le nom d'utilisateur ou l'email n'a pas été trouvé
+            </div>
+            <br>
+        {% endif %}
+
+        <button type="submit" id="_submit" name="_submit" class="btn btn-primary block full-width m-b">Réinitialiser mon mot de passe</button>
+    </form>
+    <a href="{{ path('fos_user_security_login') }}" class="btn btn-danger block full-width m-b">Annuler</a>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'Admin/Template/ibox.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+{% block breadcrumb %}<li class="active">Utilisateurs</li>{% endblock %}
+
+{% block iboxTitle %}Liste des utilisateurs{% endblock %}
+{% block iboxTools %}<a href="{{ path('admin_user_new') }}"><i class="fa fa-plus-circle"></i></a>{% endblock %}
+
+{% block iboxContent %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Login</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th class="text-center">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.firstname }} {{ user.lastname }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% for role in user.roles %}
+                        {{ role }} <br/>
+                    {% endfor %}
+                </td>
+                <td class="text-center">
+                    <a class="btn btn-xs btn-primary" href="{{ path('admin_user_edit', {'id': user.id}) }}"><span class="fa fa-edit"></span> Editer</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

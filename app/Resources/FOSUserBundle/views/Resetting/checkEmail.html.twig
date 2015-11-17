@@ -1,0 +1,9 @@
+{% extends '@FOSUser/base_login.html.twig' %}
+
+{% block title %}Validation{% endblock %}
+
+{% block body %}
+    <div class="text-warning">Un email viens d'être envoyé sur votre boite mail contenant des indications pour réinitialiser votre mot de passe.</div>
+    <br>
+    <a href="{{ path('fos_user_security_login') }}" class="btn btn-primary block full-width m-b">Connexion</a>
+{% endblock %}

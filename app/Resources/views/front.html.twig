@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ ceya_parameters.project_name }} - {% block title %}{% endblock %}</title>
+
+    {% stylesheets
+        'lib/bootstrap/css/bootstrap.min.css'
+        'lib/font-awesome/css/font-awesome.css'
+        'lib/animate/animate.css'
+        'css/front/main.css'
+        filter='cssrewrite' output='asset/css/ceya.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    {% block stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+
+<body>
+{% set config = configuration.current %}
+{% set route = app.request.attributes.get('_route') %}
+
+{% for type, flashMessages in app.session.flashBag.all() %}
+  {% for flashMessage in flashMessages %}
+    <div class="text-center alert {% if type == 'error' %}alert-warning{% elseif type == 'success' %}alert-success{% endif %} alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      {{ flashMessage|raw }}
+    </div>
+  {% endfor %}
+{% endfor %}
+
+<div class="container">
+    <div class="header clearfix">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+            </ul>
+        </nav>
+        <h3 class="text-muted"><img src="{{ asset('images/logo.png') }}" alt=""></h3>
+    </div>
+
+    {% block body %}{% endblock %}
+
+    <footer class="footer">
+        <div class="container">
+            <div class="copyright text-center">
+                © {{ "now"|date("Y") }} {{ ceya_parameters.project_name }}<br>
+                <a href="{{ ceya_parameters.url_developer }}" class="created">Created by {{ ceya_parameters.developed_by }}</a>
+            </div>
+        </div>
+    </footer>
+
+</div> <!-- /container -->
+
+{% block modal %}{% endblock %}
+
+{% javascripts
+    'lib/jquery/jquery-2.1.1.js'
+    'lib/bootstrap/js/bootstrap.min.js'
+    'bundles/fosjsrouting/js/router.js'
+    output='asset/js/ceya.js' %}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,10 @@
+FOSUserBundle:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+app__admin:
+    resource: "@AppBundle/Controller/Admin"
+    prefix: /admin
+
+app__front:
+    resource: "@AppBundle/Controller/Front"
+    prefix: /

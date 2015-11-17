@@ -1,0 +1,27 @@
+.breadcrumb {
+    background-color: transparent;
+    margin-top: 19px;
+    margin-left: 10px;
+}
+
+.vich-image a img {
+    max-width: 150px;
+}
+
+.note-editor .note-editable {
+    border: 1px solid #e5e6e7;
+    border-radius: 1px;
+}
+
+.navbar-form-custom {
+    width: auto;
+}
+
+.note-editor {
+    height: auto;
+    min-height: initial;
+}
+
+.contact-box .btn-danger, .contact-box .btn-primary{
+    color: #ffffff;
+}

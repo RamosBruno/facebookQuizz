@@ -1,0 +1,83 @@
+body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #666699;
+    border-color: #575783;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #7e7ebd;
+    background-position: 0 -15px;
+}
+.btn-primary:active,
+.btn-primary.active {
+    background-color: #7e7ebd !important;
+    border-color: #666699;
+}
+
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled.focus,
+.btn-primary[disabled].focus,
+fieldset[disabled] .btn-primary.focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+    background-color: #7e7ebd;
+    background-image: none;
+}
+
+.header,
+.marketing,
+.footer {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.jumbotron {
+    text-align: center;
+    border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+    padding: 14px 24px;
+    font-size: 21px;
+}
+
+.marketing p + h4 {
+    margin-top: 28px;
+}
+
+.footer {
+    color: #777;
+    border-top: 1px solid #e5e5e5;
+}
+
+@media screen and (min-width: 768px) {
+    .header,
+    .marketing,
+    .footer {
+        padding-right: 0;
+        padding-left: 0;
+    }
+    .header {
+        margin-bottom: 15px;
+    }
+    .jumbotron {
+        border-bottom: 0;
+    }
+}

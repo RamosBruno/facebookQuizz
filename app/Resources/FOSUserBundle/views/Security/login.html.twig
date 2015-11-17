@@ -1,0 +1,26 @@
+{% extends '@FOSUser/base_login.html.twig' %}
+
+{% block title %}Log In{% endblock %}
+
+{% block body %}
+    <form class="m-t" role="form" action="{{ path("fos_user_security_check") }}" method="post">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Username" id="username" name="_username" value="{{ last_username }}" required="required">
+        </div>
+        <div class="form-group">
+            <input type="password" id="password" name="_password" required="required" class="form-control" placeholder="Password">
+        </div>
+
+        <button type="submit" id="_submit" name="_submit" class="btn btn-primary block full-width m-b">Connexion</button>
+
+        {% if error %}
+            <div class="label-danger">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+            <br>
+        {% endif %}
+
+        <a href="{{ path('fos_user_resetting_request') }}"><small>Mot de passe oublié?</small></a>
+    </form>
+{% endblock %}

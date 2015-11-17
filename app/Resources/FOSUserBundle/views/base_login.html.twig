@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Admin - {% block title %}{% endblock %}</title>
+
+    {% stylesheets
+        'lib/bootstrap/css/bootstrap.min.css'
+        'lib/font-awesome/css/font-awesome.css'
+        'lib/animate/animate.css'
+        'lib/inspinia/css/style.css'
+        filter='cssrewrite' output='asset/css/user.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+
+<div class="middle-box text-center loginscreen  animated fadeInDown">
+    <img src="{{ asset('images/logo_white.png') }}" alt="logo" style="width: 100%" />
+        {% block body %}{% endblock %}
+    <p class="m-t"> <small>Ceya &copy; 2015</small> </p>
+</div>
+
+{% javascripts
+    'lib/jquery/jquery-2.1.1.js'
+    'lib/bootstrap/js/bootstrap.min.js'
+    'lib/inspinia/js/inspinia.js'
+    output='asset/js/user.js' %}
+    <script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% block javascripts %}{% endblock %}
+
+</body>
+</html>
