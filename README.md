@@ -1,6 +1,3 @@
-# facebookQuizz
-Projet développement facebook
-
 # Facebook Quizz #
 
 Je crée ce petit readme pour vous expliquez comment config
