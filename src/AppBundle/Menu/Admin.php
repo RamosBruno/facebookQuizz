@@ -16,18 +16,6 @@ class Admin extends ContainerAware
                 'class' => 'fa fa-users',
             ],
         ]);
-        $menu->addChild('Content Block', [
-            'route' => 'admin_contentblock_index',
-            'labelAttributes' => [
-                'class' => 'fa fa-file-text',
-            ],
-        ]);
-        $menu->addChild('Configurations', [
-            'route' => 'admin_configuration_index',
-            'labelAttributes' => [
-                'class' => 'fa fa-gears',
-            ],
-        ]);
 
         return $menu;
     }

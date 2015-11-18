@@ -23,3 +23,7 @@ services:
         arguments: ["@router"]
         tags:
             - { name: kernel.event_subscriber }
+
+    facebook:
+        class: AppBundle\Services\Facebook
+        arguments: [%fb_app_id%, %fb_app_secret%, %fb_default_graph_version%]

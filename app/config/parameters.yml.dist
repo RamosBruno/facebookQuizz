@@ -19,8 +19,7 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    # Ceya parameters
-    ceya_parameters:
-        project_name: "ceya"
-        developed_by: "ceya"
-        url_developer: "http://created_by.com/"
+    # Facebook parameters
+    fb_app_id: ~
+    fb_app_secret : ~
+    fb_default_graph_version : v2.5

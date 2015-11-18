@@ -33,7 +33,6 @@ twig:
         - 'bootstrap_3_layout.html.twig'
     globals:
         configuration: "@App.config"
-        ceya_parameters: %ceya_parameters%
 
 # Assetic Configuration
 assetic:

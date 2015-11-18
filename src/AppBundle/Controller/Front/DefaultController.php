@@ -13,26 +13,21 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('Front/Default/index.html.twig');
-    }
+        $fb = $this->get('facebook')->connectApps();
 
-    /**
-     * @Route("/contentBlock/{slug}", name="front_get_content_block")
-     */
-    public function getContentBlockAction($slug)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $contentBlock = $em->getRepository('AppBundle:ContentBlock')->findOneBySlug($slug);
-
-        if (!$contentBlock) {
-            $contentBlock = new ContentBlock();
-            $contentBlock->setSlug($slug);
-            $em->persist($contentBlock);
-            $em->flush();
+        try {
+            $response = $fb->get('/me');
+            $userNode = $response->getGraphUser();
+        } catch(Facebook\Exceptions\FacebookResponseException $e) {
+            echo 'Graph returned an error: ' . $e->getMessage();
+            exit;
+        } catch(Facebook\Exceptions\FacebookSDKException $e) {
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
         }
 
-        return $this->render('Front/Default/_content_block.html.twig', [
-            'contentBlock' => $contentBlock
+        return $this->render('Front/Default/index.html.twig', [
+            'username' => $userNode['name']
         ]);
     }
 }

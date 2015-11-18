@@ -29,7 +29,8 @@
         "vich/uploader-bundle": "1.0.*@dev",
         "liuggio/excelbundle": "^2.0",
         "knplabs/knp-menu-bundle": "~2",
-        "ceya/generatorbundle": "dev-master"
+        "ceya/generatorbundle": "dev-master",
+        "facebook/php-sdk-v4": "^5.1"
     },
     "repositories" : [{
         "type" : "vcs",
