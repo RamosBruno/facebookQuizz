@@ -76,19 +76,10 @@
             <ul class="nav nav-pills pull-right">
             </ul>
         </nav>
-        <h3 class="text-muted"><img src="{{ asset('images/logo.png') }}" alt=""></h3>
     </div>
 
     {% block body %}{% endblock %}
 
-    <footer class="footer">
-        <div class="container">
-            <div class="copyright text-center">
-                © {{ "now"|date("Y") }} {{ ceya_parameters.project_name }}<br>
-                <a href="{{ ceya_parameters.url_developer }}" class="created">Created by {{ ceya_parameters.developed_by }}</a>
-            </div>
-        </div>
-    </footer>
 
 </div> <!-- /container -->
 
