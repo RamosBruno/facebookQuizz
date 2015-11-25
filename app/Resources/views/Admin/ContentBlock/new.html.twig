@@ -1,0 +1,29 @@
+{% extends 'Admin/Template/ibox.html.twig' %}
+
+{% block title %} Content Block{% endblock %}
+{% block breadcrumb %}<li><a href="{{ path('admin_contentblock_index') }}">Content Block</a></li><li class="active">Création</li>{% endblock %}
+
+{% block iboxTitle %}Création d'un nouveau content block{% endblock %}
+{% block iboxTools %}<button id="save" class="btn btn-primary btn-xs m-l-sm" onclick="save()"><i class="fa fa-check"></i> Enregistrer</button>{% endblock %}
+
+{% block iboxContent %}
+    {{ form_start(form) }}
+        {{ form_rest(form) }}
+        <button type="submit" class="hidden"></button>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function(){
+            $('#appbundle_contentblock_content').summernote({
+                defaultFontName: '"Arial Narrow", Arial, Sans-Serif'
+            });
+            $('.note-fontname').remove();
+        });
+
+        var save = function() {
+            $('[name="{{ form.vars.name }}"]').submit();
+        };
+    </script>
+{% endblock %}

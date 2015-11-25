@@ -1,0 +1,58 @@
+{% extends 'Admin/Template/ibox.html.twig' %}
+
+{% block title %}{{ contentBlock.slug }}{% endblock %}
+{% block breadcrumb %}<li><a href="{{ path('admin_contentblock_index') }}">Content Block</a></li><li class="active">{{ contentBlock.slug }}</li>{% endblock %}
+
+{% block iboxTitle %}{{ contentBlock.slug }}{% endblock %}
+{% block iboxTools %}
+    <button id="save" class="btn btn-primary btn-xs m-l-sm" onclick="save()" style="display: none"><i class="fa fa-check"></i> Enregistrer</button>
+    <button id="edit" class="btn btn-primary btn-xs m-l-sm" onclick="edit()"><i class="fa fa-pencil"></i> Edition</button>
+    <button class="btn btn-danger btn-xs m-l-sm" data-toggle="modal" data-target="#modalDeleteContentBlock"><i class="fa fa-trash-o"></i> Supprimer</button>
+{% endblock %}
+
+{% block iboxContent %}
+    <div class="content">{{ contentBlock.content|raw }}</div>
+    {{ form_start(form, {'attr': {'style': 'display: none'}}) }}
+        {{ form_rest(form) }}
+        <button type="submit" class="hidden"></button>
+    {{ form_end(form) }}
+
+    {% embed 'Admin/Template/modal.html.twig' %}
+        {% block modal_id %}modalDeleteContentBlock{% endblock %}
+        {% block modal_header %}
+            <i class="fa fa-trash modal-icon"></i>
+            <h2>Confirmation de suppression du content block</h2>
+        {% endblock %}
+        {% block modal_body %}
+            <div class="text-center">
+                <p><strong>Etes vous sur de vouloir supprimer le content block {{ contentBlock.slug }} ?</strong></p>
+                <p><span class="text-danger"><i class="fa fa-exclamation-triangle"></i> Cette action est irréversible !</span></p>
+            </div>
+        {% endblock %}
+        {% block modal_footer %}
+            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+            <a href="{{ path('admin_contentblock_remove', {'id': contentBlock.id, 'token': csrf_token('remove_contentblock')}) }}" class="btn btn-danger">Supprimer</a>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var edit = function() {
+            $('#appbundle_contentblock_content').summernote({
+                focus: true,
+                defaultFontName: '"Arial Narrow", Arial, Sans-Serif'
+            });
+            $('.note-fontname').remove();
+            $('.content').hide();
+            $('#edit').hide('slow');
+            $('[name="appbundle_contentblock"]').show();
+            $('#save').show();
+        };
+
+        var save = function() {
+            $('[name="{{ form.vars.name }}"]').submit();
+        };
+    </script>
+{% endblock %}
+
