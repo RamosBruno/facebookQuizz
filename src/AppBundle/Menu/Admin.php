@@ -10,6 +10,12 @@ class Admin extends ContainerAware
     {
         $menu = $factory->createItem('mainMenu');
 
+        $menu->addChild('Quizz', [
+            'route' => 'admin_quizz_index',
+            'labelAttributes' => [
+                'class' => 'fa fa-trophy',
+            ],
+        ]);
         $menu->addChild('Utilisateurs', [
             'route' => 'admin_user_index',
             'labelAttributes' => [
