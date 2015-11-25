@@ -13,18 +13,7 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $fb = $this->get('facebook')->connectApps();
-
-        try {
-            $response = $fb->get('/me');
-            $userNode = $response->getGraphUser();
-        } catch(Facebook\Exceptions\FacebookResponseException $e) {
-            echo 'Graph returned an error: ' . $e->getMessage();
-            exit;
-        } catch(Facebook\Exceptions\FacebookSDKException $e) {
-            echo 'Facebook SDK returned an error: ' . $e->getMessage();
-            exit;
-        }
+        $userNode = $this->get('facebook')->getUserNode();
 
         return $this->render('Front/Default/index.html.twig', [
             'username' => $userNode['name']
