@@ -19,4 +19,24 @@ class DefaultController extends Controller
             'username' => $userNode['name']
         ]);
     }
+
+    /**
+     * @Route("/contentBlock/{slug}", name="front_get_content_block")
+     */
+    public function getContentBlockAction($slug)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $contentBlock = $em->getRepository('AppBundle:ContentBlock')->findOneBySlug($slug);
+
+        if (!$contentBlock) {
+            $contentBlock = new ContentBlock();
+            $contentBlock->setSlug($slug);
+            $em->persist($contentBlock);
+            $em->flush();
+        }
+
+        return $this->render('Front/Default/_content_block.html.twig', [
+            'contentBlock' => $contentBlock
+        ]);
+    }
 }
