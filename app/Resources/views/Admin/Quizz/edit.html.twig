@@ -3,14 +3,38 @@
 {% block title -%}Quizz{% endblock %}
 {% block breadcrumb -%}<li><a href="{{ path('admin_quizz_index') }}">Quizz</a></li><li class="active">Edition</li>{% endblock %}
 
-{% block iboxTitle -%}Formulaire d'édition{% endblock %}
+{% block iboxTitle -%}Modification d'un quizz{% endblock %}
 {% block iboxTools -%}
+    <button data-href="{{ path('admin_question_new') }}" data-quizz="{{ entity.id }}" id="add_question" class="btn btn-primary btn-xs m-l-sm"><i class="fa fa-plus"></i> Ajouter une question</button>
     <button id="save" class="btn btn-primary btn-xs m-l-sm" onclick="save()"><i class="fa fa-check"></i> Enregistrer</button>
     <button class="btn btn-danger btn-xs m-l-sm" data-toggle="modal" data-target="#modalDelete"><i class="fa fa-trash-o"></i> Supprimer</button>
 {% endblock %}
 
 {% block iboxContent -%}
-    {{ form(form) }}
+    <div class="tabs-container">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#tab-1">Questions</a></li>
+            <li class=""><a data-toggle="tab" href="#tab-2">Configuration</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="tab-1" class="tab-pane active">
+                <div class="panel-body">
+                    <div id="questions">
+                        {% for question in entity.questions %}
+                            {{ question.question }} <br>
+                        {% else %}
+                            Aucune question encore ajouté à ce quizz !
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div id="tab-2" class="tab-pane">
+                <div class="panel-body">
+                    {{ form(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
 
     {% embed 'Admin/Template/modal.html.twig' %}
         {% block modal_id %}modalDelete{% endblock %}
@@ -29,6 +53,17 @@
             <a href="{{ path('admin_quizz_delete', { 'id': entity.id, 'token': csrf_token('delete_quizz') }) }}" class="btn btn-danger">Supprimer</a>
         {% endblock %}
     {% endembed %}
+
+    {% embed 'Admin/Template/modal.html.twig' %}
+        {% block modal_id %}modalAddQuestion{% endblock %}
+        {% block modal_header %}
+            Ajout d'une question
+        {% endblock %}
+        {% block modal_body %}
+        {% endblock %}
+        {% block modal_footer %}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}
 
 {% block javascripts -%}
@@ -37,5 +72,21 @@
         var save = function() {
             $('[name="{{ form.vars.name }}"]').find('[type="submit"]').trigger('click');
         };
+
+        $('#add_question').on('click', function() {
+            $.ajax({
+                url: $(this).attr('data-href'),
+                data: {quizzId: $(this).attr('data-quizz')},
+                dataType: 'html',
+                success: function(html) {
+                    $('#modalAddQuestion .modal-body').html(html);
+                    $('#modalAddQuestion').modal('show');
+                },
+                error: function() {
+                    alert('Request Error !');
+                }
+            });
+            return false;
+        });
     </script>
 {% endblock %}
