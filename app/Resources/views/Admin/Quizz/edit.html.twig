@@ -21,7 +21,31 @@
                 <div class="panel-body">
                     <div id="questions">
                         {% for question in entity.questions %}
-                            {{ question.question }} <br>
+                            <ul class="list-group clear-list m-t">
+                                <li class="list-group-item fist-item">
+                                    Question {{ loop.index }} : {{ question.question }}
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="label label-{% if question.responseValide == 1 %}primary{% else %}danger{% endif %}">1</span>
+                                    {{ question.response1 }}
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="label label-{% if question.responseValide == 2 %}primary{% else %}danger{% endif %}">2</span>
+                                    {{ question.response2 }}
+                                </li>
+                                {% if question.response3 %}
+                                <li class="list-group-item">
+                                    <span class="label label-{% if question.responseValide == 3 %}primary{% else %}danger{% endif %}">3</span>
+                                    {{ question.response3 }}
+                                </li>
+                                {% endif %}
+                                {% if question.response4 %}
+                                <li class="list-group-item">
+                                    <span class="label label-{% if question.responseValide == 4 %}primary{% else %}danger{% endif %}">4</span>
+                                    {{ question.response4 }}
+                                </li>
+                                {% endif %}
+                            </ul>
                         {% else %}
                             Aucune question encore ajouté à ce quizz !
                         {% endfor %}

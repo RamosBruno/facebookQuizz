@@ -16,7 +16,27 @@ class QuestionType extends AbstractType
     {
         $builder
             ->add('question', 'text', [
-                'label' => 'Name',
+                'label' => 'Question',
+                'required' => true,
+            ])
+            ->add('response1', 'text', [
+                'label' => 'Réponse 1',
+                'required' => true,
+            ])
+            ->add('response2', 'text', [
+                'label' => 'Réponse 2',
+                'required' => true,
+            ])
+            ->add('response3', 'text', [
+                'label' => 'Réponse 3',
+                'required' => false,
+            ])
+            ->add('response4', 'text', [
+                'label' => 'Réponse 4',
+                'required' => false,
+            ])
+            ->add('responseValide', 'number', [
+                'label' => 'Numéro de la bonne réponse',
                 'required' => true,
             ])
         ;
