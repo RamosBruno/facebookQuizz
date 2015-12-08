@@ -37,10 +37,10 @@ class QuizzParticipation
     private $dataUserFacebook;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Quizz", inversedBy="quizzparticipation")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Question", inversedBy="quizzparticipation")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $quizz;
+    private $question;
 
     /**
      * Get id
@@ -122,25 +122,25 @@ class QuizzParticipation
     }
 
     /**
-     * Set quizz
+     * Set question
      *
-     * @param \AppBundle\Entity\Quizz $quizz
+     * @param \AppBundle\Entity\Question $question
      * @return QuizzParticipation
      */
-    public function setQuizz(\AppBundle\Entity\Quizz $quizz)
+    public function setQuestion(\AppBundle\Entity\Question $question)
     {
-        $this->quizz = $quizz;
+        $this->question = $question;
 
         return $this;
     }
 
     /**
-     * Get quizz
+     * Get question
      *
-     * @return \AppBundle\Entity\Quizz 
+     * @return \AppBundle\Entity\Question 
      */
-    public function getQuizz()
+    public function getQuestion()
     {
-        return $this->quizz;
+        return $this->question;
     }
 }
