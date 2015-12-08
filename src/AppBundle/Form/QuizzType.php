@@ -32,10 +32,12 @@ class QuizzType extends AbstractType
                 'required' => true,
             ])
             ->add('dateStart', 'date', [
+                'widget' => 'single_text',
                 'label' => 'Date de début du quizz',
                 'required' => true,
             ])
             ->add('dateEnd', 'date', [
+                'widget' => 'single_text',
                 'label' => 'Date de fin du quizz',
                 'required' => true,
             ])

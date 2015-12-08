@@ -12,6 +12,16 @@
 
 {% block javascripts -%}
     <script>
+        $(document).ready(function(){
+            $('#appbundle_quizz_gains').summernote({
+                defaultFontName: '"Arial Narrow", Arial, Sans-Serif'
+            });
+            $('#appbundle_quizz_description').summernote({
+                defaultFontName: '"Arial Narrow", Arial, Sans-Serif'
+            });
+            $('.note-fontname').remove();
+        });
+
         $('[name="{{ form.vars.name }}"]').append('<input type="submit" class="hidden" />');
         var save = function() {
             $('[name="{{ form.vars.name }}"]').find('[type="submit"]').trigger('click');

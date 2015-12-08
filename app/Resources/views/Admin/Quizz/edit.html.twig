@@ -6,8 +6,6 @@
 {% block iboxTitle -%}Modification d'un quizz{% endblock %}
 {% block iboxTools -%}
     <button data-href="{{ path('admin_question_new') }}" data-quizz="{{ entity.id }}" id="add_question" class="btn btn-primary btn-xs m-l-sm"><i class="fa fa-plus"></i> Ajouter une question</button>
-    <button id="save" class="btn btn-primary btn-xs m-l-sm" onclick="save()"><i class="fa fa-check"></i> Enregistrer</button>
-    <button class="btn btn-danger btn-xs m-l-sm" data-toggle="modal" data-target="#modalDelete"><i class="fa fa-trash-o"></i> Supprimer</button>
 {% endblock %}
 
 {% block iboxContent -%}
@@ -55,6 +53,12 @@
             <div id="tab-2" class="tab-pane">
                 <div class="panel-body">
                     {{ form(form) }}
+                    <div class="row">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button id="save" class="btn btn-primary btn-xs m-l-sm" onclick="save()"><i class="fa fa-check"></i> Enregistrer</button>
+                            <button class="btn btn-danger btn-xs m-l-sm" data-toggle="modal" data-target="#modalDelete"><i class="fa fa-trash-o"></i> Supprimer</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -92,6 +96,16 @@
 
 {% block javascripts -%}
     <script>
+        $(document).ready(function(){
+            $('#appbundle_quizz_gains').summernote({
+                defaultFontName: '"Arial Narrow", Arial, Sans-Serif'
+            });
+            $('#appbundle_quizz_description').summernote({
+                defaultFontName: '"Arial Narrow", Arial, Sans-Serif'
+            });
+            $('.note-fontname').remove();
+        });
+
         $('[name="{{ form.vars.name }}"]').append('<input type="submit" class="hidden" />');
         var save = function() {
             $('[name="{{ form.vars.name }}"]').find('[type="submit"]').trigger('click');
