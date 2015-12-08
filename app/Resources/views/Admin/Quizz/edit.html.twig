@@ -5,7 +5,7 @@
 
 {% block iboxTitle -%}Modification d'un quizz{% endblock %}
 {% block iboxTools -%}
-    <button data-href="{{ path('admin_question_new') }}" data-quizz="{{ entity.id }}" id="add_question" class="btn btn-primary btn-xs m-l-sm"><i class="fa fa-plus"></i> Ajouter une question</button>
+    <button data-href="{{ path('admin_question_new') }}" data-quizz="{{ entity.id }}" class="btn btn-primary btn-xs m-l-sm question"><i class="fa fa-plus"></i> Ajouter une question</button>
 {% endblock %}
 
 {% block iboxContent -%}
@@ -22,6 +22,10 @@
                             <ul class="list-group clear-list m-t">
                                 <li class="list-group-item fist-item">
                                     Question {{ loop.index }} : {{ question.question }}
+                                    <div class="pull-right">
+                                        <button data-href="{{ path('admin_question_delete', { 'id': question.id, 'token': csrf_token('delete_question') }) }}" class="btn btn-danger btn-xs m-l-sm" data-toggle="modal" data-target="#modalDelete"><i class="fa fa-trash-o"></i></button>
+                                        <button data-href="{{ path('admin_question_edit', { 'id': question.id }) }}" class="btn btn-primary btn-xs m-l-sm question" data-toggle="modal" data-target="#modalDelete"><i class="fa fa-edit"></i></button>
+                                    </div>
                                 </li>
                                 <li class="list-group-item">
                                     <span class="label label-{% if question.responseValide == 1 %}primary{% else %}danger{% endif %}">1</span>
@@ -56,7 +60,7 @@
                     <div class="row">
                         <div class="col-md-offset-2 col-md-10">
                             <button id="save" class="btn btn-primary btn-xs m-l-sm" onclick="save()"><i class="fa fa-check"></i> Enregistrer</button>
-                            <button class="btn btn-danger btn-xs m-l-sm" data-toggle="modal" data-target="#modalDelete"><i class="fa fa-trash-o"></i> Supprimer</button>
+                            <button data-href="{{ path('admin_quizz_delete', { 'id': entity.id, 'token': csrf_token('delete_quizz') }) }}" class="btn btn-danger btn-xs m-l-sm" data-toggle="modal" data-target="#modalDelete"><i class="fa fa-trash-o"></i> Supprimer</button>
                         </div>
                     </div>
                 </div>
@@ -68,24 +72,24 @@
         {% block modal_id %}modalDelete{% endblock %}
         {% block modal_header %}
             <i class="fa fa-trash modal-icon"></i>
-            <h2>Confirmation de suppression Quizz</h2>
+            <h2>Confirmation de suppression</h2>
         {% endblock %}
         {% block modal_body %}
             <div class="text-center">
-                <p><strong>Etes vous sur de vouloir supprimer Quizz ?</strong></p>
+                <p><strong>Etes vous sur de vouloir faire cette suppression ?</strong></p>
                 <p><span class="text-danger"><i class="fa fa-exclamation-triangle"></i> Cette action est irréversible !</span></p>
             </div>
         {% endblock %}
         {% block modal_footer %}
             <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-            <a href="{{ path('admin_quizz_delete', { 'id': entity.id, 'token': csrf_token('delete_quizz') }) }}" class="btn btn-danger">Supprimer</a>
+            <a href="#" id="js-remove-link" class="btn btn-danger">Supprimer</a>
         {% endblock %}
     {% endembed %}
 
     {% embed 'Admin/Template/modal.html.twig' %}
-        {% block modal_id %}modalAddQuestion{% endblock %}
+        {% block modal_id %}modalQuestion{% endblock %}
         {% block modal_header %}
-            Ajout d'une question
+            Ajout/Modifier d'une question
         {% endblock %}
         {% block modal_body %}
         {% endblock %}
@@ -104,6 +108,13 @@
                 defaultFontName: '"Arial Narrow", Arial, Sans-Serif'
             });
             $('.note-fontname').remove();
+
+            $('#modalDelete').on('show.bs.modal', function (e) {
+                var button = $(e.relatedTarget);
+                var href = button.data('href');
+                var modal = $(this)
+                modal.find('#js-remove-link').attr('href', href);
+            })
         });
 
         $('[name="{{ form.vars.name }}"]').append('<input type="submit" class="hidden" />');
@@ -111,14 +122,14 @@
             $('[name="{{ form.vars.name }}"]').find('[type="submit"]').trigger('click');
         };
 
-        $('#add_question').on('click', function() {
+        $('.question').on('click', function() {
             $.ajax({
                 url: $(this).attr('data-href'),
                 data: {quizzId: $(this).attr('data-quizz')},
                 dataType: 'html',
                 success: function(html) {
-                    $('#modalAddQuestion .modal-body').html(html);
-                    $('#modalAddQuestion').modal('show');
+                    $('#modalQuestion .modal-body').html(html);
+                    $('#modalQuestion').modal('show');
                 },
                 error: function() {
                     alert('Request Error !');

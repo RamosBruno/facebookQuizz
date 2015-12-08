@@ -41,9 +41,48 @@ class QuestionController extends Controller
             return $this->redirectToRoute('admin_quizz_edit', ['id' => $entity->getQuizz()->getId()]);
         }
 
-        return $this->render('Admin/question/new.html.twig', [
+        return $this->render('Admin/question/form.html.twig', [
             'entity' => $entity,
             'form'   => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/{id}/edit", name="admin_question_edit")
+     * @Method({"GET", "POST"})
+     */
+    public function editAction(Request $request, Question $entity)
+    {
+        $form = $this->createForm(new QuestionType(), $entity, ['action' => $this->generateUrl('admin_question_edit', ['id' => $entity->getId()])]);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $this->addFlash('success', "La question à été édité!");
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirect($this->generateUrl('admin_quizz_edit', ['id' => $entity->getQuizz()->getId()]));
+        }
+
+        return $this->render('Admin/Question/form.html.twig', [
+            'entity'  => $entity,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/delete/{token}/{id}", name="admin_question_delete")
+     * @Method("GET")
+     */
+    public function deleteAction(Question $entity, $token)
+    {
+        if ($this->isCsrfTokenValid('delete_question', $token)) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($entity);
+            $em->flush();
+            $this->addFlash('success', "La Question à été supprimé!");
+        } else {
+            $this->addFlash('error', 'Erreur survenu lors de la validation du token csrf, veuillez rééssayer.');
+        }
+
+        return $this->redirect($this->generateUrl('admin_quizz_edit', ['id' => $entity->getQuizz()->getId()]));
     }
 }
