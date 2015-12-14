@@ -14,9 +14,28 @@ class DefaultController extends Controller
     public function indexAction()
     {
         $userNode = $this->get('facebook')->getUserNode();
+        $em = $this->getDoctrine()->getManager();
+        $quizzes = $em->getRepository('AppBundle:Quizz')->findAll();
+        $actualQuizz = null;
+        $nextQuizzes = [];
+        $previousQuizzes = [];
+        $dateNow = new \DateTime('2015-07-01');
+
+        foreach ($quizzes as $quizz) {
+            if ($quizz->getDateStart()->format('m') == $dateNow->format('m')) {
+                $actualQuizz = $quizz;
+            } else if ($quizz->getDateEnd()->format('m') < $dateNow->format('m')) {
+                array_push($previousQuizzes, $quizz);
+            } else {
+                array_push($nextQuizzes, $quizz);
+            }
+        }
 
         return $this->render('Front/Default/index.html.twig', [
-            'username' => $userNode['name']
+            'username' => $userNode['name'],
+            'actualQuizz' => $actualQuizz,
+            'previousQuizzes' => $previousQuizzes,
+            'nextQuizzes' => $nextQuizzes
         ]);
     }
 
