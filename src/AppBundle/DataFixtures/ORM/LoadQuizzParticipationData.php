@@ -15,22 +15,17 @@ class LoadQuizzParticipationData extends AbstractFixture implements OrderedFixtu
         $faker = \Faker\Factory::create();
         $usersFacebook = $manager->getRepository('AppBundle:DataUserFacebook')->findAll();
         $quizz = $manager->getRepository('AppBundle:Quizz')->findAll();
-        foreach($quizz as $quiz)
-        {
-            foreach($quiz->getQuestions() as $question)
-            {
-                foreach($usersFacebook as $userFacebook)
-                {
-                    for($i=1; $i< 11; $i++)
-                    {
-                        $quizzParticipation = (new QuizzParticipation())
-                            ->setDate(new \DateTime('now'))
-                            ->setDataUserFacebook($userFacebook)
-                            ->setQuestion($question)
-                            ->setValid($faker->boolean(50))
-                        ;
-                        $manager->persist($quizzParticipation);
-                    }
+        foreach ($quizz as $quiz) {
+            foreach ($quiz->getQuestions() as $question) {
+                foreach ($usersFacebook as $userFacebook) {
+                    $quizzParticipation = (new QuizzParticipation())
+                        ->setDate(new \DateTime('now'))
+                        ->setDataUserFacebook($userFacebook)
+                        ->setQuizz($quiz)
+                        ->setQuestion($question)
+                        ->setValid($faker->boolean(50))
+                    ;
+                    $manager->persist($quizzParticipation);
                 }
             }
         }
