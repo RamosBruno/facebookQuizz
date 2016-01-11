@@ -4,39 +4,43 @@
 
 {% block body %}
 
-    <h3>Question {{ id_question + 1 }}</h3>
-    <h4>{{ actualQuestion.question }}</h4>
-    <ul class="list-group clear-list m-t">
-        <li class="radio">
-            <label>
-                <input type="radio" name="optionsRadios" value="1" class="">{{ actualQuestion.response1 }}
-            </label>
-        </li>
-        <li class="radio">
-            <label>
-                <input type="radio" name="optionsRadios" value="2" class="">{{ actualQuestion.response2 }}
-            </label>
-        </li>
-        <li class="radio">
-            <label>
-                <input type="radio" name="optionsRadios" value="3" class="">{{ actualQuestion.response3 }}
-            </label>
-        </li>
-        <li class="radio">
-            <label>
-                <input type="radio" name="optionsRadios" value="4" class="">{{ actualQuestion.response4 }}
-            </label>
-        </li>
-    </ul>
-
-    <nav>
-        <ul class="pager">
-            <li class="">
-                <button class="btn btn-primary btn-lg" id="submit_answer">Question suivante</button>
+<div class="row box-container">
+    <div class="col-md-12">
+        <h1 class="elegantshadow">Question {{ id_question + 1 }}</h1>
+        <h4>{{ actualQuestion.question }}</h4>
+        <br>
+        <ul class="list-group clear-list m-t">
+            <li class="radio">
+                <label>
+                    <input type="radio" name="optionsRadios" value="1" class="">{{ actualQuestion.response1 }}
+                </label>
+            </li>
+            <li class="radio">
+                <label>
+                    <input type="radio" name="optionsRadios" value="2" class="">{{ actualQuestion.response2 }}
+                </label>
+            </li>
+            <li class="radio">
+                <label>
+                    <input type="radio" name="optionsRadios" value="3" class="">{{ actualQuestion.response3 }}
+                </label>
+            </li>
+            <li class="radio">
+                <label>
+                    <input type="radio" name="optionsRadios" value="4" class="">{{ actualQuestion.response4 }}
+                </label>
             </li>
         </ul>
-    </nav> 
 
+        <nav>
+            <ul class="pager">
+                <li class="">
+                    <button class="btn btn-primary btn-lg" id="submit_answer">Question suivante</button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
 {% endblock %}
 
 {% block javascripts -%}

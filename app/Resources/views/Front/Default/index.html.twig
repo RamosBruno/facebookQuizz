@@ -3,43 +3,44 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-    <h1 id="fb-welcome" class="jumbotron">Bienvenue sur CodeQuizz</h1>
-
-    <div class="col-xs-12 col-sm-6">
-        <h2>Quizz en cours</h2>
-        {% if (actualQuizz != null) %}
-            <div id="quizz_{{ actualQuizz.id }}" class="">
-                <h3>{{ actualQuizz.name }}</h3>
-                <p>
+    <div class="row box-container">
+        <div class="col-md-12 active-quizz">
+            {% if (actualQuizz != null) %}
+                <h1 class="text-center elegantshadow">{{ actualQuizz.name }}</h1>
+                <p class="text-center">
                     {{ actualQuizz.description }}
                 </p>
-                <a href="{{ path('front_quizz', {'id' : actualQuizz.id}) }}" class="pull-right">Accéder au quizz <span class="fa fa-arrow-circle-right"></span></a>
-            </div>
-        {% else %}
-            Il n'y a pas de quizz actuellement, revenez plus tard!
-        {% endif %}
-        <h2>Quizz terminés</h2>
-        {% for quizz in previousQuizzes %}
-            <div id="quizz_{{ quizz.id }}" class="">
-                <h3>{{ quizz.name }}</h3>
-                <p>
-                    {{ quizz.description }}
-                </p>
-                <a href="" class="pull-right">Voir les résultats <span class="fa fa-arrow-circle-right"></span></a>
-            </div>
-        {% endfor %}
+                <a href="{{ path('front_quizz', {'id' : actualQuizz.id}) }}" class="center-block btn btn-primary btn-lg btn-quizz">Je participe !</a>
+            {% else %}
+                Il n'y a pas de quizz actuellement, revenez plus tard!
+            {% endif %}
+        </div>
     </div>
+    <div class="row box-container">
+        <div class="col-xs-12 col-sm-6">
+            <h2 class="elegantshadow">Quizz terminés</h2>
+            {% for quizz in previousQuizzes %}
+                <div id="quizz_{{ quizz.id }}" class="">
+                    <h3>{{ quizz.name }}</h3>
+                    <p>
+                        {{ quizz.description }}
+                    </p>
+                    <a href="" class="pull-right">Voir les résultats <span class="fa fa-arrow-circle-right"></span></a>
+                </div>
+            {% endfor %}
+        </div>
 
-    <div class="col-xs-12 col-sm-6">
-        <h2>Prochains quizz</h2>
-        {% for quizz in nextQuizzes %}
-            <div id="quizz_{{ quizz.id }}" class="">
-                <h3>{{ quizz.name }}</h3>
-                <p>
-                    {{ quizz.description }}
-                </p>
-                <a href="" class="pull-right">Voir les gains <span class="fa fa-arrow-circle-right"></span></a>
-            </div>
-        {% endfor %}
+        <div class="col-xs-12 col-sm-6">
+            <h2 class="elegantshadow">Prochains quizz</h2>
+            {% for quizz in nextQuizzes %}
+                <div id="quizz_{{ quizz.id }}" class="">
+                    <h3>{{ quizz.name }}</h3>
+                    <p>
+                        {{ quizz.description }}
+                    </p>
+                    <a href="" class="pull-right">Voir les gains <span class="fa fa-arrow-circle-right"></span></a>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

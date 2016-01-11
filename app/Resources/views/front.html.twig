@@ -18,7 +18,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
 
-<body>
+<body id="quizz">
 {% set config = configuration.current %}
 {% set route = app.request.attributes.get('_route') %}
 
@@ -32,16 +32,8 @@
 {% endfor %}
 
 <div class="container">
-    <div class="header clearfix">
-        <nav>
-            <ul class="nav nav-pills pull-right">
-            </ul>
-        </nav>
-    </div>
-
     {% block body %}{% endblock %}
-
-</div> <!-- /container -->
+</div>
 
 {% block modal %}{% endblock %}
 
