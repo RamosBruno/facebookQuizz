@@ -13,7 +13,6 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $roles = $this->get('facebook')->getRoles();
         $userNode = $this->get('facebook')->getUserNode();
         $em = $this->getDoctrine()->getManager();
         $quizzes = $em->getRepository('AppBundle:Quizz')->findAll();
@@ -21,18 +20,6 @@ class DefaultController extends Controller
         $nextQuizzes = [];
         $previousQuizzes = [];
         $dateNow = new \DateTime('2015-07-01');
-
-        foreach ($roles as $role) {
-            foreach ($userNode as $user) {
-                if ($user== $role['user']) {
-                    if ($role['role'] == "administrators") {
-                        $hiddenParams = 0;
-                    } else {
-                        $hiddenParams = 1;
-                    }
-                }
-            }
-        }
 
         foreach ($quizzes as $quizz) {
             if ($quizz->getDateStart()->format('m') == $dateNow->format('m')) {
@@ -48,8 +35,7 @@ class DefaultController extends Controller
             'username' => $userNode['name'],
             'actualQuizz' => $actualQuizz,
             'previousQuizzes' => $previousQuizzes,
-            'nextQuizzes' => $nextQuizzes,
-            'hiddenParams' => $hiddenParams
+            'nextQuizzes' => $nextQuizzes
         ]);
     }
 
