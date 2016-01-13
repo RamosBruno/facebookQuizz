@@ -65,7 +65,16 @@
 
 {% block checkbox_widget %}
     {% spaceless %}
-        <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input class="" type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+                        {{ label|trans({}, translation_domain) }}
+                    </label>
+                </div>
+            </div>
+        </div>
     {% endspaceless %}
 {% endblock checkbox_widget %}
 

@@ -41,6 +41,20 @@ class QuizzType extends AbstractType
                 'label' => 'Date de fin du quizz',
                 'required' => true,
             ])
+            ->add('nbQuestion', 'text', [
+                'label' => 'Nombre de question',
+                'required' => true,
+            ])
+            ->add('rule', 'entity', [
+                'class' => 'AppBundle:Rule',
+                'property' => 'title',
+                'label' => 'Règle',
+                'required' => true,
+            ])
+            ->add('active', 'checkbox', [
+                'label' => 'Activer ce quizz',
+                'required' => false,
+            ])
         ;
     }
     

@@ -1,0 +1,66 @@
+{% extends 'Admin/Template/ibox.html.twig' %}
+
+{% block title %}Rule{% endblock %}
+{% block breadcrumb %}<li class="active">Rule</li>{% endblock %}
+
+{% block iboxTitle %}Liste des Rule{% endblock %}
+{% block iboxTools %}
+    <a href="{{ path('admin_rule_new') }}"><i class="fa fa-plus-circle"></i></a>
+{% endblock %}
+
+{% block iboxContent -%}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.title }}</td>
+                <td>
+                    <a class="btn btn-xs btn-primary" href="{{ path('admin_rule_edit', { 'id': entity.id }) }}"><span class="fa fa-edit"></span> Editer</a>
+                    <a class="btn btn-xs btn-danger js-remove-collaborator" data-toggle="modal" data-target="#modalDelete" data-href="{{ path('admin_rule_delete', { 'id': entity.id, 'token': csrf_token('delete_rule') }) }}"><i class="fa fa-trash"></i> Supprimer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun Rule trouvé !</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% embed 'Admin/Template/modal.html.twig' %}
+        {% block modal_id %}modalDelete{% endblock %}
+        {% block modal_header %}
+            <i class="fa fa-trash modal-icon"></i>
+            <h2>Confirmation de suppression Rule</h2>
+        {% endblock %}
+        {% block modal_body %}
+            <div class="text-center">
+                <p><strong>Etes vous sur de vouloir supprimer Rule ?</strong></p>
+                <p><span class="text-danger"><i class="fa fa-exclamation-triangle"></i> Cette action est irréversible !</span></p>
+            </div>
+        {% endblock %}
+        {% block modal_footer %}
+            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+            <a href="#" id="js-remove-link" class="btn btn-danger">Supprimer</a>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block javascripts -%}
+    <script type="text/javascript">
+        $(function () {
+            $('#modalDelete').on('show.bs.modal', function (e) {
+                var button = $(e.relatedTarget);
+                var href = button.data('href');
+                var modal = $(this);
+                modal.find('#js-remove-link').attr('href', href);
+            })
+        })
+    </script>
+{% endblock %}
