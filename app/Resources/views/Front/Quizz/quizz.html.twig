@@ -39,15 +39,37 @@
                 </li>
             </ul>
         </nav>
+        <input type="hidden" name="quizz_id" value="{{ actualQuizz.id }}">
+        <input type="hidden" name="question_id" value="{{ actualQuestion.id }}">
+        <input type="hidden" name="participant" value="10208381024703613">
     </div>
 </div>
 {% endblock %}
 
-{% block javascripts -%}
+{% block javascripts %}
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $('#submit_answer').click(alert('ok'););
+            $('#submit_answer').click(function(){
+                var reponse_quizz  = $('input[name=optionsRadios]:checked').val();
+
+                var quizz_id  = $('input[name=quizz_id]').val();
+                var question_id  = $('input[name=question_id]').val();
+                var participant  = $('input[name=participant]').val();
+                $.post(
+                    "{{ path('reponse_quizz', {'id': actualQuizz.id, 'id_question' : actualQuestion.id} )}}",
+                    {
+                        reponse_quizz : reponse_quizz,
+                        quizz_id: quizz_id,
+                        question_id : question_id,
+                        participant: participant
+                    }
+                ).success(function(){
+                    console.log('success');
+                }).error(function(){
+                    console.log("t'est une merde !")
+                })
+            });
         });
     </script>
 {% endblock %}
