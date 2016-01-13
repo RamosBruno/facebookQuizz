@@ -123,4 +123,15 @@ class Facebook
 
         return $fb;
     }
+
+    public function getRoles()
+    {
+
+        $fb = $this->connectApps();
+
+        $response = $fb->get("/" . $this->appID . "/roles?fields=role,user", $this->appID . '|' . $this->appSecret);
+        $rolesNode = $response->getGraphEdge();
+
+        return $rolesNode;
+    }
 }

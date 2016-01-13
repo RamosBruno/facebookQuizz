@@ -51,7 +51,7 @@ class QuizzParticipation
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -74,7 +74,7 @@ class QuizzParticipation
     /**
      * Get valid
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getValid()
     {
@@ -97,7 +97,7 @@ class QuizzParticipation
     /**
      * Get date
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDate()
     {
@@ -120,7 +120,7 @@ class QuizzParticipation
     /**
      * Get dataUserFacebook
      *
-     * @return \AppBundle\Entity\DataUserFacebook 
+     * @return \AppBundle\Entity\DataUserFacebook
      */
     public function getDataUserFacebook()
     {
@@ -143,7 +143,7 @@ class QuizzParticipation
     /**
      * Get question
      *
-     * @return \AppBundle\Entity\Question 
+     * @return \AppBundle\Entity\Question
      */
     public function getQuestion()
     {
@@ -166,7 +166,7 @@ class QuizzParticipation
     /**
      * Get quizz
      *
-     * @return \AppBundle\Entity\Quizz 
+     * @return \AppBundle\Entity\Quizz
      */
     public function getQuizz()
     {

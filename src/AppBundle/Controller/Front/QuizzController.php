@@ -19,9 +19,30 @@ class QuizzController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $quizz = $em->getRepository('AppBundle:Quizz')->find($id);
+        $questions = $quizz->getQuestions();
+        $participationList = [];
+        $score = 0;
+        $i = 0;
+        $maxQuestions = sizeof($questions);
+
+        $quizzParticipation = $em->getRepository('AppBundle:QuizzParticipation')->findBy(["quizz" => $quizz->getId()], ["dataUserFacebook" => "asc"]);
+        foreach ($quizzParticipation as $participation) {
+
+            if ($i < $maxQuestions) {
+                $score += (int) $participation->getValid();
+                $i++;
+            } else {
+                $participationList[$participant] = $score;
+                $score = 0;
+                $i = 0;
+            }
+            $participant = $participation->getDataUserFacebook()->getProfilName();
+        }
+        arsort($participationList);
 
         return $this->render('Front/Quizz/index.html.twig', [
-            'quizz'=> $quizz
+            'quizz'=> $quizz,
+            'participationList' => $participationList
         ]);
     }
 
@@ -34,13 +55,11 @@ class QuizzController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $quizz = $em->getRepository('AppBundle:Quizz')->find($id);
         $questions = $quizz->getQuestions();
+        shuffle($questions);
 
         if ($id_question < sizeof($questions)) {
             $actualQuestion = $questions[$id_question];
             $rightResponse = $actualQuestion->getResponseValide();
-            if (!empty($response) && $response == $rightResponse) {
-                $score++;
-            }
 
         } else {
             return $this->render('Front/Quizz/end.html.twig', [
