@@ -13,6 +13,7 @@
         <thead>
             <tr>
                 <th>Nom</th>
+                <th class="text-center">Actif</th>
                 <th>Date de début</th>
                 <th>Date de fin</th>
                 <th>Actions</th>
@@ -22,6 +23,7 @@
         {% for entity in entities %}
             <tr>
                 <td>{{ entity.name }}</td>
+                <td class="text-center">{% if entity.active %}<span class="fa fa-check text-info"></span>{% endif %}</td>
                 <td>{% if entity.dateStart %}{{ entity.dateStart|date('d-m-Y') }}{% endif %}</td>
                 <td>{% if entity.dateEnd %}{{ entity.dateEnd|date('d-m-Y') }}{% endif %}</td>
                 <td>
