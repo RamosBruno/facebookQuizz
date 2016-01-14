@@ -59,6 +59,26 @@ class Quizz
     protected $dateEnd;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(type="boolean")
+     */
+    protected $active;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     */
+    protected $nbQuestion;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Rule", inversedBy="quizz")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $rule;
+
+    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Question", mappedBy="quizz", cascade={"persist"})
      */
     private $questions;
@@ -249,5 +269,74 @@ class Quizz
     public function getQuestions()
     {
         return $this->questions;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     * @return Quizz
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean 
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set rule
+     *
+     * @param \AppBundle\Entity\Rule $rule
+     * @return Quizz
+     */
+    public function setRule(\AppBundle\Entity\Rule $rule)
+    {
+        $this->rule = $rule;
+
+        return $this;
+    }
+
+    /**
+     * Get rule
+     *
+     * @return \AppBundle\Entity\Rule 
+     */
+    public function getRule()
+    {
+        return $this->rule;
+    }
+
+    /**
+     * Set nbQuestion
+     *
+     * @param integer $nbQuestion
+     * @return Quizz
+     */
+    public function setNbQuestion($nbQuestion)
+    {
+        $this->nbQuestion = $nbQuestion;
+
+        return $this;
+    }
+
+    /**
+     * Get nbQuestion
+     *
+     * @return integer 
+     */
+    public function getNbQuestion()
+    {
+        return $this->nbQuestion;
     }
 }

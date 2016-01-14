@@ -17,7 +17,7 @@ class LoadQuestionData extends AbstractFixture implements OrderedFixtureInterfac
         $faker = \Faker\Factory::create();
         $quizzes = $manager->getRepository('AppBundle:Quizz')->findAll();
         foreach ($quizzes as $quizz) {
-            for ($i = 0; $i < $faker->numberBetween(2, 8); $i++) {
+            for ($i = 0; $i < $faker->numberBetween(5, 20); $i++) {
                 $question = (new Question())
                     ->setQuestion($faker->sentence(15))
                     ->setResponse1($faker->sentence(8))

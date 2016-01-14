@@ -16,6 +16,8 @@ class LoadQuizzData extends AbstractFixture implements OrderedFixtureInterface
     {
         $faker = \Faker\Factory::create();
 
+        $rules = $manager->getRepository('AppBundle:Rule')->findAll();
+
         for ($i = 1; $i < 11; $i++) {
             $y = ($i <= 9) ? '0' . $i : $i;
             $dateStart = new \DateTime('2015-' . $y . '-01');
@@ -27,7 +29,11 @@ class LoadQuizzData extends AbstractFixture implements OrderedFixtureInterface
                 ->setNumberOfWinner($faker->numberBetween(0, 10))
                 ->setDateStart($dateStart)
                 ->setDateEnd($dateEnd->modify('last day of this month'))
+                ->setActive($i == 3 ? 1 : 0)
+                ->setRule($rules[array_rand($rules, 1)])
+                ->setNbQuestion($faker->numberBetween(5, 15))
             ;
+
             $manager->persist($quizz);
         }
 
@@ -39,6 +45,6 @@ class LoadQuizzData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function getOrder()
     {
-        return 1;
+        return 3;
     }
 }

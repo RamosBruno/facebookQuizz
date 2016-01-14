@@ -1,39 +1,33 @@
 {% extends 'Admin/Template/ibox.html.twig' %}
 
-{% block title %}Quizz{% endblock %}
-{% block breadcrumb %}<li class="active">Quizz</li>{% endblock %}
+{% block title %}Rule{% endblock %}
+{% block breadcrumb %}<li class="active">Rule</li>{% endblock %}
 
-{% block iboxTitle %}Liste des Quizz{% endblock %}
+{% block iboxTitle %}Liste des Rule{% endblock %}
 {% block iboxTools %}
-    <a href="{{ path('admin_quizz_new') }}"><i class="fa fa-plus-circle"></i></a>
+    <a href="{{ path('admin_rule_new') }}"><i class="fa fa-plus-circle"></i></a>
 {% endblock %}
 
 {% block iboxContent -%}
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Nom</th>
-                <th class="text-center">Actif</th>
-                <th>Date de début</th>
-                <th>Date de fin</th>
+                <th>Titre</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td>{{ entity.name }}</td>
-                <td class="text-center">{% if entity.active %}<span class="fa fa-check text-info"></span>{% endif %}</td>
-                <td>{% if entity.dateStart %}{{ entity.dateStart|date('d-m-Y') }}{% endif %}</td>
-                <td>{% if entity.dateEnd %}{{ entity.dateEnd|date('d-m-Y') }}{% endif %}</td>
+                <td>{{ entity.title }}</td>
                 <td>
-                    <a class="btn btn-xs btn-primary" href="{{ path('admin_quizz_edit', { 'id': entity.id }) }}"><span class="fa fa-edit"></span> Editer</a>
-                    <a class="btn btn-xs btn-danger js-remove-collaborator" data-toggle="modal" data-target="#modalDelete" data-href="{{ path('admin_quizz_delete', { 'id': entity.id, 'token': csrf_token('delete_quizz') }) }}"><i class="fa fa-trash"></i> Supprimer</a>
+                    <a class="btn btn-xs btn-primary" href="{{ path('admin_rule_edit', { 'id': entity.id }) }}"><span class="fa fa-edit"></span> Editer</a>
+                    <a class="btn btn-xs btn-danger js-remove-collaborator" data-toggle="modal" data-target="#modalDelete" data-href="{{ path('admin_rule_delete', { 'id': entity.id, 'token': csrf_token('delete_rule') }) }}"><i class="fa fa-trash"></i> Supprimer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">Aucun Quizz trouvé !</td>
+                <td colspan="4">Aucun Rule trouvé !</td>
             </tr>
         {% endfor %}
         </tbody>
@@ -43,11 +37,11 @@
         {% block modal_id %}modalDelete{% endblock %}
         {% block modal_header %}
             <i class="fa fa-trash modal-icon"></i>
-            <h2>Confirmation de suppression Quizz</h2>
+            <h2>Confirmation de suppression Rule</h2>
         {% endblock %}
         {% block modal_body %}
             <div class="text-center">
-                <p><strong>Etes vous sur de vouloir supprimer Quizz ?</strong></p>
+                <p><strong>Etes vous sur de vouloir supprimer Rule ?</strong></p>
                 <p><span class="text-danger"><i class="fa fa-exclamation-triangle"></i> Cette action est irréversible !</span></p>
             </div>
         {% endblock %}

@@ -58,17 +58,23 @@ class QuizzController extends Controller
      * @Route("/{id}/edit", name="admin_quizz_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Quizz $entity)
+    public function editAction(Request $request, Quizz $quizz)
     {
-        $form = $this->createForm(new QuizzType(), $entity);
+        $form = $this->createForm(new QuizzType(), $quizz);
         $form->handleRequest($request);
         if ($form->isValid()) {
+            if ($quizz->getActive()) {
+                $quizzActive = $this->getDoctrine()->getRepository('AppBundle:Quizz')->findOneByActive(1);
+                if ($quizzActive && $quizzActive != $quizz) {
+                    $quizzActive->setActive(0);
+                }
+            }
             $this->addFlash('success', "Le Quizz à été édité!");
             $this->getDoctrine()->getManager()->flush();
         }
 
         return $this->render('Admin/Quizz/edit.html.twig', [
-            'entity'  => $entity,
+            'entity'  => $quizz,
             'form' => $form->createView(),
         ]);
     }
