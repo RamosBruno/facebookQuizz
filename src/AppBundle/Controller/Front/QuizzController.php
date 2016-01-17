@@ -34,7 +34,49 @@ class QuizzController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $quizz = $em->getRepository('AppBundle:Quizz')->find($id);
         $questions = $quizz->getQuestions();
+        
+        $participationList = [];
+        $score_participation = 0;
+        $i = 0;
+        $rank = 0;
+        $maxQuestions = sizeof($questions);
 
+        //A remplacer par la liste d'amis du mec, a voir si faisable
+        // On ne peut afficher que la liste d'amis qui ont l'application, et faut demander une permission supplémentaire
+        $quizzParticipation = $em->getRepository('AppBundle:QuizzParticipation')->findBy(["quizz" => $quizz->getId()], ["dataUserFacebook" => "asc"]);
+        
+        foreach ($quizzParticipation as $participation) {
+                
+            if ($i < $maxQuestions) {
+                $score_participation += (int) $participation->getValid();
+                $i++;
+            } else {
+                $participationList[$participant]['score'] = $score_participation;
+                $participationList[$participant]['picture'] = $participant_pic;
+                $score_participation = 0;
+                $i = 0;
+            }
+            $participant = $participation->getDataUserFacebook()->getProfilName();
+            $participant_pic = $participation->getDataUserFacebook()->getPictureProfilUrl();
+        }
+        arsort($participationList);
+        /*
+        
+        En attente de la session, permettra d'afficher le classement approximatif du joueur
+        $i = 1;
+        foreach($participationList as $participant => $score)
+        {
+            if($_SESSION['name'] == $participant && $score>0)
+            {
+                $rank = $i;
+                break;
+            }
+            $i++;
+        }
+        */
+        
+        //Décommenter la ligne du dessous pour atterir directement sur la page finale
+       //$id_question = sizeof($questions);
         if ($id_question < sizeof($questions)) {
             $actualQuestion = $questions[$id_question];
             $rightResponse = $actualQuestion->getResponseValide();
@@ -44,7 +86,10 @@ class QuizzController extends Controller {
 
         } else {
             return $this->render('Front/Quizz/end.html.twig', [
-                'score' => $score
+                'score' => $score,
+                'rank' => $rank,
+                'quizz' => $quizz,
+                'participationList' => $participationList
             ]);
         }
 
