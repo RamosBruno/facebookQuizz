@@ -3,5 +3,78 @@
 {% block title %}Quizz{% endblock %}
 
 {% block body %}
-    {{ score }}
+    <div class="row box-container">
+        <div class="col-md-12">
+            <h1 class="text-center elegantshadow">{{ quizz.name }}</h1>
+            <p class="text-center">
+                {{ quizz.description }}
+            </p>
+        </div>
+
+       <div class="col-md-offset-10 col-md-2">
+            <div id="fb-root"></div>
+            <div class="fb-share-button" data-href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" data-layout="button_count"></div>
+        </div>
+        
+        
+         <div class="row">
+            <div class="col-md-12">
+                <p>
+                    Score : {{ score }}
+                    Votre classement :  {% if score>0 %}
+                                            {{ rank }}
+                                        {% else %}
+                                            NA
+                                        {%endif%}
+                </p>
+                {% if rank == 1 %}
+                <p>Bravo ! Vous avez gagner !
+                Cliquez ici pour accéder à vos récompenses !</p>
+                {%endif%}
+                
+            </div>
+        </div>
+        
+        <div class="row">
+            {% set counter = 1 %}
+            {% for participant,array in participationList %}
+                {% if (counter<4) %}
+                     <div class="col-md-2 col-xs-12 text-center">
+                            <p>Rang {{counter}} :</p>
+                            <img src="{{ array.picture }}" style="max-width:50px;"></img>
+                            <p style="margin-top:10px;">
+                                {{ participant }} : {{ array.score }}
+                            </p>
+                    </div>
+                {%endif%}
+                {% set counter = counter+1 %}
+            {% endfor %}
+            <div class="col-md-6 col-xs-12">
+            {% set counter = 1 %}
+             {% for participant,array in participationList %}
+                {% if counter>3%}
+                        <li style="list-style-type: none;">
+                            <p>Rang {{counter}} : {{ participant }} : {{ array.score }}</p>   
+                        </li>
+                {%endif%}
+                {% set counter = counter+1 %}
+            {% endfor %}
+                
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}
+
+
+{% block javascripts %}
+    <script>
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.5&appId=1647347285546642";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
 {% endblock %}
