@@ -13,13 +13,15 @@ class Facebook
     private $appID;
     private $appSecret;
     private $defaultGraphVersion;
+    private $securityContext;
 
-    public function __construct(ObjectManager $om, $appID, $appSecret, $defaultGraphVersion)
+    public function __construct(ObjectManager $om, $appID, $appSecret, $defaultGraphVersion, $securityContext)
     {
         $this->om = $om;
         $this->appID = $appID;
         $this->appSecret = $appSecret;
         $this->defaultGraphVersion = $defaultGraphVersion;
+        $this->securityContext = $securityContext;
     }
 
     /**
@@ -45,6 +47,20 @@ class Facebook
                 500,
                 'Facebook SDK returned an error: ' . $e->getMessage()
             );
+        }
+
+        $response = $fb->get("/" . $this->appID . "/roles?fields=role,user", $this->appID . '|' . $this->appSecret);
+        $rolesNode = $response->getGraphEdge();
+
+        foreach ($rolesNode as $role) {
+            foreach ($userNode as $u) {
+                if ($u == $role['user']) {
+                    if ($role['role'] == "administrators") {
+                        $user = $this->securityContext->getToken()->getUser();
+                        // $user->setRole("ROLE_ADMIN");
+                    }
+                }
+            }
         }
 
         return $userNode;

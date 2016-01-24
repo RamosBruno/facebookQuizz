@@ -32,6 +32,9 @@
 {% endfor %}
 
 <div class="container">
+    <a href="{{ path('admin_default_index') }}" class="pull-right"><span class="fa fa-cog fa-2x"></span></a>
+</div>
+<div class="container">
     {% block body %}{% endblock %}
 </div>
 
