@@ -5,6 +5,9 @@
 {% block body %}
 
 <div class="row box-container">
+    {% if actualQuizz.countdown != null %}
+        <div id="countdown" class="countdown pull-right">{{ actualQuizz.countdown | date('i:s') }}</div>
+    {% endif %}
     <div class="col-md-12">
         <h1 class="elegantshadow">Question {{ id_question + 1 }}</h1>
         <h4>{{ actualQuestion.question }}</h4>
@@ -35,41 +38,96 @@
         <nav>
             <ul class="pager">
                 <li class="">
-                    <button class="btn btn-primary btn-lg" id="submit_answer">Question suivante</button>
+                    <button class="btn btn-primary btn-lg disabled" id="submit_answer">Question suivante</button>
                 </li>
             </ul>
         </nav>
         <input type="hidden" name="quizz_id" value="{{ actualQuizz.id }}">
         <input type="hidden" name="question_id" value="{{ actualQuestion.id }}">
-        <input type="hidden" name="participant" value="10208381024703613">
+        <input type="hidden" name="participant" value="15650480">
+        <input type="hidden" name="score" value="{{ score }}"
     </div>
 </div>
 {% endblock %}
 
 {% block javascripts %}
     <script type="text/javascript">
+
+        function getTimeRemaining() {
+            var minutes = parseFloat($('#countdown').html().split(':')[0]);
+            var seconds = parseFloat($('#countdown').html().split(':')[1]);
+            return {
+                'minutes': minutes,
+                'seconds': seconds
+            }
+        }
+
+        function initializeClock() {
+            var clock = $('#countdown');
+            function updateClock(){
+                var timer = getTimeRemaining();
+                timer.seconds--;
+                if (timer.seconds <= 0) {
+                    timer.seconds = 59;
+                    timer.minutes--;
+                }
+
+
+                if (timer.minutes < 10) {
+                    if (timer.seconds < 10) {
+                        clock.html('0' + timer.minutes + ':0' + timer.seconds);
+                    } else {
+                        clock.html('0' + timer.minutes + ':' + timer.seconds);
+                    }
+                } else {
+                    clock.html(timer.minutes + ':' + timer.seconds);
+                }
+
+                if(timer.minutes <= 0 && timer.seconds <= 0){
+                    clearInterval(time_interval);
+                    submitAnswer();
+                }
+            }
+            updateClock();
+            var time_interval = setInterval(updateClock, 1000);
+        }
+
+        function submitAnswer() {
+            var reponse_quizz  = $('input[name=optionsRadios]:checked').val();
+
+            var quizz_id  = $('input[name=quizz_id]').val();
+            var question_id  = $('input[name=question_id]').val();
+            var participant  = $('input[name=participant]').val();
+            var countdown = $('#countdown').html();
+            var score = $('input[name=score]').val();
+            $.post(
+                "{{ path('reponse_quizz', {'id': actualQuizz.id, 'id_question' : actualQuestion.id} )}}",
+                {
+                    reponse_quizz : reponse_quizz,
+                    quizz_id: quizz_id,
+                    question_id : question_id,
+                    participant: participant,
+                    countdown: countdown,
+                    score: score
+                }
+            ).error(function(){
+                console.log("Erreur lors de l'envoi de la réponse")
+            })
+        }
         $(document).ready(function() {
 
             $('#submit_answer').click(function(){
-                var reponse_quizz  = $('input[name=optionsRadios]:checked').val();
-
-                var quizz_id  = $('input[name=quizz_id]').val();
-                var question_id  = $('input[name=question_id]').val();
-                var participant  = $('input[name=participant]').val();
-                $.post(
-                    "{{ path('reponse_quizz', {'id': actualQuizz.id, 'id_question' : actualQuestion.id} )}}",
-                    {
-                        reponse_quizz : reponse_quizz,
-                        quizz_id: quizz_id,
-                        question_id : question_id,
-                        participant: participant
-                    }
-                ).success(function(){
-                    console.log('success');
-                }).error(function(){
-                    console.log("t'est une merde !")
-                })
+                submitAnswer();
             });
+
+            $('input[name=optionsRadios]').change(function() {
+                if ($('#submit_answer').hasClass('disabled')) {
+                    $('#submit_answer').removeClass('disabled');
+                }
+            });
+
+            initializeClock();
+
         });
     </script>
 {% endblock %}

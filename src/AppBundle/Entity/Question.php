@@ -38,6 +38,11 @@ class Question
     protected $response2;
 
     /**
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\QuizzParticipation", mappedBy="question")
+    */
+    private $quizzParticipation;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="text", nullable=true)
@@ -67,7 +72,7 @@ class Question
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -90,7 +95,7 @@ class Question
     /**
      * Get question
      *
-     * @return string 
+     * @return string
      */
     public function getQuestion()
     {
@@ -113,7 +118,7 @@ class Question
     /**
      * Get quizz
      *
-     * @return \AppBundle\Entity\Quizz 
+     * @return \AppBundle\Entity\Quizz
      */
     public function getQuizz()
     {
@@ -136,7 +141,7 @@ class Question
     /**
      * Get response1
      *
-     * @return string 
+     * @return string
      */
     public function getResponse1()
     {
@@ -159,7 +164,7 @@ class Question
     /**
      * Get response2
      *
-     * @return string 
+     * @return string
      */
     public function getResponse2()
     {
@@ -182,7 +187,7 @@ class Question
     /**
      * Get response3
      *
-     * @return string 
+     * @return string
      */
     public function getResponse3()
     {
@@ -205,7 +210,7 @@ class Question
     /**
      * Get response4
      *
-     * @return string 
+     * @return string
      */
     public function getResponse4()
     {
@@ -228,7 +233,7 @@ class Question
     /**
      * Get responseValide
      *
-     * @return integer 
+     * @return integer
      */
     public function getResponseValide()
     {

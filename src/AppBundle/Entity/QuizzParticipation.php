@@ -31,19 +31,19 @@ class QuizzParticipation
     protected $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\DataUserFacebook", inversedBy="quizzparticipation")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\DataUserFacebook", inversedBy="quizzParticipation")
      * @ORM\JoinColumn(nullable=false)
      */
     private $dataUserFacebook;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Quizz", inversedBy="quizzparticipation")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Quizz", inversedBy="quizzParticipation")
      * @ORM\JoinColumn(nullable=false)
      */
     private $quizz;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Question", inversedBy="quizzparticipation")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Question", inversedBy="quizzParticipation")
      * @ORM\JoinColumn(nullable=false)
      */
     private $question;

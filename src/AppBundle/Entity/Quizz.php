@@ -73,6 +73,13 @@ class Quizz
     protected $nbQuestion;
 
     /**
+    * @var \DateTime
+    *
+    * @ORM\Column(type="datetime", nullable=true)
+    */
+    protected $countdown;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Rule", inversedBy="quizz")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -84,9 +91,14 @@ class Quizz
     private $questions;
 
     /**
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\QuizzParticipation", mappedBy="quizz")
+    */
+    private $quizzParticipation;
+
+    /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -109,7 +121,7 @@ class Quizz
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -132,7 +144,7 @@ class Quizz
     /**
      * Get gains
      *
-     * @return string 
+     * @return string
      */
     public function getGains()
     {
@@ -155,7 +167,7 @@ class Quizz
     /**
      * Get numberOfWinner
      *
-     * @return integer 
+     * @return integer
      */
     public function getNumberOfWinner()
     {
@@ -178,7 +190,7 @@ class Quizz
     /**
      * Get dateStart
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateStart()
     {
@@ -201,7 +213,7 @@ class Quizz
     /**
      * Get dateEnd
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateEnd()
     {
@@ -224,7 +236,7 @@ class Quizz
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -264,7 +276,7 @@ class Quizz
     /**
      * Get questions
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getQuestions()
     {
@@ -287,7 +299,7 @@ class Quizz
     /**
      * Get active
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getActive()
     {
@@ -310,7 +322,7 @@ class Quizz
     /**
      * Get rule
      *
-     * @return \AppBundle\Entity\Rule 
+     * @return \AppBundle\Entity\Rule
      */
     public function getRule()
     {
@@ -333,10 +345,33 @@ class Quizz
     /**
      * Get nbQuestion
      *
-     * @return integer 
+     * @return integer
      */
     public function getNbQuestion()
     {
         return $this->nbQuestion;
     }
+
+    /**
+     * Set the value of Countdown
+     *
+     * @param \DateTime countdown
+     */
+    public function setCountdown(\DateTime $countdown)
+    {
+        $this->countdown = $countdown;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Countdown
+     *
+     * @return \DateTime
+     */
+    public function getCountdown()
+    {
+        return $this->countdown;
+    }
+
 }
