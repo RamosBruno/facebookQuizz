@@ -55,9 +55,15 @@ class QuizzType extends AbstractType
                 'label' => 'Activer ce quizz',
                 'required' => false,
             ])
+            ->add('countdown', 'datetime', [
+                'widget' => 'single_text',
+                'label' => 'Temps du quizz',
+                'required' => false,
+                'format' => 'mm:ss',
+            ])
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */

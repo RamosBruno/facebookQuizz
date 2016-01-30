@@ -47,6 +47,11 @@ class Rule
      */
     private $updated;
 
+    /**
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Quizz", mappedBy="rule")
+    */
+    private $quizz;
+
     public function __construct()
     {
         $this->created = new \DateTime('now');
@@ -143,10 +148,35 @@ class Rule
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
         return $this->title;
     }
+
+    /**
+     * Set the value of Quizz Id
+     *
+     * @param mixed quizz_id
+     *
+     * @return self
+     */
+    public function setQuizz($quizz)
+    {
+        $this->quizz = $quizz;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Quizz Id
+     *
+     * @return mixed
+     */
+    public function getQuizz()
+    {
+        return $this->quizz_id;
+    }
+
 }

@@ -40,6 +40,12 @@ class DataUserFacebook
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\LikeFacebook", cascade={"persist"})
      */
     private $likes;
+
+    /**
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\QuizzParticipation", mappedBy="dataUserFacebook")
+    */
+    private $quizzParticipation;
+
     /**
      * Constructor
      */
@@ -64,7 +70,7 @@ class DataUserFacebook
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -87,7 +93,7 @@ class DataUserFacebook
     /**
      * Get profilName
      *
-     * @return string 
+     * @return string
      */
     public function getProfilName()
     {
@@ -110,7 +116,7 @@ class DataUserFacebook
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -133,7 +139,7 @@ class DataUserFacebook
     /**
      * Get pictureProfilUrl
      *
-     * @return string 
+     * @return string
      */
     public function getPictureProfilUrl()
     {
@@ -166,7 +172,7 @@ class DataUserFacebook
     /**
      * Get likes
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getLikes()
     {

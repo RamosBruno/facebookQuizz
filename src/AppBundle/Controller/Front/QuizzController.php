@@ -20,7 +20,7 @@ class QuizzController extends Controller {
     public function indexAction(Request $request, $id) {
 
         $em = $this->getDoctrine()->getManager();
-        $quizz = $em->getRepository('AppBundle:Quizz')->find($id);
+        $quizz = $em->getRepository('AppBundle:Quizz')->findOneBy(["active" => true]);
         $questions = $quizz->getQuestions();
         $participationList = [];
         $score = 0;
@@ -52,18 +52,21 @@ class QuizzController extends Controller {
     * @Route("/{id}/question/{id_question}", name="front_question")
     * @Method({"GET", "POST"})
     */
-    public function showQuizz(Request $request, $id, $id_question = 0, $response = null, $score = 0) {
+    public function showQuizzAction(Request $request, $id_question = 0, $score = 0) {
+
+        static $nbQuestion = 0;
 
         $em = $this->getDoctrine()->getManager();
-        $quizz = $em->getRepository('AppBundle:Quizz')->find($id);
+        $quizz = $em->getRepository('AppBundle:Quizz')->findOneBy(["active" => true]);
         $questions = $quizz->getQuestions();
 
 
-        if ($id_question < sizeof($questions)) {
+        if ($nbQuestion < $quizz->getNbQuestion()) {
             $actualQuestion = $questions[$id_question];
             $rightResponse = $actualQuestion->getResponseValide();
-
+            $nbQuestion++;
         } else {
+            $nbQuestion = 0;
             return $this->render('Front/Quizz/end.html.twig', [
                 'score' => $score
             ]);
@@ -88,6 +91,7 @@ class QuizzController extends Controller {
         $quizz_id = $request->get('quizz_id');
         $question_id = $request->get('question_id');
         $participant = $request->get('participant');
+        $score = $request->get('score');
 
         $quizz_participation = new QuizzParticipation();
         $question = $em->getRepository("AppBundle:Question")->find($question_id);
@@ -101,12 +105,14 @@ class QuizzController extends Controller {
         $reponse_valide = $question->getResponseValide();
         if($reponse_valide == $reponse){
             $quizz_participation->setValid(1);
+            $score++;
         }else{
             $quizz_participation->setValid(0);
         }
         $em->persist($quizz_participation);
         $em->flush();
 
-        return true;
+        return $this->forward('AppBundle:Front\Quizz:showQuizz', ["id" => $quizz_id, "question_id" => $question_id + 1, "score" => $score]);
     }
+
 }
