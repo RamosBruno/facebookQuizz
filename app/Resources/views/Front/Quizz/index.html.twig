@@ -1,5 +1,14 @@
 {% extends 'front.html.twig' %}
 
+{% block meta %}
+    <meta property="og:url"           content="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
+    <meta property="og:type"          content="website">
+    <meta property="og:title"         content="Code Quizz">
+    <meta property="og:description"   content="Des quizz à la pelle !">
+    <meta property="og:image"         content="http://lorempixel.com/400/200/">
+    <meta property="fb:app_id"        content="1647384475542923">
+{% endblock %}
+
 {% block title %}Quizz{% endblock %}
 
 {% block body %}
