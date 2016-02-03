@@ -31,9 +31,11 @@
   {% endfor %}
 {% endfor %}
 
+{% if app.session.get('isadmin') %}
 <div class="container">
     <a href="{{ path('admin_default_index') }}" class="pull-right"><span class="fa fa-cog fa-2x"></span></a>
 </div>
+{% endif %}
 <div class="container">
     {% block body %}{% endblock %}
 </div>

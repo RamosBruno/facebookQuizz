@@ -6,6 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use AppBundle\Entity\DataUserFacebook;
 use AppBundle\Entity\LikeFacebook;
+use Symfony\Component\HttpFoundation\Session;
 
 class Facebook
 {
@@ -14,14 +15,16 @@ class Facebook
     private $appSecret;
     private $defaultGraphVersion;
     private $securityContext;
+    private $session;
 
-    public function __construct(ObjectManager $om, $appID, $appSecret, $defaultGraphVersion, $securityContext)
+    public function __construct(ObjectManager $om, $appID, $appSecret, $defaultGraphVersion, $securityContext, $session)
     {
         $this->om = $om;
         $this->appID = $appID;
         $this->appSecret = $appSecret;
         $this->defaultGraphVersion = $defaultGraphVersion;
         $this->securityContext = $securityContext;
+        $this->session = $session;
     }
 
     /**
@@ -56,8 +59,7 @@ class Facebook
             foreach ($userNode as $u) {
                 if ($u == $role['user']) {
                     if ($role['role'] == "administrators") {
-                        $user = $this->securityContext->getToken()->getUser();
-                        // $user->setRole("ROLE_ADMIN");
+                        $this->session->set('isadmin', true);
                     }
                 }
             }
