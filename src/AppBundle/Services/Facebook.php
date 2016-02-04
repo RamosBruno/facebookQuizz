@@ -3,6 +3,8 @@
 namespace AppBundle\Services;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Facebook\Exceptions\FacebookSDKException;
+use Facebook\Exceptions\FacebookResponseException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use AppBundle\Entity\DataUserFacebook;
 use AppBundle\Entity\LikeFacebook;
@@ -40,12 +42,12 @@ class Facebook
             $response = $fb->get('/me?fields=id,name,email,picture{url},likes');
             $userNode = $response->getGraphUser();
             $this->getUserData($userNode);
-        } catch(Facebook\Exceptions\FacebookResponseException $e) {
+        } catch(FacebookResponseException $e) {
             throw new HttpException(
                 500,
                 'Graph returned an error: ' . $e->getMessage()
             );
-        } catch(Facebook\Exceptions\FacebookSDKException $e) {
+        } catch(FacebookSDKException $e) {
             throw new HttpException(
                 500,
                 'Facebook SDK returned an error: ' . $e->getMessage()
@@ -66,6 +68,25 @@ class Facebook
         }
 
         return $userNode;
+    }
+
+    /**
+     * Get notifications
+     *
+     * @param $userNode
+     */
+    public function sendNotifications($userNode)
+    {
+        $fb = $this->connectApps();
+
+        $fb->post('/'. $userNode['id'] .'/notifications',
+            array(
+                'template' => 'Félicitations! Vous avez terminé le quizz.',
+                'href' => dirname($_SERVER['SERVER_PROTOCOL']) . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ,
+                'ref' => 'Notifcation envoyée le ' . (new \DateTime())->format('d/m/y'),
+                'access_token' => $fb->getDefaultAccessToken()
+            )
+        );
     }
 
     /**
@@ -99,7 +120,7 @@ class Facebook
                 ;
                 $this->om->persist($likeFacebook);
             }
-            if (!$dataUserFacebook->getLikes($likeFacebook)) {
+            if (!$dataUserFacebook->getLikes()) {
                 $dataUserFacebook->addLike($likeFacebook);
             }
         }
@@ -122,7 +143,7 @@ class Facebook
 
         try {
             $token = $fb->getCanvasHelper()->getAccessToken();
-        } catch (\Facebook\Exception\FacebookSDKException $e) {
+        } catch (FacebookSDKException $e) {
             throw new HttpException(
                 500,
                 'Facebook Access Token returned an error: ' . $e->getMessage()
