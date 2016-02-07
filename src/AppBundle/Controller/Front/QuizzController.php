@@ -92,6 +92,7 @@ class QuizzController extends Controller {
         $question_id = $request->get('question_id');
         $participant = $request->get('participant');
         $score = $request->get('score');
+        $countdown = $request->get('countdown');
 
         $quizz_participation = new QuizzParticipation();
         $question = $em->getRepository("AppBundle:Question")->find($question_id);
@@ -101,6 +102,7 @@ class QuizzController extends Controller {
         $quizz_participation->setQuizz($quizz);
         $quizz_participation->setDataUserFacebook($data_user);
         $quizz_participation->setDate(new \DateTime());
+        $quizz_participation->setCountdown(new \DateTime("00:" . $countdown));
 
         $reponse_valide = $question->getResponseValide();
         if($reponse_valide == $reponse){

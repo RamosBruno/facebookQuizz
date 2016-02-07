@@ -5,33 +5,32 @@
 {% block body %}
 
 <div class="row box-container">
-    {% if actualQuizz.countdown != null %}
-        <div id="countdown" class="countdown pull-right">{{ actualQuizz.countdown | date('i:s') }}</div>
-    {% endif %}
     <div class="col-md-12">
-        <h1 class="elegantshadow">Question {{ id_question + 1 }}</h1>
-        <h4>{{ actualQuestion.question }}</h4>
+        <div class="quizz-header row">
+            {% if actualQuizz.countdown != null %}
+                <div id="bar-countdown" class="bar-countdown"></div>
+                <div id="countdown" class="countdown text-center">{{ actualQuizz.countdown | date('i:s') }}</div>
+            {% endif %}
+            <h1 class="col-md-4">Question {{ id_question + 1 }} : </h1>
+            <h4 class="question-header col-md-8">{{ actualQuestion.question }}</h4>
+        </div>
         <br>
-        <ul class="list-group clear-list m-t">
-            <li class="radio">
-                <label>
-                    <input type="radio" name="optionsRadios" value="1" class="">{{ actualQuestion.response1 }}
-                </label>
+        <ul class="row question-list">
+            <li class="radio col-md-offset-3 col-md-6">
+                <label for="question1">{{ actualQuestion.response1 }}</label>
+                <input id="question1" type="radio" name="optionsRadios" value="1" class="">
             </li>
-            <li class="radio">
-                <label>
-                    <input type="radio" name="optionsRadios" value="2" class="">{{ actualQuestion.response2 }}
-                </label>
+            <li class="radio col-md-offset-3 col-md-6">
+                <label for="question2">{{ actualQuestion.response2 }}</label>
+                <input id="question2" type="radio" name="optionsRadios" value="2" class="">
             </li>
-            <li class="radio">
-                <label>
-                    <input type="radio" name="optionsRadios" value="3" class="">{{ actualQuestion.response3 }}
-                </label>
+            <li class="radio col-md-offset-3 col-md-6">
+                <label for="question3">{{ actualQuestion.response3 }}</label>
+                <input id="question3" type="radio" name="optionsRadios" value="3" class="">
             </li>
-            <li class="radio">
-                <label>
-                    <input type="radio" name="optionsRadios" value="4" class="">{{ actualQuestion.response4 }}
-                </label>
+            <li class="radio col-md-offset-3 col-md-6">
+                <label for="question4">{{ actualQuestion.response4 }}</label>
+                <input id="question4" type="radio" name="optionsRadios" value="4" class="">
             </li>
         </ul>
 
@@ -45,7 +44,7 @@
         <input type="hidden" name="quizz_id" value="{{ actualQuizz.id }}">
         <input type="hidden" name="question_id" value="{{ actualQuestion.id }}">
         <input type="hidden" name="participant" value="15650480">
-        <input type="hidden" name="score" value="{{ score }}"
+        <input type="hidden" name="score" value="{{ score }}">
     </div>
 </div>
 {% endblock %}
@@ -64,14 +63,20 @@
 
         function initializeClock() {
             var clock = $('#countdown');
+            var bar = $('#bar-countdown');
+            var maxWithMinAndSec = getTimeRemaining();
+            var max = maxWithMinAndSec.seconds + maxWithMinAndSec.minutes*60;
             function updateClock(){
                 var timer = getTimeRemaining();
+
                 timer.seconds--;
                 if (timer.seconds <= 0) {
                     timer.seconds = 59;
                     timer.minutes--;
                 }
 
+                var actual = ((timer.seconds + timer.minutes*60) / max) * 100;
+                bar.css('width', actual + '%');
 
                 if (timer.minutes < 10) {
                     if (timer.seconds < 10) {
@@ -87,6 +92,8 @@
                     clearInterval(time_interval);
                     submitAnswer();
                 }
+
+
             }
             updateClock();
             var time_interval = setInterval(updateClock, 1000);
@@ -112,7 +119,7 @@
                 }
             ).error(function(){
                 console.log("Erreur lors de l'envoi de la réponse")
-            })
+            });
         }
         $(document).ready(function() {
 
@@ -124,6 +131,13 @@
                 if ($('#submit_answer').hasClass('disabled')) {
                     $('#submit_answer').removeClass('disabled');
                 }
+
+                $(this).each(function(){
+                    if ($(this).prop("checked")) {
+                        $('input[name=optionsRadios]').parent().removeClass("checked");
+                        $(this).parent().addClass("checked");
+                    }
+                });
             });
 
             initializeClock();

@@ -49,6 +49,13 @@ class QuizzParticipation
     private $question;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $countdown;
+
+    /**
      * Get id
      *
      * @return integer
@@ -110,7 +117,7 @@ class QuizzParticipation
      * @param \AppBundle\Entity\DataUserFacebook $dataUserFacebook
      * @return QuizzParticipation
      */
-    public function setDataUserFacebook(\AppBundle\Entity\DataUserFacebook $dataUserFacebook)
+    public function setDataUserFacebook(DataUserFacebook $dataUserFacebook)
     {
         $this->dataUserFacebook = $dataUserFacebook;
 
@@ -133,7 +140,7 @@ class QuizzParticipation
      * @param \AppBundle\Entity\Question $question
      * @return QuizzParticipation
      */
-    public function setQuestion(\AppBundle\Entity\Question $question)
+    public function setQuestion(Question $question)
     {
         $this->question = $question;
 
@@ -156,7 +163,7 @@ class QuizzParticipation
      * @param \AppBundle\Entity\Quizz $quizz
      * @return QuizzParticipation
      */
-    public function setQuizz(\AppBundle\Entity\Quizz $quizz)
+    public function setQuizz(Quizz $quizz)
     {
         $this->quizz = $quizz;
 
@@ -172,4 +179,25 @@ class QuizzParticipation
     {
         return $this->quizz;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCountdown()
+    {
+        return $this->countdown;
+    }
+
+    /**
+     * @param \DateTime $countdown
+     * @return  QuizzParticipation
+     */
+    public function setCountdown($countdown)
+    {
+        $this->countdown = $countdown;
+
+        return $this;
+    }
+
+
 }

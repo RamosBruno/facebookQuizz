@@ -5,19 +5,23 @@
 {% block body %}
     <div class="row box-container">
         <div class="col-md-12">
-            <h1 class="text-center elegantshadow">{{ quizz.name }}</h1>
-            <p class="text-center">
-                {{ quizz.description }}
-            </p>
+            <div class="quizz-header row">
+                <h1 class="text-center">{{ quizz.name }}</h1>
+            </div>
+            <div class="quizz-description row">
+                <p class="text-center">
+                    {{ quizz.description }}
+                </p>
+            </div>
         </div>
 
-        <div class="col-md-offset-10 col-md-2">
+        <div class="text-center">
             <div id="fb-root"></div>
-            <div class="fb-share-button" data-href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" data-layout="button_count"></div>
+            <div class="fb-share-button" data-href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" data-layout="box_count"></div>
         </div>
 
         <div class="col-md-6">
-            <h2 class="elegantshadow">Quelques règles</h2>
+            <h2 class="text-center">Quelques règles</h2>
             <ul>
                 <li>Selon la question, une ou plusieurs réponses sont possibles</li>
                 <li>Une fois une réponse validée, il est impossible de revenir en arrière</li>
@@ -29,7 +33,7 @@
         </div>
 
         <div class="col-md-6">
-            <h2 class="elegantshadow">Gains</h2>
+            <h2 class="text-center">Gains</h2>
             {{ quizz.gains }}
         </div>
 

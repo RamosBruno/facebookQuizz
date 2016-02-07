@@ -24,6 +24,7 @@ class LoadQuizzParticipationData extends AbstractFixture implements OrderedFixtu
                         ->setQuizz($quiz)
                         ->setQuestion($question)
                         ->setValid($faker->boolean(50))
+                        ->setCountdown(new \DateTime("00:00:00"))
                     ;
                     $manager->persist($quizzParticipation);
                 }
