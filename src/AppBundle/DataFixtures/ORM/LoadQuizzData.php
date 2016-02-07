@@ -5,6 +5,7 @@ namespace AppBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Faker\Factory;
 use AppBundle\Entity\Quizz;
 
 class LoadQuizzData extends AbstractFixture implements OrderedFixtureInterface
@@ -14,7 +15,7 @@ class LoadQuizzData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $faker = \Faker\Factory::create();
+        $faker = Factory::create();
 
         $rules = $manager->getRepository('AppBundle:Rule')->findAll();
 

@@ -19,11 +19,11 @@ class LoadQuestionData extends AbstractFixture implements OrderedFixtureInterfac
         foreach ($quizzes as $quizz) {
             for ($i = 0; $i < $faker->numberBetween(5, 20); $i++) {
                 $question = (new Question())
-                    ->setQuestion($faker->sentence(15))
-                    ->setResponse1($faker->sentence(8))
-                    ->setResponse2($faker->sentence(8))
-                    ->setResponse3($faker->sentence(8))
-                    ->setResponse4($faker->sentence(8))
+                    ->setQuestion($faker->sentence(8))
+                    ->setResponse1($faker->sentence(3))
+                    ->setResponse2($faker->sentence(3))
+                    ->setResponse3($faker->sentence(3))
+                    ->setResponse4($faker->sentence(3))
                     ->setResponseValide($faker->numberBetween(1, 4))
                     ->setQuizz($quizz)
                 ;

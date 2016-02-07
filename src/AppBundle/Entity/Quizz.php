@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -247,7 +248,7 @@ class Quizz
      */
     public function __construct()
     {
-        $this->questions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
     /**
@@ -256,7 +257,7 @@ class Quizz
      * @param \AppBundle\Entity\Question $questions
      * @return Quizz
      */
-    public function addQuestion(\AppBundle\Entity\Question $questions)
+    public function addQuestion(Question $questions)
     {
         $this->questions[] = $questions;
 
@@ -268,7 +269,7 @@ class Quizz
      *
      * @param \AppBundle\Entity\Question $questions
      */
-    public function removeQuestion(\AppBundle\Entity\Question $questions)
+    public function removeQuestion(Question $questions)
     {
         $this->questions->removeElement($questions);
     }
@@ -312,7 +313,7 @@ class Quizz
      * @param \AppBundle\Entity\Rule $rule
      * @return Quizz
      */
-    public function setRule(\AppBundle\Entity\Rule $rule)
+    public function setRule(Rule $rule)
     {
         $this->rule = $rule;
 
@@ -356,6 +357,7 @@ class Quizz
      * Set the value of Countdown
      *
      * @param \DateTime countdown
+     * @return QUizz
      */
     public function setCountdown(\DateTime $countdown)
     {
@@ -373,5 +375,26 @@ class Quizz
     {
         return $this->countdown;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getQuizzParticipation()
+    {
+        return $this->quizzParticipation;
+    }
+
+    /**
+     * @param mixed $quizzParticipation
+     * @return Quizz
+     */
+    public function setQuizzParticipation($quizzParticipation)
+    {
+        $this->quizzParticipation = $quizzParticipation;
+
+        return $this;
+    }
+
+
 
 }
