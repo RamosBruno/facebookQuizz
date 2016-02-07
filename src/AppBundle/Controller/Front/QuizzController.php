@@ -1,6 +1,8 @@
 <?php
 namespace AppBundle\Controller\Front;
 
+use AppBundle\Entity\DataUserFacebook;
+use AppBundle\Entity\Question;
 use AppBundle\Entity\QuizzParticipation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,6 +14,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 * @Route("/quizz")
 */
 class QuizzController extends Controller {
+
+    private $question_used =[];
 
     /**
     * @Route("/{id}", name="front_quizz")
@@ -52,19 +56,14 @@ class QuizzController extends Controller {
     * @Route("/{id}/question/{id_question}", name="front_question")
     * @Method({"GET", "POST"})
     */
-    public function showQuizzAction(Request $request, $id_question = 0, $score = 0) {
-
-        static $nbQuestion = 0;
+    public function showQuizzAction($id_question = 0, $score = 0, $num_question = 0) {
 
         $em = $this->getDoctrine()->getManager();
         $quizz = $em->getRepository('AppBundle:Quizz')->findOneBy(["active" => true]);
         $questions = $quizz->getQuestions();
 
-
-        if ($nbQuestion < $quizz->getNbQuestion()) {
+        if ($num_question < $quizz->getNbQuestion()) {
             $actualQuestion = $questions[$id_question];
-            $rightResponse = $actualQuestion->getResponseValide();
-            $nbQuestion++;
         } else {
             $nbQuestion = 0;
             return $this->render('Front/Quizz/end.html.twig', [
@@ -76,13 +75,39 @@ class QuizzController extends Controller {
             'actualQuizz' => $quizz,
             'actualQuestion' => $actualQuestion,
             'id_question' => $id_question,
+            'num_question' => $num_question,
             'score' => $score
         ]);
     }
 
     /**
+     * @param $data_user DataUserFacebook
+     * @param $question Question
+     */
+    public function generateShuffleQuestion($data_user, $question){
+        $em = $this->getDoctrine()->getManager();
+        $quizz_id = $question->getQuizz()->getId();
+
+        $tab_id = $em->getRepository('AppBundle:Question')->getIdQuestion($question->getId(), $quizz_id);
+
+        $question_id = intval(array_rand($tab_id, 1));
+
+        if(empty($em->getRepository('AppBundle:QuizzParticipation')->findOneBy(['quizz' => $quizz_id,
+            'dataUserFacebook' => $data_user->getId(), 'question' => $tab_id[$question_id] ])) && $question_id != 0){
+
+            return $question_id;
+        }
+        else{
+            return $this->generateShuffleQuestion($data_user, $question);
+        }
+
+    }
+
+    /**
      * @Route("/{id}/question/{id_question}/reponse_quizz", name="reponse_quizz")
      * @Method({"POST"})
+     * @var $data_user DataUserFacebook
+     * @var $question Question
      */
     public function postAnswer(Request $request){
 
@@ -92,6 +117,7 @@ class QuizzController extends Controller {
         $question_id = $request->get('question_id');
         $participant = $request->get('participant');
         $score = $request->get('score');
+        $num_question = $request->get('num_question');
 
         $quizz_participation = new QuizzParticipation();
         $question = $em->getRepository("AppBundle:Question")->find($question_id);
@@ -102,17 +128,24 @@ class QuizzController extends Controller {
         $quizz_participation->setDataUserFacebook($data_user);
         $quizz_participation->setDate(new \DateTime());
 
-        $reponse_valide = $question->getResponseValide();
-        if($reponse_valide == $reponse){
-            $quizz_participation->setValid(1);
-            $score++;
-        }else{
-            $quizz_participation->setValid(0);
-        }
-        $em->persist($quizz_participation);
-        $em->flush();
+        if( empty( $em->getRepository("AppBundle:QuizzParticipation")->findBy( ['question' => $question->getId(),
+            'dataUserFacebook' => $data_user->getId()] ) ) ){
 
-        return $this->forward('AppBundle:Front\Quizz:showQuizz', ["id" => $quizz_id, "question_id" => $question_id + 1, "score" => $score]);
+            $reponse_valide = $question->getResponseValide();
+            if($reponse_valide == $reponse){
+                $quizz_participation->setValid(1);
+                $score++;
+            }else{
+                $quizz_participation->setValid(0);
+            }
+            $em->persist($quizz_participation);
+            $em->flush();
+        }
+        else{
+            $this->generateShuffleQuestion($data_user,$question);
+        }
+
+        return $this->showQuizzAction($this->generateShuffleQuestion($data_user,$question), $score, $num_question);
     }
 
 }
