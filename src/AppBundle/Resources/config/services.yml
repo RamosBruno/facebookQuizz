@@ -26,4 +26,4 @@ services:
 
     facebook:
         class: AppBundle\Services\Facebook
-        arguments: ["@doctrine.orm.entity_manager", %fb_app_id%, %fb_app_secret%, %fb_default_graph_version%, "@security.context"]
+        arguments: ["@doctrine.orm.entity_manager", %fb_app_id%, %fb_app_secret%, %fb_default_graph_version%, "@security.context", "@session"]

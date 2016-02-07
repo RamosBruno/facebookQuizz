@@ -67,6 +67,8 @@ class QuizzController extends Controller {
             $nbQuestion++;
         } else {
             $nbQuestion = 0;
+            $userNode = $this->get('facebook')->getUserNode();
+            $this->get('facebook')->sendNotifications($userNode);
             return $this->render('Front/Quizz/end.html.twig', [
                 'score' => $score
             ]);

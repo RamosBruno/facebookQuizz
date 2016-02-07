@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% block meta %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% endblock %}
+
     <title>{% block title %}{% endblock %}</title>
 
     {% stylesheets
@@ -31,9 +34,11 @@
   {% endfor %}
 {% endfor %}
 
+{% if app.session.get('isadmin') %}
 <div class="container">
     <a href="{{ path('admin_default_index') }}" class="pull-right"><span class="fa fa-cog fa-2x"></span></a>
 </div>
+{% endif %}
 <div class="container">
     {% block body %}{% endblock %}
 </div>
