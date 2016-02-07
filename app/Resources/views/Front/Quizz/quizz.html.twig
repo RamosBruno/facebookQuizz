@@ -15,36 +15,38 @@
             <h4 class="question-header col-md-8">{{ actualQuestion.question }}</h4>
         </div>
         <br>
-        <ul class="row question-list">
-            <li class="radio col-md-offset-3 col-md-6">
-                <label for="question1">{{ actualQuestion.response1 }}</label>
-                <input id="question1" type="radio" name="optionsRadios" value="1" class="">
-            </li>
-            <li class="radio col-md-offset-3 col-md-6">
-                <label for="question2">{{ actualQuestion.response2 }}</label>
-                <input id="question2" type="radio" name="optionsRadios" value="2" class="">
-            </li>
-            <li class="radio col-md-offset-3 col-md-6">
-                <label for="question3">{{ actualQuestion.response3 }}</label>
-                <input id="question3" type="radio" name="optionsRadios" value="3" class="">
-            </li>
-            <li class="radio col-md-offset-3 col-md-6">
-                <label for="question4">{{ actualQuestion.response4 }}</label>
-                <input id="question4" type="radio" name="optionsRadios" value="4" class="">
-            </li>
-        </ul>
-
-        <nav>
-            <ul class="pager">
-                <li class="">
-                    <button class="btn btn-primary btn-lg disabled" id="submit_answer">Question suivante</button>
+        <ul class="list-group clear-list m-t">
+            <form action="{{ path('reponse_quizz', {'id': actualQuizz.id, 'id_question' : actualQuestion.id}) }}" method="post">
+                <li class="radio col-md-offset-3 col-md-6">
+                    <label for="question1">{{ actualQuestion.response1 }}</label>
+                    <input id="question1" type="radio" name="optionsRadios" value="1" class="">
                 </li>
-            </ul>
-        </nav>
-        <input type="hidden" name="quizz_id" value="{{ actualQuizz.id }}">
-        <input type="hidden" name="question_id" value="{{ actualQuestion.id }}">
-        <input type="hidden" name="participant" value="15650480">
-        <input type="hidden" name="score" value="{{ score }}">
+                <li class="radio col-md-offset-3 col-md-6">
+                    <label for="question2">{{ actualQuestion.response2 }}</label>
+                    <input id="question2" type="radio" name="optionsRadios" value="2" class="">
+                </li>
+                <li class="radio col-md-offset-3 col-md-6">
+                    <label for="question3">{{ actualQuestion.response3 }}</label>
+                    <input id="question3" type="radio" name="optionsRadios" value="3" class="">
+                </li>
+                <li class="radio col-md-offset-3 col-md-6">
+                    <label for="question4">{{ actualQuestion.response4 }}</label>
+                    <input id="question4" type="radio" name="optionsRadios" value="4" class="">
+                </li>
+                <input type="hidden" name="quizz_id" value="{{ actualQuizz.id }}">
+                <input type="hidden" name="question_id" value="{{ actualQuestion.id }}">
+                <input type="hidden" name="num_question" value="{{ num_question + 1 }}">
+                <input type="hidden" name="participant" value="10208381024703613">
+                <input type="hidden" name="score" value="{{ score }}">
+                <nav>
+                    <ul class="pager">
+                        <li class="">
+                            <input type="submit" class="btn btn-primary btn-lg disabled" id="submit_answer" value="Question Suivante">
+                        </li>
+                    </ul>
+                </nav>
+            </form>
+        </ul>
     </div>
 </div>
 {% endblock %}
@@ -99,28 +101,6 @@
             var time_interval = setInterval(updateClock, 1000);
         }
 
-        function submitAnswer() {
-            var reponse_quizz  = $('input[name=optionsRadios]:checked').val();
-
-            var quizz_id  = $('input[name=quizz_id]').val();
-            var question_id  = $('input[name=question_id]').val();
-            var participant  = $('input[name=participant]').val();
-            var countdown = $('#countdown').html();
-            var score = $('input[name=score]').val();
-            $.post(
-                "{{ path('reponse_quizz', {'id': actualQuizz.id, 'id_question' : actualQuestion.id} )}}",
-                {
-                    reponse_quizz : reponse_quizz,
-                    quizz_id: quizz_id,
-                    question_id : question_id,
-                    participant: participant,
-                    countdown: countdown,
-                    score: score
-                }
-            ).error(function(){
-                console.log("Erreur lors de l'envoi de la réponse")
-            });
-        }
         $(document).ready(function() {
 
             $('#submit_answer').click(function(){
