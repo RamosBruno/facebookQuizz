@@ -38,6 +38,7 @@
                 <input type="hidden" name="num_question" value="{{ num_question + 1 }}">
                 <input type="hidden" name="participant" value="{{ participant }}">
                 <input type="hidden" name="score" value="{{ score }}">
+                <input type="hidden" name="answer" value="">
                 <input type="hidden" name="countdown" value="">
                 <nav class="col-md-12">
                     <ul class="pager">
@@ -84,6 +85,7 @@
 
                 if(timer.seconds <= 0){
                     clearInterval(time_interval);
+                    $('#submit_answer').trigger('click');
                 }
 
 
@@ -105,6 +107,8 @@
                         $(this).parent().addClass("checked");
                     }
                 });
+
+                $('input[name=answer]').val($(this).val());
             });
 
             initializeClock();

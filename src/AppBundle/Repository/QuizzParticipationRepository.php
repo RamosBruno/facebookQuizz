@@ -21,13 +21,10 @@ class QuizzParticipationRepository extends EntityRepository
 
         $quizz_participation = $qb->getResult();
 
-        dump($quizz_participation);
-
         if(empty($quizz_participation)){
             return true;
         }
         else{
-
             return false;
         }
     }

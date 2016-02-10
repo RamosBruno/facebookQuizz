@@ -36,11 +36,7 @@ class Facebook
      */
     public function getUserNode()
     {
-        if ($this->session->get('fb') == null) {
-            $fb = $this->connectApps();
-        } else {
-            $fb = $this->session->get('fb');
-        }
+        $fb = $this->connectApps();
 
         try {
             $response = $fb->get('/me?fields=id,name,email,picture{url},likes');
@@ -78,8 +74,9 @@ class Facebook
      * Get notifications
      *
      * @param $userId
+     * @param $quizz_name
      */
-    public function sendNotifications($userId)
+    public function sendNotifications($userId, $quizz_name)
     {
         if ($this->session->get('fb') == null) {
             $fb = $this->connectApps();
@@ -90,11 +87,10 @@ class Facebook
         try {
             $fb->post('/'. $userId .'/notifications',
                 array(
-                    'template' => 'Félicitations! Vous avez terminé le quizz.',
-                    'href' => '/end',
-                    'ref' => 'Notifcation envoyée le ' . (new \DateTime())->format('d/m/y'),
-                    'access_token' => $this->session->get('access_token')
-                )
+                    'access_token' => $this->appID . '|' . $this->appSecret,
+                    'template' => 'Félicitations! Vous avez terminé le quizz ' . $quizz_name . '.'
+                ),
+                $this->appID . '|' . $this->appSecret
             );
         } catch(FacebookResponseException $e) {
             throw new HttpException(

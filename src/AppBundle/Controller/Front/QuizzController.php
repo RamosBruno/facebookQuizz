@@ -52,7 +52,7 @@ class QuizzController extends Controller {
             /**
              * TODO : corriger erreur sur les  notifications
              */
-//            $this->get('facebook')->sendNotifications($participant);
+            $this->get('facebook')->sendNotifications($participant, $quizz->getName());
             return $this->render('Front/Quizz/end.html.twig', [
                 'score' => $score
             ]);
@@ -81,7 +81,7 @@ class QuizzController extends Controller {
         $tab_id = $em->getRepository('AppBundle:Question')->findBy(['quizz' =>  $quizz_id] );
 
         $question_id = intval(array_rand($tab_id, 1));
-        if($em->getRepository('AppBundle:QuizzParticipation')->getAnswerByUser($data_user->getId(),$tab_id[$question_id],$quizz_id)==true){
+        if ($em->getRepository('AppBundle:QuizzParticipation')->getAnswerByUser($data_user->getId(),$tab_id[$question_id],$quizz_id)){
             return $question_id;
         }
         else{
@@ -99,7 +99,7 @@ class QuizzController extends Controller {
     public function postAnswer(Request $request){
 
         $em = $this->getDoctrine()->getManager();
-        $reponse = $request->get('reponse');
+        $answer = $request->get('answer');
         $quizz_id = $request->get('quizz_id');
         $question_id = $request->get('question_id');
         $participant = $request->get('participant');
@@ -117,11 +117,11 @@ class QuizzController extends Controller {
         $quizz_participation->setDate(new \DateTime());
         $quizz_participation->setCountdown(\DateTime::createFromFormat('s', $countdown));
 
-        if( empty( $em->getRepository("AppBundle:QuizzParticipation")->findOneBy( ['question' => $question->getId(),
-            'dataUserFacebook' => $data_user->getId()] ) ) ){
+        if (empty($em->getRepository("AppBundle:QuizzParticipation")->findOneBy(['question' => $question->getId(),
+            'dataUserFacebook' => $data_user->getId()]))){
 
             $reponse_valide = $question->getResponseValide();
-            if($reponse_valide == $reponse){
+            if ($reponse_valide == $answer){
                 $quizz_participation->setValid(1);
                 $score++;
             }else{

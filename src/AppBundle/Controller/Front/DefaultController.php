@@ -44,6 +44,8 @@ class DefaultController extends Controller
 
     /**
      * @Route("/contentBlock/{slug}", name="front_get_content_block")
+     * @param $slug
+     * @return $this
      */
     public function getContentBlockAction($slug)
     {

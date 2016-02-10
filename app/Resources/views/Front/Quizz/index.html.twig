@@ -34,9 +34,10 @@
             <ul>
                 <li>Selon la question, une ou plusieurs réponses sont possibles</li>
                 <li>Une fois une réponse validée, il est impossible de revenir en arrière</li>
-                <li>Vous pouvez à tout moment arrêter le quizz et le reprendre la où vous l'avez quitté</li>
+                <li>Vous pouvez à tout moment arrêter le quizz</li>
                 {% if quizz.countdown != null %}
                     <li>Temps imparti par question : {{ quizz.countdown | date('s') }}</li>
+                    <li>Si vous ne répondez pas avant la fin du temps imparti, le quizz passera à la question suivante</li>
                 {% endif %}
             </ul>
         </div>
