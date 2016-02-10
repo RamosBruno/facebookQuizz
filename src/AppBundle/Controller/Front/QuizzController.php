@@ -90,12 +90,12 @@ class QuizzController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $quizz_id = $question->getQuizz()->getId();
 
-        $tab_id = $em->getRepository('AppBundle:Question')->getIdQuestion($question->getId(), $quizz_id);
+        $tab_id = $em->getRepository('AppBundle:Question')->findBy(['quizz' =>  $quizz_id] );
 
+        dump($tab_id);
         $question_id = intval(array_rand($tab_id, 1));
-
-        if(empty($em->getRepository('AppBundle:QuizzParticipation')->findOneBy(['quizz' => $quizz_id,
-            'dataUserFacebook' => $data_user->getId(), 'question' => $tab_id[$question_id] ])) && $question_id != 0){
+        $i=0;
+        if($em->getRepository('AppBundle:QuizzParticipation')->getAnswerByUser($data_user->getId(),$tab_id[$question_id],$quizz_id)==true){
 
             return $question_id;
         }
@@ -130,9 +130,9 @@ class QuizzController extends Controller {
         $quizz_participation->setQuizz($quizz);
         $quizz_participation->setDataUserFacebook($data_user);
         $quizz_participation->setDate(new \DateTime());
-        $quizz_participation->setCountdown(new \DateTime("00:" . $countdown));
+//        $quizz_participation->setCountdown(new \DateTime("00:" . $countdown));
 
-        if( empty( $em->getRepository("AppBundle:QuizzParticipation")->findBy( ['question' => $question->getId(),
+        if( empty( $em->getRepository("AppBundle:QuizzParticipation")->findOneBy( ['question' => $question->getId(),
             'dataUserFacebook' => $data_user->getId()] ) ) ){
 
             $reponse_valide = $question->getResponseValide();
