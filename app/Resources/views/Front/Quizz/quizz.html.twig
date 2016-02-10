@@ -9,7 +9,7 @@
         <div class="quizz-header row">
             {% if actualQuizz.countdown != null %}
                 <div id="bar-countdown" class="bar-countdown"></div>
-                <div id="countdown" class="countdown text-center">{{ actualQuizz.countdown | date('i:s') }}</div>
+                <div id="countdown" class="countdown text-center">{{ actualQuizz.countdown | date('s') }}</div>
             {% endif %}
             <h1 class="col-md-4">Question {{ num_question + 1 }} : </h1>
             <h4 class="question-header col-md-8">{{ actualQuestion.question }}</h4>
@@ -36,9 +36,11 @@
                 <input type="hidden" name="quizz_id" value="{{ actualQuizz.id }}">
                 <input type="hidden" name="question_id" value="{{ actualQuestion.id }}">
                 <input type="hidden" name="num_question" value="{{ num_question + 1 }}">
-                <input type="hidden" name="participant" value="10208381024703613">
+                <input type="hidden" name="participant" value="{{ participant }}">
                 <input type="hidden" name="score" value="{{ score }}">
-                <nav>
+                <input type="hidden" name="answer" value="">
+                <input type="hidden" name="countdown" value="">
+                <nav class="col-md-12">
                     <ul class="pager">
                         <li class="">
                             <input type="submit" class="btn btn-primary btn-lg disabled" id="submit_answer" value="Question Suivante">
@@ -55,10 +57,8 @@
     <script type="text/javascript">
 
         function getTimeRemaining() {
-            var minutes = parseFloat($('#countdown').html().split(':')[0]);
-            var seconds = parseFloat($('#countdown').html().split(':')[1]);
+            var seconds = parseFloat($('#countdown').html());
             return {
-                'minutes': minutes,
                 'seconds': seconds
             }
         }
@@ -66,33 +66,26 @@
         function initializeClock() {
             var clock = $('#countdown');
             var bar = $('#bar-countdown');
-            var maxWithMinAndSec = getTimeRemaining();
-            var max = maxWithMinAndSec.seconds + maxWithMinAndSec.minutes*60;
+            var max = getTimeRemaining().seconds;
             function updateClock(){
                 var timer = getTimeRemaining();
 
                 timer.seconds--;
-                if (timer.seconds <= 0) {
-                    timer.seconds = 59;
-                    timer.minutes--;
-                }
 
-                var actual = ((timer.seconds + timer.minutes*60) / max) * 100;
+                var actual = ((timer.seconds) / max) * 100;
                 bar.css('width', actual + '%');
 
-                if (timer.minutes < 10) {
-                    if (timer.seconds < 10) {
-                        clock.html('0' + timer.minutes + ':0' + timer.seconds);
-                    } else {
-                        clock.html('0' + timer.minutes + ':' + timer.seconds);
-                    }
+                if (timer.seconds < 10) {
+                    clock.html('0' + timer.seconds);
+                    $('input[name=countdown]').val('0' + timer.seconds);
                 } else {
-                    clock.html(timer.minutes + ':' + timer.seconds);
+                    clock.html(timer.seconds);
+                    $('input[name=countdown]').val(timer.seconds);
                 }
 
-                if(timer.minutes <= 0 && timer.seconds <= 0){
+                if(timer.seconds <= 0){
                     clearInterval(time_interval);
-                    submitAnswer();
+                    $('#submit_answer').trigger('click');
                 }
 
 
@@ -102,10 +95,6 @@
         }
 
         $(document).ready(function() {
-
-            $('#submit_answer').click(function(){
-                submitAnswer();
-            });
 
             $('input[name=optionsRadios]').change(function() {
                 if ($('#submit_answer').hasClass('disabled')) {
@@ -118,6 +107,8 @@
                         $(this).parent().addClass("checked");
                     }
                 });
+
+                $('input[name=answer]').val($(this).val());
             });
 
             initializeClock();

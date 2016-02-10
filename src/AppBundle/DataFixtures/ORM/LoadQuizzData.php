@@ -21,9 +21,9 @@ class LoadQuizzData extends AbstractFixture implements OrderedFixtureInterface
 
         for ($i = 1; $i < 11; $i++) {
             $y = ($i <= 9) ? '0' . $i : $i;
-            $dateStart = new \DateTime('2015-' . $y . '-01');
+            $dateStart = new \DateTime('2016-' . $y . '-01');
             $dateEnd = clone $dateStart;
-            $countdown = new \DateTime('00:' . $y . ':00');
+            $countdown = new \DateTime('00:00:10');
             $quizz = (new Quizz())
                 ->setName($faker->sentence(4))
                 ->setDescription($faker->text())

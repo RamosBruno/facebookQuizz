@@ -15,59 +15,44 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 */
 class QuizzController extends Controller {
 
-    private $question_used =[];
-
     /**
     * @Route("/{id}", name="front_quizz")
     * @Method({"GET", "POST"})
     */
-    public function indexAction(Request $request, $id) {
+    public function indexAction() {
 
         $em = $this->getDoctrine()->getManager();
         $quizz = $em->getRepository('AppBundle:Quizz')->findOneBy(["active" => true]);
-        $questions = $quizz->getQuestions();
-        $participationList = [];
-        $score = 0;
-        $i = 0;
-        $maxQuestions = sizeof($questions);
-
-        $quizzParticipation = $em->getRepository('AppBundle:QuizzParticipation')->findBy(["quizz" => $quizz->getId()], ["dataUserFacebook" => "asc"]);
-        foreach ($quizzParticipation as $participation) {
-
-            if ($i < $maxQuestions) {
-                $score += (int) $participation->getValid();
-                $i++;
-            } else {
-                $participationList[$participant] = $score;
-                $score = 0;
-                $i = 0;
-            }
-            $participant = $participation->getDataUserFacebook()->getProfilName();
-        }
-        arsort($participationList);
 
         return $this->render('Front/Quizz/index.html.twig', [
-            'quizz'=> $quizz,
-            'participationList' => $participationList
+            'quizz'=> $quizz
         ]);
     }
 
     /**
     * @Route("/{id}/question/{id_question}", name="front_question")
     * @Method({"GET", "POST"})
+     *
+     * @param  integer $id_question
+     * @param integer $score
+     * @param integer $num_question
+     *
+     * @return  $this
     */
     public function showQuizzAction($id_question = 0, $score = 0, $num_question = 0) {
 
         $em = $this->getDoctrine()->getManager();
         $quizz = $em->getRepository('AppBundle:Quizz')->findOneBy(["active" => true]);
         $questions = $quizz->getQuestions();
+        $participant = $this->get('session')->get('user_id');
 
         if ($num_question < $quizz->getNbQuestion()) {
             $actualQuestion = $questions[$id_question];
         } else {
-            $nbQuestion = 0;
-            $userNode = $this->get('facebook')->getUserNode();
-            $this->get('facebook')->sendNotifications($userNode);
+            /**
+             * TODO : corriger erreur sur les  notifications
+             */
+            $this->get('facebook')->sendNotifications($participant, $quizz->getName());
             return $this->render('Front/Quizz/end.html.twig', [
                 'score' => $score
             ]);
@@ -78,13 +63,16 @@ class QuizzController extends Controller {
             'actualQuestion' => $actualQuestion,
             'id_question' => $id_question,
             'num_question' => $num_question,
-            'score' => $score
+            'score' => $score,
+            'participant' => $participant
         ]);
     }
 
     /**
      * @param $data_user DataUserFacebook
      * @param $question Question
+     *
+     * @return integer
      */
     public function generateShuffleQuestion($data_user, $question){
         $em = $this->getDoctrine()->getManager();
@@ -92,11 +80,8 @@ class QuizzController extends Controller {
 
         $tab_id = $em->getRepository('AppBundle:Question')->findBy(['quizz' =>  $quizz_id] );
 
-        dump($tab_id);
         $question_id = intval(array_rand($tab_id, 1));
-        $i=0;
-        if($em->getRepository('AppBundle:QuizzParticipation')->getAnswerByUser($data_user->getId(),$tab_id[$question_id],$quizz_id)==true){
-
+        if ($em->getRepository('AppBundle:QuizzParticipation')->getAnswerByUser($data_user->getId(),$tab_id[$question_id],$quizz_id)){
             return $question_id;
         }
         else{
@@ -108,13 +93,13 @@ class QuizzController extends Controller {
     /**
      * @Route("/{id}/question/{id_question}/reponse_quizz", name="reponse_quizz")
      * @Method({"POST"})
-     * @var $data_user DataUserFacebook
-     * @var $question Question
+     * @param Request $request
+     * @return $this
      */
     public function postAnswer(Request $request){
 
         $em = $this->getDoctrine()->getManager();
-        $reponse = $request->get('reponse');
+        $answer = $request->get('answer');
         $quizz_id = $request->get('quizz_id');
         $question_id = $request->get('question_id');
         $participant = $request->get('participant');
@@ -130,13 +115,13 @@ class QuizzController extends Controller {
         $quizz_participation->setQuizz($quizz);
         $quizz_participation->setDataUserFacebook($data_user);
         $quizz_participation->setDate(new \DateTime());
-//        $quizz_participation->setCountdown(new \DateTime("00:" . $countdown));
+        $quizz_participation->setCountdown(\DateTime::createFromFormat('s', $countdown));
 
-        if( empty( $em->getRepository("AppBundle:QuizzParticipation")->findOneBy( ['question' => $question->getId(),
-            'dataUserFacebook' => $data_user->getId()] ) ) ){
+        if (empty($em->getRepository("AppBundle:QuizzParticipation")->findOneBy(['question' => $question->getId(),
+            'dataUserFacebook' => $data_user->getId()]))){
 
             $reponse_valide = $question->getResponseValide();
-            if($reponse_valide == $reponse){
+            if ($reponse_valide == $answer){
                 $quizz_participation->setValid(1);
                 $score++;
             }else{

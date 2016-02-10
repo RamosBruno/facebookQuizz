@@ -57,9 +57,9 @@ class QuizzType extends AbstractType
             ])
             ->add('countdown', 'datetime', [
                 'widget' => 'single_text',
-                'label' => 'Temps du quizz',
+                'label' => 'Temps par question',
                 'required' => false,
-                'format' => 'mm:ss',
+                'format' => 'ss',
             ])
         ;
     }

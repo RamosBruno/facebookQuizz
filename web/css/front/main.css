@@ -14,10 +14,6 @@
     margin-bottom: 40px;
 }
 
-.box-container:first-child {
-    margin: 60px auto;
-}
-
 .btn-primary {
     color: #fff;
     background-color: #45619D;
