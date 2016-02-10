@@ -36,7 +36,7 @@
                 <li>Une fois une réponse validée, il est impossible de revenir en arrière</li>
                 <li>Vous pouvez à tout moment arrêter le quizz et le reprendre la où vous l'avez quitté</li>
                 {% if quizz.countdown != null %}
-                    <li>Temps imparti : {{ quizz.countdown | date('i:s') }}</li>
+                    <li>Temps imparti par question : {{ quizz.countdown | date('s') }}</li>
                 {% endif %}
             </ul>
         </div>

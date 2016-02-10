@@ -19,7 +19,10 @@ class DefaultController extends Controller
         $actualQuizz = null;
         $nextQuizzes = [];
         $previousQuizzes = [];
-        $dateNow = new \DateTime('2015-07-01');
+        $dateNow = new \DateTime();
+
+        $session = $this->get('session');
+        $session->set('user_id', $userNode->getId());
 
         foreach ($quizzes as $quizz) {
             if ($quizz->getDateStart()->format('m') == $dateNow->format('m')) {

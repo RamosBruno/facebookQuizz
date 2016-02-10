@@ -36,7 +36,11 @@ class Facebook
      */
     public function getUserNode()
     {
-        $fb =$this->connectApps();
+        if ($this->session->get('fb') == null) {
+            $fb = $this->connectApps();
+        } else {
+            $fb = $this->session->get('fb');
+        }
 
         try {
             $response = $fb->get('/me?fields=id,name,email,picture{url},likes');
@@ -73,20 +77,37 @@ class Facebook
     /**
      * Get notifications
      *
-     * @param $userNode
+     * @param $userId
      */
-    public function sendNotifications($userNode)
+    public function sendNotifications($userId)
     {
-        $fb = $this->connectApps();
+        if ($this->session->get('fb') == null) {
+            $fb = $this->connectApps();
+        } else {
+            $fb = $this->session->get('fb');
+        }
 
-        $fb->post('/'. $userNode['id'] .'/notifications',
-            array(
-                'template' => 'Félicitations! Vous avez terminé le quizz.',
-                'href' => dirname($_SERVER['SERVER_PROTOCOL']) . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] ,
-                'ref' => 'Notifcation envoyée le ' . (new \DateTime())->format('d/m/y'),
-                'access_token' => $fb->getDefaultAccessToken()
-            )
-        );
+        try {
+            $fb->post('/'. $userId .'/notifications',
+                array(
+                    'template' => 'Félicitations! Vous avez terminé le quizz.',
+                    'href' => '/end',
+                    'ref' => 'Notifcation envoyée le ' . (new \DateTime())->format('d/m/y'),
+                    'access_token' => $this->session->get('access_token')
+                )
+            );
+        } catch(FacebookResponseException $e) {
+            throw new HttpException(
+                500,
+                'Graph returned an error: ' . $e->getMessage()
+            );
+        } catch(FacebookSDKException $e) {
+            throw new HttpException(
+                500,
+                'Facebook SDK returned an error: ' . $e->getMessage()
+            );
+        }
+
     }
 
     /**
@@ -152,13 +173,15 @@ class Facebook
 
         if ($token == null) {
             $helper = $fb->getRedirectLoginHelper();
-            $scope = ['email', 'user_likes'];
+            $scope = ['email', 'user_likes', 'publish_actions'];
             $loginUrl = $helper->getLoginUrl('https://apps.facebook.com/' . $this->appID, $scope);
 
             echo '<script>window.top.location.href = "' . $loginUrl . '"</script>';
         } else {
             $fb->setDefaultAccessToken($token);
         }
+        $this->session->set('access_token', $token);
+        $this->session->set('fb', $fb);
 
         return $fb;
     }
