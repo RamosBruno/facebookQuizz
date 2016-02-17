@@ -34,7 +34,9 @@
                 
             </div>
         </div>
-        
+         {% if button == 1 %}
+        <button class="form-control">Voir le classement de mes amis</button>
+        {%endif%}
         <div class="row">
             {% set counter = 1 %}
             {% for participant,array in participationList %}
@@ -43,7 +45,7 @@
                             <p>Rang {{counter}} :</p>
                             <img src="{{ array.picture }}" style="max-width:50px;"></img>
                             <p style="margin-top:10px;">
-                                {{ participant }} : {{ array.score }}
+                                {{ array.name }} : {{ array.score }}
                             </p>
                     </div>
                 {%endif%}
@@ -54,7 +56,7 @@
              {% for participant,array in participationList %}
                 {% if counter>3%}
                         <li style="list-style-type: none;">
-                            <p>Rang {{counter}} : {{ participant }} : {{ array.score }}</p>   
+                            <p>Rang {{counter}} : {{ array.name }} : {{ array.score }}</p>   
                         </li>
                 {%endif%}
                 {% set counter = counter+1 %}
@@ -76,5 +78,10 @@
             js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.5&appId=1647347285546642";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
+        
+        $(".form-control").click(function(){
+            var adresseActuelle = window.location;
+            window.location = adresseActuelle+"?friends=1";
+        })
     </script>
 {% endblock %}
