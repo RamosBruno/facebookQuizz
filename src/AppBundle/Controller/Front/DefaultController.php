@@ -20,6 +20,7 @@ class DefaultController extends Controller
         $nextQuizzes = [];
         $previousQuizzes = [];
         $dateNow = new \DateTime('2015-07-01');
+        $_SESSION['user_id'] = $userNode['id'];
 
         foreach ($quizzes as $quizz) {
             if ($quizz->getDateStart()->format('m') == $dateNow->format('m')) {
