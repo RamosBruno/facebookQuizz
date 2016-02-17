@@ -20,7 +20,7 @@ class RuleType extends AbstractType
                 'required' => true,
             ])
             ->add('content', 'textarea', [
-                'label' => 'Règle',
+                'label' => 'Règle *',
                 'required' => true,
             ])
         ;

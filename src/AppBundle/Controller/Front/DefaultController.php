@@ -22,12 +22,12 @@ class DefaultController extends Controller
         $dateNow = new \DateTime();
 
         $session = $this->get('session');
-        $session->set('user_id', $userNode->getId());
+        $session->set('user', $userNode);
 
         foreach ($quizzes as $quizz) {
-            if ($quizz->getDateStart()->format('m') == $dateNow->format('m')) {
+            if ($quizz->getActive() && $quizz->getDateStart()->format('m') == $dateNow->format('m')) {
                 $actualQuizz = $quizz;
-            } else if ($quizz->getDateEnd()->format('m') < $dateNow->format('m')) {
+            } else if ($quizz->getDateEnd()->format('Ymd') < $dateNow->format('Ymd')) {
                 array_push($previousQuizzes, $quizz);
             } else {
                 array_push($nextQuizzes, $quizz);

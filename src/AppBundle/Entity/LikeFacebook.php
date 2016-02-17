@@ -12,6 +12,7 @@ class LikeFacebook
     /**
      * @ORM\Id
      * @ORM\Column(type="bigint")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
 

@@ -23,9 +23,11 @@ class QuizzController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $quizz = $em->getRepository('AppBundle:Quizz')->findOneBy(["active" => true]);
+        $rules = explode(";", $quizz->getRule()->getContent());
 
         return $this->render('Front/Quizz/index.html.twig', [
-            'quizz'=> $quizz
+            'quizz'=> $quizz,
+            'rules' => $rules
         ]);
     }
 
@@ -44,15 +46,13 @@ class QuizzController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $quizz = $em->getRepository('AppBundle:Quizz')->findOneBy(["active" => true]);
         $questions = $quizz->getQuestions();
-        $participant = $this->get('session')->get('user_id');
+        $participant = $this->get('session')->get('user');
 
         if ($num_question < $quizz->getNbQuestion()) {
             $actualQuestion = $questions[$id_question];
         } else {
-            /**
-             * TODO : corriger erreur sur les  notifications
-             */
-            $this->get('facebook')->sendNotifications($participant, $quizz->getName());
+            $template = "Félicictations, vous avez terminé le quizz " . $quizz->getName() . " !";
+            $this->get('facebook')->sendNotifications($participant->getName(), $template);
             return $this->render('Front/Quizz/end.html.twig', [
                 'score' => $score
             ]);
@@ -64,7 +64,7 @@ class QuizzController extends Controller {
             'id_question' => $id_question,
             'num_question' => $num_question,
             'score' => $score,
-            'participant' => $participant
+            'participant' => $participant->getId()
         ]);
     }
 

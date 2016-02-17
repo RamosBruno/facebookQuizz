@@ -48,7 +48,7 @@ class Rule
     private $updated;
 
     /**
-    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Quizz", mappedBy="rule")
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Quizz", mappedBy="rule", cascade={"persist"})
     */
     private $quizz;
 

@@ -28,4 +28,22 @@ class QuizzParticipationRepository extends EntityRepository
             return false;
         }
     }
+
+    public function getParticipationByUser($id_user, $id_quizz)
+    {
+        $qp = $this->createQueryBuilder('qp')
+            ->where('qp.quizz = :quizz')
+            ->andWhere('qp.dataUserFacebook = :dataUserFacebook')
+            ->setParameter('quizz', $id_quizz)
+            ->setParameter('dataUserFacebook', $id_user)
+            ->getQuery();
+
+        $quizz_participation = $qp->getResult();
+
+        if(!empty($quizz_participation)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

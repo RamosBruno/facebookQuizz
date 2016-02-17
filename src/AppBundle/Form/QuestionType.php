@@ -35,9 +35,17 @@ class QuestionType extends AbstractType
                 'label' => 'Réponse 4',
                 'required' => false,
             ])
-            ->add('responseValide', 'number', [
-                'label' => 'Numéro de la bonne réponse',
+            ->add('responseValide', 'choice', [
+                'label' => 'Choix de la bonne réponse',
+                'choices' => [
+                    '1' => 'Réponse 1',
+                    '2' => 'Réponse 2',
+                    '3' => 'Réponse 3',
+                    '4' => 'Réponse 4',
+                ],
                 'required' => true,
+                'expanded' => true,
+                'multiple' => false,
             ])
         ;
     }
