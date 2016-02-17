@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,7 +43,7 @@ class DataUserFacebook
     private $likes;
 
     /**
-    * @ORM\OneToMany(targetEntity="AppBundle\Entity\QuizzParticipation", mappedBy="dataUserFacebook")
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\QuizzParticipation", mappedBy="dataUserFacebook", cascade={"persist"})
     */
     private $quizzParticipation;
 
@@ -51,7 +52,7 @@ class DataUserFacebook
      */
     public function __construct()
     {
-        $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     /**
@@ -152,7 +153,7 @@ class DataUserFacebook
      * @param \AppBundle\Entity\LikeFacebook $likes
      * @return DataUserFacebook
      */
-    public function addLike(\AppBundle\Entity\LikeFacebook $likes)
+    public function addLike(LikeFacebook $likes)
     {
         $this->likes[] = $likes;
 
@@ -164,7 +165,7 @@ class DataUserFacebook
      *
      * @param \AppBundle\Entity\LikeFacebook $likes
      */
-    public function removeLike(\AppBundle\Entity\LikeFacebook $likes)
+    public function removeLike(LikeFacebook $likes)
     {
         $this->likes->removeElement($likes);
     }
@@ -178,4 +179,25 @@ class DataUserFacebook
     {
         return $this->likes;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getQuizzParticipation()
+    {
+        return $this->quizzParticipation;
+    }
+
+    /**
+     * @param mixed $quizzParticipation
+     * @return DataUserFacebook
+     */
+    public function setQuizzParticipation($quizzParticipation)
+    {
+        $this->quizzParticipation = $quizzParticipation;
+
+        return $this;
+    }
+
+
 }

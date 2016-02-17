@@ -1,12 +1,7 @@
 {% extends 'front.html.twig' %}
 
 {% block meta %}
-    <meta property="og:url"           content="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
-    <meta property="og:type"          content="website">
-    <meta property="og:title"         content="Code Quizz">
-    <meta property="og:description"   content="Des quizz à la pelle !">
-    <meta property="og:image"         content="http://lorempixel.com/400/200/">
-    <meta property="fb:app_id"        content="1647384475542923">
+    {{ parent() }}
 {% endblock %}
 
 {% block title %}Quizz{% endblock %}
@@ -32,12 +27,11 @@
         <div class="col-md-6">
             <h2 class="text-center">Quelques règles</h2>
             <ul>
-                <li>Selon la question, une ou plusieurs réponses sont possibles</li>
-                <li>Une fois une réponse validée, il est impossible de revenir en arrière</li>
-                <li>Vous pouvez à tout moment arrêter le quizz</li>
+                {% for rule in rules %}
+                    <li>{{ rule }}</li>
+                {% endfor %}
                 {% if quizz.countdown != null %}
                     <li>Temps imparti par question : {{ quizz.countdown | date('s') }}</li>
-                    <li>Si vous ne répondez pas avant la fin du temps imparti, le quizz passera à la question suivante</li>
                 {% endif %}
             </ul>
         </div>

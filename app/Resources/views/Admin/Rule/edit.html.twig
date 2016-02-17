@@ -11,6 +11,7 @@
 
 {% block iboxContent -%}
     {{ form(form) }}
+    <small>* Pour la règle : mettre des ";" entre chaque règle, sans espaces.</small>
 
     {% embed 'Admin/Template/modal.html.twig' %}
         {% block modal_id %}modalDelete{% endblock %}

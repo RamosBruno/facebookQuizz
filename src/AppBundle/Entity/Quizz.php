@@ -81,18 +81,18 @@ class Quizz
     protected $countdown;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Rule", inversedBy="quizz")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Rule", inversedBy="quizz", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $rule;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Question", mappedBy="quizz", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Question", mappedBy="quizz", cascade={"persist", "remove"})
      */
     private $questions;
 
     /**
-    * @ORM\OneToMany(targetEntity="AppBundle\Entity\QuizzParticipation", mappedBy="quizz")
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\QuizzParticipation", mappedBy="quizz", cascade={"remove"})
     */
     private $quizzParticipation;
 

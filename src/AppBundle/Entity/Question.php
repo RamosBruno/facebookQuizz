@@ -38,7 +38,7 @@ class Question
     protected $response2;
 
     /**
-    * @ORM\OneToMany(targetEntity="AppBundle\Entity\QuizzParticipation", mappedBy="question")
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\QuizzParticipation", mappedBy="question", cascade={"remove"})
     */
     private $quizzParticipation;
 
@@ -108,7 +108,7 @@ class Question
      * @param \AppBundle\Entity\Quizz $quizz
      * @return Question
      */
-    public function setQuizz(\AppBundle\Entity\Quizz $quizz)
+    public function setQuizz(Quizz $quizz)
     {
         $this->quizz = $quizz;
 
@@ -239,4 +239,25 @@ class Question
     {
         return $this->responseValide;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getQuizzParticipation()
+    {
+        return $this->quizzParticipation;
+    }
+
+    /**
+     * @param mixed $quizzParticipation
+     * @return Question
+     */
+    public function setQuizzParticipation($quizzParticipation)
+    {
+        $this->quizzParticipation = $quizzParticipation;
+
+        return $this;
+    }
+
+
 }

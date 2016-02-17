@@ -22,7 +22,9 @@ class LoadQuizzData extends AbstractFixture implements OrderedFixtureInterface
         for ($i = 1; $i < 11; $i++) {
             $y = ($i <= 9) ? '0' . $i : $i;
             $dateStart = new \DateTime('2016-' . $y . '-01');
+            $dateStart->setTime(0,0);
             $dateEnd = clone $dateStart;
+            $dateEnd->setTime(0,0);
             $countdown = new \DateTime('00:00:10');
             $quizz = (new Quizz())
                 ->setName($faker->sentence(4))
@@ -31,7 +33,7 @@ class LoadQuizzData extends AbstractFixture implements OrderedFixtureInterface
                 ->setNumberOfWinner($faker->numberBetween(0, 10))
                 ->setDateStart($dateStart)
                 ->setDateEnd($dateEnd->modify('last day of this month'))
-                ->setActive($i == 3 ? 1 : 0)
+                ->setActive($i == 2 ? 1 : 0)
                 ->setRule($rules[array_rand($rules, 1)])
                 ->setNbQuestion($faker->numberBetween(5, 15))
                 ->setCountdown($countdown)

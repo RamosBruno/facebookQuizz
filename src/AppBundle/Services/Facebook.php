@@ -73,10 +73,10 @@ class Facebook
     /**
      * Get notifications
      *
-     * @param $userId
-     * @param $quizz_name
+     * @param DataUserFacebook $user
+     * @param $template
      */
-    public function sendNotifications($userId, $quizz_name)
+    public function sendNotifications($user, $template)
     {
         if ($this->session->get('fb') == null) {
             $fb = $this->connectApps();
@@ -85,10 +85,10 @@ class Facebook
         }
 
         try {
-            $fb->post('/'. $userId .'/notifications',
+            $fb->post('/'. $user->getId() .'/notifications',
                 array(
                     'access_token' => $this->appID . '|' . $this->appSecret,
-                    'template' => 'Félicitations! Vous avez terminé le quizz ' . $quizz_name . '.'
+                    'template' => $user->getProfilName() . ' : ' . $template
                 ),
                 $this->appID . '|' . $this->appSecret
             );
