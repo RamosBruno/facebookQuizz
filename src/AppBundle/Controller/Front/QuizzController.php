@@ -23,6 +23,13 @@ class QuizzController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $quizz = $em->getRepository('AppBundle:Quizz')->findOneBy(["active" => true]);
+        $user = $this->get('session')->get('user');
+
+        $nb_question_rep = $em->getRepository('AppBundle:QuizzParticipation')->getNbAnswser($user->getId(), $quizz->getId());
+
+        if($nb_question_rep == $quizz->getNbQuestion()){
+            return $this->render('Front/Quizz/end.html.twig');
+        }
 
         return $this->render('Front/Quizz/index.html.twig', [
             'quizz'=> $quizz,
@@ -37,6 +44,10 @@ class QuizzController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $quizz = $em->getRepository('AppBundle:Quizz')->findOneBy(["active" => true]);
+
+        if($quizz == null) {
+            return new Response();
+        }
 
         return new Response($quizz->getImageName());
     }
@@ -58,9 +69,10 @@ class QuizzController extends Controller {
         $questions = $quizz->getQuestions();
         $participant = $this->get('session')->get('user');
 
+
         if ($num_question < $quizz->getNbQuestion()) {
             $actualQuestion = $questions[$id_question];
-        } else {
+        }else {
            return $this->getFinQuizAction($score);
         }
 
@@ -178,12 +190,12 @@ class QuizzController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $participations = $em->getRepository('AppBundle:QuizzParticipation')->findBy([
             "quizz" => $id,
-            "dataUserFacebook" => $user
+            "dataUserFacebook" => $user->getId()
         ]);
 
         $quizz = $em->getRepository('AppBundle:Quizz')->find($id);
         $nbQuestion = $quizz->getNbQuestion();
-        $countdown = $quizz->getCountdown();
+        $countdown = $quizz->getCountdown()->format('s');
         $name = $quizz->getName();
 
         $valid = 0;
@@ -192,8 +204,8 @@ class QuizzController extends Controller {
         $max = 2*$nbQuestion;
 
         foreach($participations as $participation){
-            $valid += (int) $participation->getValid();
-            $time += (int) $participation->getCountdown()->format('s');
+            $valid += intval($participation->getValid());
+            $time += intval($participation->getCountdown()->format('s'));
         }
 
         if($time != 0) {
@@ -202,9 +214,10 @@ class QuizzController extends Controller {
         }
 
         return $this->render('Front/Quizz/result.html.twig', [
+            "user" => $user,
             "score" => $score,
             "max" => $max,
-            "name" => $name
+            "name" => $name,
         ]);
     }
 
@@ -225,7 +238,7 @@ class QuizzController extends Controller {
 
         return $this->render('Front/Quizz/gain.html.twig', [
             "gains" => $gains,
-            "name" => $name
+            "name" => $name,
         ]);
     }
 

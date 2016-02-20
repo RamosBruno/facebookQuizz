@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:url"           content="{{ app.request.uri }}">
         <meta property="og:type"          content="website">
-        {% if actualQuizz is defined %}
+        {% if actualQuizz is defined and actualQuizz is not null %}
             <meta property="og:title"         content="Nouveau Quizz! {{ actualQuizz.name }}">
             <meta property="og:description"   content="{{ actualQuizz.description }}">
         {% else %}
