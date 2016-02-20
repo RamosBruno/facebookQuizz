@@ -61,6 +61,12 @@ class QuizzType extends AbstractType
                 'required' => false,
                 'format' => 'ss',
             ])
+            ->add('imageFile', 'vich_image', [
+                'label' => 'Image de fond de la page efficacité',
+                'allow_delete' => false,
+                'download_link' => false,
+                'required' => false,
+            ])
         ;
     }
 

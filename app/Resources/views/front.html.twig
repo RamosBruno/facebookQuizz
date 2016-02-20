@@ -26,8 +26,7 @@
     {% block stylesheets %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
-
-<body id="quizz">
+<body id="quizz" style="background: url('{{ asset('images/background/' ~ render(controller('AppBundle:Front/Quizz:getCover'))) }}') no-repeat center center fixed;-webkit-background-size: cover;-moz-background-size: cover;-o-background-size: cover;background-size: cover;padding-top: 20px;padding-bottom: 20px;">
 {% set config = configuration.current %}
 {% set route = app.request.attributes.get('_route') %}
 

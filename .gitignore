@@ -11,5 +11,5 @@
 /web/bundles/
 /web/.htpasswd
 /web/asset/
-
+/web/images/background
 .idea/
