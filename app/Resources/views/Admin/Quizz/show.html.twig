@@ -1,0 +1,36 @@
+{% extends 'Admin/Template/ibox.html.twig' %}
+
+{% block title %}Participant du quizz {{ quizz.name }}{% endblock %}
+{% block breadcrumb %}<li><a href="{{ path('admin_quizz_index') }}">Quizz</a></li><li class="active">Participant du quizz {{ quizz.name }}</li>{% endblock %}
+
+{% block iboxTitle %}Participant du quizz {{ quizz.name }}{% endblock %}
+{% block iboxTools %}{% endblock %}
+
+{% block iboxContent -%}
+    <table class="table table-striped datatable">
+        <thead>
+        <tr>
+            <th>Nom du profil</th>
+            <th>Email</th>
+            <th>Photo de profil</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for participant in quizz.quizzParticipation %}
+            {% for user in participant.dataUserFacebook %}
+            <tr>
+                <td>{{ user.profilName }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <img src="{{ user.pictureProfilUrl }}" alt="{{ user.profilName }}" width="50">
+                </td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun participant trouvé !</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

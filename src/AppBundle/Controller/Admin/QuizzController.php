@@ -30,6 +30,17 @@ class QuizzController extends Controller
     }
 
     /**
+     * @Route("/{id}/show", name="admin_quizz_show")
+     * @Method("GET")
+     */
+    public function showAction(Quizz $quizz)
+    {
+        return $this->render('Admin/Quizz/show.html.twig', [
+            'quizz' => $quizz,
+        ]);
+    }
+
+    /**
      * @Route("/new", name="admin_quizz_new")
      * @Method({"GET", "POST"})
      */

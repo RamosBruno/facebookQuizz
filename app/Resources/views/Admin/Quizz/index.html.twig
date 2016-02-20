@@ -27,6 +27,7 @@
                 <td>{% if entity.dateStart %}{{ entity.dateStart|date('d-m-Y') }}{% endif %}</td>
                 <td>{% if entity.dateEnd %}{{ entity.dateEnd|date('d-m-Y') }}{% endif %}</td>
                 <td>
+                    <a class="btn btn-xs btn-warning" href="{{ path('admin_quizz_show', { 'id': entity.id }) }}"><span class="fa fa-users"></span> Voir les participants</a>
                     {% if "now" | date('Ymd') < entity.dateEnd | date('Ymd') %}<a class="btn btn-xs btn-primary" href="{{ path('admin_quizz_edit', { 'id': entity.id }) }}"><span class="fa fa-edit"></span> Editer</a>{% endif %}
                     <a class="btn btn-xs btn-danger js-remove-collaborator" data-toggle="modal" data-target="#modalDelete" data-href="{{ path('admin_quizz_delete', { 'id': entity.id, 'token': csrf_token('delete_quizz') }) }}"><i class="fa fa-trash"></i> Supprimer</a>
                 </td>
