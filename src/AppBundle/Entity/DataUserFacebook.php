@@ -38,7 +38,7 @@ class DataUserFacebook
     protected $pictureProfilUrl;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\LikeFacebook", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\LikeFacebook", cascade={"persist", "remove"})
      */
     private $likes;
 
