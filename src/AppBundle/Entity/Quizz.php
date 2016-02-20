@@ -421,7 +421,7 @@ class Quizz
      * Set the value of Countdown
      *
      * @param \DateTime countdown
-     * @return QUizz
+     * @return Quizz
      */
     public function setCountdown(\DateTime $countdown)
     {
@@ -463,7 +463,7 @@ class Quizz
      * Set created
      *
      * @param \DateTime $created
-     * @return Configuration
+     * @return Quizz
      */
     public function setCreated($created)
     {
@@ -483,7 +483,7 @@ class Quizz
      * Set updated
      *
      * @param \DateTime $updated
-     * @return Configuration
+     * @return Quizz
      */
     public function setUpdated($updated)
     {
@@ -499,6 +499,4 @@ class Quizz
     {
         return $this->updated;
     }
-
-
 }

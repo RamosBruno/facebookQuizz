@@ -34,6 +34,12 @@ class Admin extends ContainerAware
                 'class' => 'fa fa-users',
             ],
         ]);
+        $menu->addChild('Configuration', [
+            'route' => 'admin_configuration_index',
+            'labelAttributes' => [
+                'class' => 'fa fa-cog',
+            ],
+        ]);
 
         return $menu;
     }
