@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 * @Route("/quizz")
 */
 class QuizzController extends Controller {
-
     /**
     * @Route("/{id}", name="front_quizz")
     * @Method({"GET"})
@@ -46,7 +45,7 @@ class QuizzController extends Controller {
     * @Route("/{id}/question/{id_question}", name="front_question")
     * @Method({"GET"})
      *
-     * @param  integer $id_question
+     * @param integer $id_question
      * @param integer $score
      * @param integer $num_question
      *
@@ -62,11 +61,7 @@ class QuizzController extends Controller {
         if ($num_question < $quizz->getNbQuestion()) {
             $actualQuestion = $questions[$id_question];
         } else {
-            $template = "Félicictations, vous avez terminé le quizz " . $quizz->getName() . " !";
-            $this->get('facebook')->sendNotifications($participant->getName(), $template);
-            return $this->render('Front/Quizz/end.html.twig', [
-                'score' => $score
-            ]);
+           return $this->getFinQuizAction($score);
         }
 
         return $this->render('Front/Quizz/quizz.html.twig', [
@@ -85,20 +80,27 @@ class QuizzController extends Controller {
      *
      * @return integer
      */
-    public function generateShuffleQuestion($data_user, $question){
-        $em = $this->getDoctrine()->getManager();
-        $quizz_id = $question->getQuizz()->getId();
+    public function generateShuffleQuestion($data_user, $question, $num_question){
 
-        $tab_id = $em->getRepository('AppBundle:Question')->findBy(['quizz' =>  $quizz_id] );
+        if($num_question != $question->getQuizz()->getNbQuestion())
+        {
+            $em = $this->getDoctrine()->getManager();
+            $quizz_id = $question->getQuizz()->getId();
 
-        $question_id = intval(array_rand($tab_id, 1));
-        if ($em->getRepository('AppBundle:QuizzParticipation')->getAnswerByUser($data_user->getId(),$tab_id[$question_id],$quizz_id)){
-            return $question_id;
+            $tab_id = $em->getRepository('AppBundle:Question')->findBy(['quizz' =>  $quizz_id] );
+
+            $question_id = intval(array_rand($tab_id, 1));
+            if ($em->getRepository('AppBundle:QuizzParticipation')->getAnswerByUser($data_user->getId(),$tab_id[$question_id],$quizz_id)){
+                return $question_id;
+            }
+            else{
+                return $this->generateShuffleQuestion($data_user, $question, $num_question);
+            }
         }
-        else{
-            return $this->generateShuffleQuestion($data_user, $question);
+        else
+        {
+            $this->getFinQuizAction();
         }
-
     }
 
     /**
@@ -142,10 +144,89 @@ class QuizzController extends Controller {
             $em->flush();
         }
         else{
-            $this->generateShuffleQuestion($data_user,$question);
+            $this->generateShuffleQuestion($data_user,$question,$num_question);
         }
 
-        return $this->showQuizzAction($this->generateShuffleQuestion($data_user,$question), $score, $num_question);
+        return $this->showQuizzAction($this->generateShuffleQuestion($data_user,$question, $num_question), $score, $num_question);
+    }
+
+    public function getFinQuizAction($score = 0){
+
+        $em = $this->getDoctrine()->getManager();
+        $participant = $this->get('session')->get('user');
+        $quizz = $em->getRepository('AppBundle:Quizz')->findOneBy(["active" => true]);
+
+        $template = "Félicictations, vous avez terminé le quizz " . $quizz->getName() . " !";
+        $this->get('facebook')->sendNotifications($participant, $template);
+
+        return $this->render('Front/Quizz/end.html.twig', [
+            'score' => $score
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/result", name="results_quizz")
+     * @Method({"GET", "POST"})
+     *
+     * @param $id
+     * @return $this
+     */
+    public function showResultQuizzAction($id)
+    {
+        $user = $this->get('session')->get('user');
+
+        $em = $this->getDoctrine()->getManager();
+        $participations = $em->getRepository('AppBundle:QuizzParticipation')->findBy([
+            "quizz" => $id,
+            "dataUserFacebook" => $user
+        ]);
+
+        $quizz = $em->getRepository('AppBundle:Quizz')->find($id);
+        $nbQuestion = $quizz->getNbQuestion();
+        $countdown = $quizz->getCountdown();
+        $name = $quizz->getName();
+
+        $valid = 0;
+        $time = 0;
+        $score = 0;
+        $max = 2*$nbQuestion;
+
+        foreach($participations as $participation){
+            $valid += (int) $participation->getValid();
+            $time += (int) $participation->getCountdown()->format('s');
+        }
+
+        if($time != 0) {
+            $avgTime = $time/($nbQuestion*$countdown);
+            $score = $valid + $avgTime * $valid;
+        }
+
+        return $this->render('Front/Quizz/result.html.twig', [
+            "score" => $score,
+            "max" => $max,
+            "name" => $name
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/gain", name="gains_quizz")
+     * @Method({"GET", "POST"})
+     *
+     * @param $id
+     * @return $this
+     */
+    public function showGainQuizzAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $quizz = $em->getRepository('AppBundle:Quizz')->find($id);
+        $gains = $quizz->getGains();
+        $name = $quizz->getName();
+
+        return $this->render('Front/Quizz/gain.html.twig', [
+            "gains" => $gains,
+            "name" => $name
+        ]);
     }
 
 }

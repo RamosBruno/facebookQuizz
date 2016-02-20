@@ -7,8 +7,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:url"           content="{{ app.request.uri }}">
         <meta property="og:type"          content="website">
-        <meta property="og:title"         content="Code Quizz">
-        <meta property="og:description"   content="Des quizz à la pelle !">
+        {% if actualQuizz is defined %}
+            <meta property="og:title"         content="Nouveau Quizz! {{ actualQuizz.name }}">
+            <meta property="og:description"   content="{{ actualQuizz.description }}">
+        {% else %}
+            <meta property="og:title"         content="Code Quizz!">
+            <meta property="og:description"   content="Des quizzes sur des thèmes divers et variés.">
+        {% endif %}
         <meta property="og:image"         content="http://lorempixel.com/400/200/">
         <meta property="fb:app_id"        content="1647384475542923">
     {% endblock %}

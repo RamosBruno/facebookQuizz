@@ -88,7 +88,7 @@ class Facebook
             $fb->post('/'. $user->getId() .'/notifications',
                 array(
                     'access_token' => $this->appID . '|' . $this->appSecret,
-                    'template' => $user->getProfilName() . ' : ' . $template
+                    'template' => $template
                 ),
                 $this->appID . '|' . $this->appSecret
             );
