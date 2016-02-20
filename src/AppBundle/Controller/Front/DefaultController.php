@@ -25,7 +25,7 @@ class DefaultController extends Controller
         $session->set('user', $userNode);
 
         foreach ($quizzes as $quizz) {
-            if ($quizz->getActive() && $quizz->getDateStart()->format('m') == $dateNow->format('m')) {
+            if ($quizz->getActive() && $quizz->getDateStart()->format('Ymd') <= $dateNow->format('Ymd') && $quizz->getDateEnd()->format('Ymd') > $dateNow->format('Ymd')) {
                 $actualQuizz = $quizz;
             } else if ($quizz->getDateEnd()->format('Ymd') < $dateNow->format('Ymd')) {
                 array_push($previousQuizzes, $quizz);
