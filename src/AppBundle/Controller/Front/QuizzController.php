@@ -23,11 +23,9 @@ class QuizzController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $quizz = $em->getRepository('AppBundle:Quizz')->findOneBy(["active" => true]);
-        $rules = explode(";", $quizz->getRule()->getContent());
 
         return $this->render('Front/Quizz/index.html.twig', [
             'quizz'=> $quizz,
-            'rules' => $rules
         ]);
     }
 
