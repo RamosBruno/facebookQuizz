@@ -20,8 +20,10 @@
                 </div>
                 <a href="{{ path('front_quizz', {'id' : actualQuizz.id}) }}" class="center-block btn btn-primary btn-lg btn-quizz">Je participe !</a>
             {% else %}
-                <div class="quizz-header row">
-                    Il n'y a pas de quizz actuellement, revenez plus tard!
+                <div class="quizz-description row">
+                    <p class="text-center">
+                        Il n'y a pas de quizz actuellement, revenez plus tard!
+                    </p>
                 </div>
             {% endif %}
             <div class="text-center">
