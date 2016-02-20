@@ -31,6 +31,7 @@
         </div>
     </div>
     <div class="row box-container">
+        {% if previousQuizzes|length > 0 %}
         <div class="col-xs-12 col-sm-6">
             <div class="quizz-header row">
                 <h2 class="text-center">Quizz terminés</h2>
@@ -45,7 +46,9 @@
                 </div>
             {% endfor %}
         </div>
+        {% endif %}
 
+        {% if nextQuizzes|length > 0 %}
         <div class="col-xs-12 col-sm-6">
             <div class="quizz-header row">
                 <h2 class="text-center">Prochains quizz</h2>
@@ -54,12 +57,13 @@
                 <div id="quizz_{{ quizz.id }}" class="">
                     <h3>{{ quizz.name }}</h3>
                     <p>
-                        {{ quizz.description }}
+                        {{ quizz.description|raw }}
                     </p>
                     <a href="{{ path('gains_quizz', {'id' : quizz.id}) }}" class="pull-right">Voir les gains <span class="fa fa-arrow-circle-right"></span></a>
                 </div>
             {% endfor %}
         </div>
+        {% endif %}
     </div>
 {% endblock %}
 {% block javascripts %}
