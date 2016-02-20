@@ -16,16 +16,22 @@ class Admin extends ContainerAware
                 'class' => 'fa fa-trophy',
             ],
         ]);
-        $menu->addChild('Utilisateurs', [
-            'route' => 'admin_user_index',
-            'labelAttributes' => [
-                'class' => 'fa fa-users',
-            ],
-        ]);
         $menu->addChild('Règles', [
             'route' => 'admin_rule_index',
             'labelAttributes' => [
                 'class' => 'fa fa-file-text',
+            ],
+        ]);
+        $menu->addChild('Participants', [
+            'route' => 'admin_datauserfacebook_index',
+            'labelAttributes' => [
+                'class' => 'fa fa-users',
+            ],
+        ]);
+        $menu->addChild('Utilisateurs', [
+            'route' => 'admin_user_index',
+            'labelAttributes' => [
+                'class' => 'fa fa-users',
             ],
         ]);
 

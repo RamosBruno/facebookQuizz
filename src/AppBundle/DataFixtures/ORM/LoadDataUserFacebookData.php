@@ -21,7 +21,7 @@ class LoadDataUserFacebookData extends AbstractFixture implements OrderedFixture
                 ->setId($faker->randomNumber($nbDigits = 8))
                 ->setProfilName($faker->name)
                 ->setEmail($faker->email)
-                ->setPictureProfilUrl($faker->imageUrl($width = 640, $height = 480))
+                ->setPictureProfilUrl($faker->imageUrl($width = 50, $height = 50))
                 ->addLike((new LikeFacebook())->setName($faker->sentence(4)))
             ;
             $manager->persist($facebookUser);

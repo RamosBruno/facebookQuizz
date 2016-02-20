@@ -1,0 +1,65 @@
+{% extends 'Admin/Template/ibox.html.twig' %}
+
+{% block title %}DataUserFacebook{% endblock %}
+{% block breadcrumb %}<li class="active">DataUserFacebook</li>{% endblock %}
+
+{% block iboxTitle %}Liste des DataUserFacebook{% endblock %}
+{% block iboxTools %}{% endblock %}
+
+{% block iboxContent -%}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom du profil</th>
+                <th>Email</th>
+                <th>Photo de profil</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ entity.profilName }}</td>
+                <td>{{ entity.email }}</td>
+                <td>
+                    <img src="{{ entity.pictureProfilUrl }}" alt="{{ entity.profilName }}" width="50">
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun DataUserFacebook trouvé !</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% embed 'Admin/Template/modal.html.twig' %}
+        {% block modal_id %}modalDelete{% endblock %}
+        {% block modal_header %}
+            <i class="fa fa-trash modal-icon"></i>
+            <h2>Confirmation de suppression DataUserFacebook</h2>
+        {% endblock %}
+        {% block modal_body %}
+            <div class="text-center">
+                <p><strong>Etes vous sur de vouloir supprimer DataUserFacebook ?</strong></p>
+                <p><span class="text-danger"><i class="fa fa-exclamation-triangle"></i> Cette action est irréversible !</span></p>
+            </div>
+        {% endblock %}
+        {% block modal_footer %}
+            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+            <a href="#" id="js-remove-link" class="btn btn-danger">Supprimer</a>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block javascripts -%}
+    <script type="text/javascript">
+        $(function () {
+            $('#modalDelete').on('show.bs.modal', function (e) {
+                var button = $(e.relatedTarget);
+                var href = button.data('href');
+                var modal = $(this);
+                modal.find('#js-remove-link').attr('href', href);
+            })
+        })
+    </script>
+{% endblock %}
