@@ -39,7 +39,7 @@
                 <div id="quizz_{{ quizz.id }}" class="">
                     <h3>{{ quizz.name }}</h3>
                     <p>
-                        {{ quizz.description }}
+                        {{ quizz.description|raw }}
                     </p>
                     <a href="{{ path('results_quizz', {'id' : quizz.id}) }}" class="pull-right">Voir les résultats <span class="fa fa-arrow-circle-right"></span></a>
                 </div>

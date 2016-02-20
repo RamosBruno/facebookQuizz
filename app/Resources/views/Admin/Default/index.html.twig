@@ -3,5 +3,86 @@
 {% block title %}Admin{% endblock %}
 
 {% block body %}
-    Admin
+    <div class="row">
+        <div class="col-md-3">
+            <div class="widget style1 navy-bg">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <i class="fa fa-users fa-5x"></i>
+                    </div>
+                    <div class="col-xs-8 text-right">
+                        <span>Nombre de participants</span>
+                        <h2 class="font-bold">{{ userFacebook|length }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="widget style1 yellow-bg">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <i class="fa fa-user fa-5x"></i>
+                    </div>
+                    <div class="col-xs-8 text-right">
+                        <span>Nombre de participations</span>
+                        <h2 class="font-bold">{{ nbOfParticipants }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="widget style1 lazur-bg">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <i class="fa fa-trophy fa-5x"></i>
+                    </div>
+                    <div class="col-xs-8 text-right">
+                        <span>Nombre de quizz</span>
+                        <h2 class="font-bold">{{ quizz|length }}</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="widget style1 blue-bg">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <i class="fa fa-question fa-5x"></i>
+                    </div>
+                    <div class="col-xs-8 text-right">
+                        <span>Nombre de questions</span>
+                        <h2 class="font-bold">{{ questions|length }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="widget style1 red-bg">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <i class="fa fa-question fa-5x"></i>
+                    </div>
+                    <div class="col-xs-8 text-right">
+                        <span>Nombre de quizz terminé</span>
+                        <h2 class="font-bold">{{ countQuizzOver|length }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="ibox-content">
+                <div>
+                    {% for quiz in quizz %}
+                        {% set right = 0 %}
+                        {% for participation in quiz.quizzParticipation %}
+                            {% if participation.valid %}
+                                {% set right = right +1 %}
+                            {% endif %}
+                        {% endfor %}
+                        {% set nb = right * 100 / quiz.quizzParticipation|length %}
+                        <div>
+                            <span>{{ quiz.name }} - {{ nb|round }}% de bonne réponses</span>
+                            <small class="pull-right">{{ right }} bonne réponse / {{ quiz.quizzParticipation|length }} réponses</small>
+                        </div>
+                        <div class="progress progress-small">
+                            <div style="width: {{ nb }}%" class="progress-bar{% if nb < 50 %} progress-bar-danger{% endif %}"></div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

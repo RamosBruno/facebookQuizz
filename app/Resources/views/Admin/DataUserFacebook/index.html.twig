@@ -1,9 +1,9 @@
 {% extends 'Admin/Template/ibox.html.twig' %}
 
-{% block title %}DataUserFacebook{% endblock %}
-{% block breadcrumb %}<li class="active">DataUserFacebook</li>{% endblock %}
+{% block title %}Liste des utilisateurs des quizz{% endblock %}
+{% block breadcrumb %}<li class="active">Liste des utilisateurs des quizz</li>{% endblock %}
 
-{% block iboxTitle %}Liste des DataUserFacebook{% endblock %}
+{% block iboxTitle %}Liste des utilisateurs des quizz{% endblock %}
 {% block iboxTools %}{% endblock %}
 
 {% block iboxContent -%}
@@ -31,24 +31,6 @@
         {% endfor %}
         </tbody>
     </table>
-
-    {% embed 'Admin/Template/modal.html.twig' %}
-        {% block modal_id %}modalDelete{% endblock %}
-        {% block modal_header %}
-            <i class="fa fa-trash modal-icon"></i>
-            <h2>Confirmation de suppression DataUserFacebook</h2>
-        {% endblock %}
-        {% block modal_body %}
-            <div class="text-center">
-                <p><strong>Etes vous sur de vouloir supprimer DataUserFacebook ?</strong></p>
-                <p><span class="text-danger"><i class="fa fa-exclamation-triangle"></i> Cette action est irréversible !</span></p>
-            </div>
-        {% endblock %}
-        {% block modal_footer %}
-            <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-            <a href="#" id="js-remove-link" class="btn btn-danger">Supprimer</a>
-        {% endblock %}
-    {% endembed %}
 {% endblock %}
 
 {% block javascripts -%}

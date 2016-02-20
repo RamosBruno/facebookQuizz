@@ -22,7 +22,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
 <body>
-
+{% set config = configuration.current %}
 {% if form is defined %}{% form_theme form 'Admin/Template/app_form_field.html.twig' %}{% endif %}
 
 <div id="wrapper">
@@ -32,7 +32,7 @@
             <ul class="nav" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element">
-                        <img src="{{ asset('images/logo_white.png') }}" alt="logo" style="width: 100%" />
+                        <img src="{{ asset('images/background/' ~ config.imageName) }}" alt="logo" style="width: 100%" />
                         <a href="#">
                             <span class="block m-t-xs">
                                 <strong class="font-bold">{{ app.user.firstname }} {{ app.user.lastname }}</strong> <br/>

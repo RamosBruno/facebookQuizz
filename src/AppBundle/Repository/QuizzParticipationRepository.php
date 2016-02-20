@@ -4,9 +4,12 @@ use Doctrine\ORM\EntityRepository;
 
 class QuizzParticipationRepository extends EntityRepository
 {
-    public function countParticipationByQuizz()
+    public function countParticipation()
     {
-
+        return $this->createQueryBuilder('qp')
+            ->select('COUNT(qp)')
+            ->getQuery()
+            ->getResult()[0][1];
     }
 
     public function getAnswerByUser($id_user, $id_question, $id_quizz){
