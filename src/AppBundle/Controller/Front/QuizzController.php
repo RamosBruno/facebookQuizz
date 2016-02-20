@@ -23,6 +23,13 @@ class QuizzController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $quizz = $em->getRepository('AppBundle:Quizz')->findOneBy(["active" => true]);
+        $user = $this->get('session')->get('user');
+
+        $nb_question_rep = $em->getRepository('AppBundle:QuizzParticipation')->getNbAnswser($user->getId(), $quizz->getId());
+
+        if($nb_question_rep == $quizz->getNbQuestion()){
+            return $this->render('Front/Quizz/end.html.twig');
+        }
 
         return $this->render('Front/Quizz/index.html.twig', [
             'quizz'=> $quizz,
@@ -58,9 +65,10 @@ class QuizzController extends Controller {
         $questions = $quizz->getQuestions();
         $participant = $this->get('session')->get('user');
 
+
         if ($num_question < $quizz->getNbQuestion()) {
             $actualQuestion = $questions[$id_question];
-        } else {
+        }else {
            return $this->getFinQuizAction($score);
         }
 

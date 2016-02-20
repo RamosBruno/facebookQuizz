@@ -5,8 +5,12 @@
 {% block body %}
 <div class="row box-container">
     <div class="col-md-12">
-        <h1>Merci pour votre participation !</h1>
-        {{ score }}
+        {% if score is defined %}
+            <h1>Merci pour votre participation !</h1>
+            {{ score }}
+        {% else %}
+            <h1>Vous avez déjà participé à ce quizz</h1>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
