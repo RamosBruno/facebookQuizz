@@ -41,7 +41,7 @@
 
 {% if app.session.get('isadmin') %}
 <div class="container">
-    <a href="{{ path('admin_default_index') }}" class="pull-right"><span class="fa fa-cog fa-2x"></span></a>
+    <a href="{{ path('admin_default_index') }}" target="_blank" class="pull-right"><span class="fa fa-cog"></span> Panel admin</a>
 </div>
 {% endif %}
 <div class="container">
