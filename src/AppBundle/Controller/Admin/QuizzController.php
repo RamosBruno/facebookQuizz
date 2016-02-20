@@ -35,8 +35,18 @@ class QuizzController extends Controller
      */
     public function showAction(Quizz $quizz)
     {
+        $em = $this->getDoctrine()->getManager();
+        $idParticipants = $em->getRepository('AppBundle:Quizz')->getParticipant();
+
+        $participants = [];
+        foreach ($idParticipants as $id) {
+            $participant = $em->getRepository('AppBundle:DataUserFacebook')->find($id[1]);
+            array_push($participants, $participant);
+        }
+
         return $this->render('Admin/Quizz/show.html.twig', [
             'quizz' => $quizz,
+            'participants' => $participants
         ]);
     }
 

@@ -16,16 +16,14 @@
         </tr>
         </thead>
         <tbody>
-        {% for participant in quizz.quizzParticipation %}
-            {% for user in participant.dataUserFacebook %}
+        {% for participant in participants %}
             <tr>
-                <td>{{ user.profilName }}</td>
-                <td>{{ user.email }}</td>
+                <td>{{ participant.profilName }}</td>
+                <td>{{ participant.email }}</td>
                 <td>
-                    <img src="{{ user.pictureProfilUrl }}" alt="{{ user.profilName }}" width="50">
+                    <img src="{{ participant.pictureProfilUrl }}" alt="{{ participant.profilName }}" width="50">
                 </td>
             </tr>
-            {% endfor %}
         {% else %}
             <tr>
                 <td colspan="4">Aucun participant trouvé !</td>
