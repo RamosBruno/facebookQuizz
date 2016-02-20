@@ -61,7 +61,7 @@ class QuizzController extends Controller {
         if ($num_question < $quizz->getNbQuestion()) {
             $actualQuestion = $questions[$id_question];
         } else {
-           return $this->getFinQuizAction();
+           return $this->getFinQuizAction($score);
         }
 
         return $this->render('Front/Quizz/quizz.html.twig', [
@@ -150,7 +150,7 @@ class QuizzController extends Controller {
         return $this->showQuizzAction($this->generateShuffleQuestion($data_user,$question, $num_question), $score, $num_question);
     }
 
-    public function getFinQuizAction(){
+    public function getFinQuizAction($score = 0){
 
         $em = $this->getDoctrine()->getManager();
         $participant = $this->get('session')->get('user');
@@ -160,7 +160,7 @@ class QuizzController extends Controller {
         $this->get('facebook')->sendNotifications($participant, $template);
 
         return $this->render('Front/Quizz/end.html.twig', [
-            'score' => 20
+            'score' => $score
         ]);
     }
 
