@@ -11,7 +11,9 @@ class LoadConfigurationData extends AbstractFixture implements OrderedFixtureInt
 {
     public function load(ObjectManager $manager)
     {
-        $configuration = (new Configuration());
+        $configuration = (new Configuration())
+            ->setName('Code Quizz')
+        ;
         $manager->persist($configuration);
         $manager->flush();
     }
