@@ -45,7 +45,7 @@ class QuizzController extends Controller {
     * @Route("/{id}/question/{id_question}", name="front_question")
     * @Method({"GET"})
      *
-     * @param  integer $id_question
+     * @param integer $id_question
      * @param integer $score
      * @param integer $num_question
      *
@@ -149,7 +149,7 @@ class QuizzController extends Controller {
 
         return $this->showQuizzAction($this->generateShuffleQuestion($data_user,$question, $num_question), $score, $num_question);
     }
-    
+
     public function getFinQuizAction(){
 
         $em = $this->getDoctrine()->getManager();
@@ -161,6 +161,71 @@ class QuizzController extends Controller {
 
         return $this->render('Front/Quizz/end.html.twig', [
             'score' => 20
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/result", name="results_quizz")
+     * @Method({"GET", "POST"})
+     *
+     * @param $id
+     * @return $this
+     */
+    public function showResultQuizzAction($id)
+    {
+        $user = $this->get('session')->get('user');
+
+        $em = $this->getDoctrine()->getManager();
+        $participations = $em->getRepository('AppBundle:QuizzParticipation')->findBy([
+            "quizz" => $id,
+            "dataUserFacebook" => $user
+        ]);
+
+        $quizz = $em->getRepository('AppBundle:Quizz')->find($id);
+        $nbQuestion = $quizz->getNbQuestion();
+        $countdown = $quizz->getCountdown();
+        $name = $quizz->getName();
+
+        $valid = 0;
+        $time = 0;
+        $score = 0;
+        $max = 2*$nbQuestion;
+
+        foreach($participations as $participation){
+            $valid += (int) $participation->getValid();
+            $time += (int) $participation->getCountdown()->format('s');
+        }
+
+        if($time != 0) {
+            $avgTime = $time/($nbQuestion*$countdown);
+            $score = $valid + $avgTime * $valid;
+        }
+
+        return $this->render('Front/Quizz/result.html.twig', [
+            "score" => $score,
+            "max" => $max,
+            "name" => $name
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/gain", name="gains_quizz")
+     * @Method({"GET", "POST"})
+     *
+     * @param $id
+     * @return $this
+     */
+    public function showGainQuizzAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $quizz = $em->getRepository('AppBundle:Quizz')->find($id);
+        $gains = $quizz->getGains();
+        $name = $quizz->getName();
+
+        return $this->render('Front/Quizz/gain.html.twig', [
+            "gains" => $gains,
+            "name" => $name
         ]);
     }
 

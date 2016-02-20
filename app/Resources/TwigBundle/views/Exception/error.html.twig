@@ -1,0 +1,17 @@
+{% extends 'front.html.twig' %}
+
+{% block body %}
+    <div class="row box-container">
+        <div class="col-md-12 active-quizz">
+            <div class="quizz-header row">
+                <h1 class="text-center">Oups, la page n'est pas trouvée</h1>
+            </div>
+            <div class="quizz-description row">
+                <p class="text-center">
+                    Rendez-vous sur la page d'accueil pour revenir aux quizz ! <br>
+                    <a href="{{ path('front_homepage') }}">C'est par ici !</a>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

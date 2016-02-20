@@ -13,6 +13,8 @@
         'lib/inspinia/css/style.css'
         'css/admin/main.css'
         'lib/datetime-picker/jquery.datetimepicker.css'
+        'lib/DataTable/css/dataTables.bootstrap.min.css'
+        'lib/DataTable/css/buttons.bootstrap.min.css'
         filter='cssrewrite' output='asset/css/admin.css' %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
@@ -96,6 +98,16 @@
     'lib/summernote/js/summernote.min.js'
     'lib/datetime-picker/jquery.datetimepicker.js'
     'bundles/fosjsrouting/js/router.js'
+    'lib/DataTable/js/jquery.dataTables.min.js'
+    'lib/DataTable/js/dataTables.bootstrap.min.js'
+    'lib/DataTable/js/dataTables.buttons.min.js'
+    'lib/DataTable/js/buttons.bootstrap.min.js'
+    'lib/DataTable/js/jszip.min.js'
+    'lib/DataTable/js/pdfmake.min.js'
+    'lib/DataTable/js/vfs_fonts.js'
+    'lib/DataTable/js/buttons.html5.min.js'
+    'lib/DataTable/js/buttons.colVis.min.js'
+    'js/datatable_conf.js'
     output='asset/js/admin.js' %}
     <script src="{{ asset_url }}"></script>
 {% endjavascripts %}

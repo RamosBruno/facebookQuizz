@@ -14,7 +14,18 @@ class ConfigurationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
+        $builder
+            ->add('name', 'text', [
+                'label' => 'Nom du site',
+                'required' => true
+            ])
+            ->add('imageFile', 'vich_image', [
+                'label' => 'Logo/Avatar',
+                'allow_delete' => false,
+                'download_link' => false,
+                'required' => false,
+            ])
+        ;
     }
     
     /**

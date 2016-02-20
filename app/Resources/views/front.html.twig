@@ -5,10 +5,15 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta property="og:url"           content="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
+        <meta property="og:url"           content="{{ app.request.uri }}">
         <meta property="og:type"          content="website">
-        <meta property="og:title"         content="Code Quizz">
-        <meta property="og:description"   content="Des quizz à la pelle !">
+        {% if actualQuizz is defined %}
+            <meta property="og:title"         content="Nouveau Quizz! {{ actualQuizz.name }}">
+            <meta property="og:description"   content="{{ actualQuizz.description }}">
+        {% else %}
+            <meta property="og:title"         content="Code Quizz!">
+            <meta property="og:description"   content="Des quizzes sur des thèmes divers et variés.">
+        {% endif %}
         <meta property="og:image"         content="http://lorempixel.com/400/200/">
         <meta property="fb:app_id"        content="1647384475542923">
     {% endblock %}
@@ -46,6 +51,15 @@
 {% endif %}
 <div class="container">
     {% block body %}{% endblock %}
+</div>
+
+<div class="container">
+    <div class="row box-container">
+        <div class="col-md-12 text-center">
+            <img src="{{ asset('images/background/' ~ config.imageName) }}" alt="{{ config.name }}"> <br>
+            © {{ "now"|date("Y") }} {{ config.name }}
+        </div>
+    </div>
 </div>
 
 {% block modal %}{% endblock %}
