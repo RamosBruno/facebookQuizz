@@ -124,3 +124,7 @@ h2 {
 .question-list {
     padding: 0;
 }
+
+.active-quizz {
+    padding-bottom: 10px;
+}

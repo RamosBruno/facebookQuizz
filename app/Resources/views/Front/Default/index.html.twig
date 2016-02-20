@@ -18,43 +18,45 @@
                         {{ actualQuizz.description }}
                     </p>
                 </div>
-                <div class="text-center">
-                    <div id="fb-root"></div>
-                    <div class="fb-share-button" data-href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" data-layout="box_count"></div>
-                </div>
                 <a href="{{ path('front_quizz', {'id' : actualQuizz.id}) }}" class="center-block btn btn-primary btn-lg btn-quizz">Je participe !</a>
             {% else %}
-                Il n'y a pas de quizz actuellement, revenez plus tard!
-                <div class="">
-                    <div id="fb-root"></div>
-                    <div class="fb-share-button" data-href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" data-layout="button_count"></div>
+                <div class="quizz-header row">
+                    Il n'y a pas de quizz actuellement, revenez plus tard!
                 </div>
             {% endif %}
+            <div class="text-center">
+                <div id="fb-root"></div>
+                <div class="fb-share-button" data-href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" data-layout="box_count"></div>
+            </div>
         </div>
     </div>
     <div class="row box-container">
         <div class="col-xs-12 col-sm-6">
-            <h2 class="">Quizz terminés</h2>
+            <div class="quizz-header row">
+                <h2 class="text-center">Quizz terminés</h2>
+            </div>
             {% for quizz in previousQuizzes %}
                 <div id="quizz_{{ quizz.id }}" class="">
                     <h3>{{ quizz.name }}</h3>
                     <p>
                         {{ quizz.description }}
                     </p>
-                    <a href="" class="pull-right">Voir les résultats <span class="fa fa-arrow-circle-right"></span></a>
+                    <a href="{{ path('results_quizz', {'id' : quizz.id}) }}" class="pull-right">Voir les résultats <span class="fa fa-arrow-circle-right"></span></a>
                 </div>
             {% endfor %}
         </div>
 
         <div class="col-xs-12 col-sm-6">
-            <h2 class="">Prochains quizz</h2>
+            <div class="quizz-header row">
+                <h2 class="text-center">Prochains quizz</h2>
+            </div>
             {% for quizz in nextQuizzes %}
                 <div id="quizz_{{ quizz.id }}" class="">
                     <h3>{{ quizz.name }}</h3>
                     <p>
                         {{ quizz.description }}
                     </p>
-                    <a href="" class="pull-right">Voir les gains <span class="fa fa-arrow-circle-right"></span></a>
+                    <a href="{{ path('gains_quizz', {'id' : quizz.id}) }}" class="pull-right">Voir les gains <span class="fa fa-arrow-circle-right"></span></a>
                 </div>
             {% endfor %}
         </div>
