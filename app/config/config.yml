@@ -79,8 +79,8 @@ vich_uploader:
     db_driver: orm
     mappings:
         image:
-            uri_prefix:         /images
-            upload_destination: %kernel.root_dir%/../web/images
+            uri_prefix:         /images/background
+            upload_destination: %kernel.root_dir%/../web/images/background
 
 # Stof Doctrine Extensions
 stof_doctrine_extensions:

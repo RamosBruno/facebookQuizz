@@ -27,18 +27,17 @@
         <div class="col-md-6">
             <h2 class="text-center">Quelques règles</h2>
             <ul>
-                {% for rule in rules %}
-                    <li>{{ rule }}</li>
-                {% endfor %}
+                {{ quizz.rule.content|raw }} <br>
                 {% if quizz.countdown != null %}
-                    <li>Temps imparti par question : {{ quizz.countdown | date('s') }}</li>
+                    <span class="fa fa-warning"></span> Attention <br>
+                    Le temps imparti par question est de {{ quizz.countdown | date('s') }} secondes pour ce quizz !
                 {% endif %}
             </ul>
         </div>
 
         <div class="col-md-6">
             <h2 class="text-center">Gains</h2>
-            {{ quizz.gains }}
+            {{ quizz.gains|raw }}
         </div>
 
         <div class="col-md-12">

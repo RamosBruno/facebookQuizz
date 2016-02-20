@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
 
 
 /**
@@ -17,23 +18,33 @@ class QuizzController extends Controller {
 
     /**
     * @Route("/{id}", name="front_quizz")
-    * @Method({"GET", "POST"})
+    * @Method({"GET"})
     */
     public function indexAction() {
 
         $em = $this->getDoctrine()->getManager();
         $quizz = $em->getRepository('AppBundle:Quizz')->findOneBy(["active" => true]);
-        $rules = explode(";", $quizz->getRule()->getContent());
 
         return $this->render('Front/Quizz/index.html.twig', [
             'quizz'=> $quizz,
-            'rules' => $rules
         ]);
     }
 
     /**
+     * @Route("/coverQuizz", name="front_get_cover")
+     * @Method({"GET"})
+     */
+    public function getCoverAction() {
+
+        $em = $this->getDoctrine()->getManager();
+        $quizz = $em->getRepository('AppBundle:Quizz')->findOneBy(["active" => true]);
+
+        return new Response($quizz->getImageName());
+    }
+
+    /**
     * @Route("/{id}/question/{id_question}", name="front_question")
-    * @Method({"GET", "POST"})
+    * @Method({"GET"})
      *
      * @param  integer $id_question
      * @param integer $score
