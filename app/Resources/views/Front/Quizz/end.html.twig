@@ -7,7 +7,12 @@
     <div class="col-md-12">
         {% if score is defined %}
             <h1>Merci pour votre participation !</h1>
-            {{ score }}
+            <p class="text-center">
+                Nombre de bonnes réponses : {{ score }}
+            </p>
+            <p class="text-center">
+                Vous recevrez une notification vous indiquant la fin du quizz et les résultats prochainement!
+            </p>
         {% else %}
             <h1>Vous avez déjà participé à ce quizz</h1>
         {% endif %}

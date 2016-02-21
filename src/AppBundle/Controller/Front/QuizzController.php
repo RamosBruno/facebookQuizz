@@ -188,36 +188,25 @@ class QuizzController extends Controller {
         $user = $this->get('session')->get('user');
 
         $em = $this->getDoctrine()->getManager();
-        $participations = $em->getRepository('AppBundle:QuizzParticipation')->findBy([
-            "quizz" => $id,
-            "dataUserFacebook" => $user->getId()
-        ]);
+        $win = $em->getRepository('AppBundle:Win')->findBy(array(
+            'dataUserFacebook' => $user->getId(),
+            'quizz' => $id
+        ));
 
         $quizz = $em->getRepository('AppBundle:Quizz')->find($id);
-        $nbQuestion = $quizz->getNbQuestion();
-        $countdown = $quizz->getCountdown()->format('s');
         $name = $quizz->getName();
 
-        $valid = 0;
-        $time = 0;
-        $score = 0;
-        $max = 2*$nbQuestion;
-
-        foreach($participations as $participation){
-            $valid += intval($participation->getValid());
-            $time += intval($participation->getCountdown()->format('s'));
-        }
-
-        if($time != 0) {
-            $avgTime = $time/($nbQuestion*$countdown);
-            $score = $valid + $avgTime * $valid;
+        $resultat = null;
+        if($win){
+            $resultat = 1;
+        } else {
+            $resultat = 0;
         }
 
         return $this->render('Front/Quizz/result.html.twig', [
             "user" => $user,
-            "score" => $score,
-            "max" => $max,
-            "name" => $name,
+            "resultat" => $resultat,
+            "name" => $name
         ]);
     }
 
