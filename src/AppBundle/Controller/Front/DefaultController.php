@@ -27,7 +27,7 @@ class DefaultController extends Controller
         foreach ($quizzes as $quizz) {
             if ($quizz->getActive() && $quizz->getDateStart()->format('Ymd') <= $dateNow->format('Ymd') && $quizz->getDateEnd()->format('Ymd') > $dateNow->format('Ymd')) {
                 $actualQuizz = $quizz;
-            } else if ($quizz->getDateEnd()->format('Ymd') < $dateNow->format('Ymd')) {
+            } else if ($quizz->getDateEnd()->format('Ymd') <= $dateNow->format('Ymd')) {
                 array_push($previousQuizzes, $quizz);
             } else {
                 array_push($nextQuizzes, $quizz);

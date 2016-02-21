@@ -12,10 +12,25 @@
             <div class="quizz-description row">
                 <p class="text-center">
                     {% if user is defined and user is not null %}
-                        {{ score }} / {{ max }}
+                        {% if resultat == 1 %}
+                            <div class="col-xs-12 text-center">
+                                <img src="{{ asset('images/win.png') }}" alt="Victoire" width="128" height="128" class="img-rounded">
+                            </div>
+                            <div class="col-xs-12 text-center">
+                                Félicitations! Vous avez gagné!
+                            </div>
+                        {% else %}
+                            <div class="col-xs-12 text-center">
+                                <img src="{{ asset('images/win.png') }}" alt="Victoire" width="128" height="128" class="img-rounded">
+                            </div>
+                            <div class="col-xs-12 text-center">
+                                Nous sommes désolé.. Vous avez perdu..
+                            </div>
+                        {% endif %}
                     {% else %}
-                        Vous n'avez pas participé à ce quizz !
-                        <a href="{{ path('front_homepage') }}" class="center-block btn btn-primary btn-lg btn-quizz"><small class="glyphicon glyphicon-arrow-left"></small>&nbsp;Retour</a>
+                        <div class="col-xs-12 text-center">
+                            Vous n'avez pas participé à ce quizz !
+                        </div>
                     {% endif %}
                 </p>
                 <div class="col-md-12">
