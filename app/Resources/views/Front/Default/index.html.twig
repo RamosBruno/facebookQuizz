@@ -18,7 +18,11 @@
                         {{ actualQuizz.description|raw }}
                     </p>
                 </div>
-                <a href="{{ path('front_quizz', {'id' : actualQuizz.id}) }}" class="center-block btn btn-primary btn-lg btn-quizz">Je participe !</a>
+                {% if participation is null %}
+                    <a href="{{ path('front_quizz', {'id' : actualQuizz.id}) }}" class="center-block btn btn-primary btn-lg btn-quizz">Je participe !</a>
+                {% else %}
+                    <button  class="center-block btn btn-primary btn-lg btn-quizz"> Vous avez déjà participé </button>
+                {% endif %}
             {% else %}
                 <div class="quizz-description row">
                     <p class="text-center">
@@ -42,7 +46,7 @@
                 <div id="quizz_{{ quizz.id }}">
                     <h3>{{ quizz.name }}</h3>
                     <div class="col-md-3">
-                        <img src="http://lorempixel.com/150/150/" alt="" class="img-responsive">
+                        <img src="{{ asset('images/background/' ~ quizz.imageName) }}" alt="" class="img-responsive">
                     </div>
                     <div class="col-md-9">
                         <p>
@@ -64,7 +68,7 @@
             <div id="quizz_{{ quizz.id }}" class="col-md-12">
                 <h3>{{ quizz.name }}</h3>
                 <div class="col-md-3">
-                    <img src="http://lorempixel.com/150/150/" alt="" class="img-responsive">
+                    <img src="{{ asset('images/background/' ~ quizz.imageName) }}" alt="" class="img-responsive">
                 </div>
                 <div class="col-md-9">
                     <p>

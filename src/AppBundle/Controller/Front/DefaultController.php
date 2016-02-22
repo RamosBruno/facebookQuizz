@@ -15,7 +15,9 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $quizzes = $em->getRepository('AppBundle:Quizz')->findAll();
+        $user = $this->get('session')->get('user');
         $actualQuizz = null;
+        $participation = null;
         $nextQuizzes = [];
         $previousQuizzes = [];
         $dateNow = new \DateTime();
@@ -29,6 +31,7 @@ class DefaultController extends Controller
         foreach ($quizzes as $quizz) {
             if ($quizz->getActive() && $quizz->getDateStart()->format('Ymd') <= $dateNow->format('Ymd') && $quizz->getDateEnd()->format('Ymd') > $dateNow->format('Ymd')) {
                 $actualQuizz = $quizz;
+                $participation = $em->getRepository('AppBundle:QuizzParticipation')->findOneBy(array('dataUserFacebook' => $user->getId(), 'quizz' => $quizz->getId() ));
             } else if ($quizz->getDateEnd()->format('Ymd') <= $dateNow->format('Ymd')) {
                 array_push($previousQuizzes, $quizz);
             } else {
@@ -40,7 +43,8 @@ class DefaultController extends Controller
             'username' => $session->get('user')['name'],
             'actualQuizz' => $actualQuizz,
             'previousQuizzes' => $previousQuizzes,
-            'nextQuizzes' => $nextQuizzes
+            'nextQuizzes' => $nextQuizzes,
+            'participation' => $participation
         ]);
     }
 
