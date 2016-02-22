@@ -51,6 +51,30 @@ class QuizzController extends Controller
     }
 
     /**
+     * @Route("/{id}/show/win", name="admin_quizz_show_win")
+     * @Method("GET")
+     */
+    public function showWinAction(Quizz $quizz)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entities = $em->getRepository('AppBundle:Win')->findBy(array(
+            "quizz" => $quizz->getId()
+        ));
+
+        $participants=[];
+        foreach ($entities as $entity) {
+            $participant = $em->getRepository('AppBundle:DataUserFacebook')->find($entity->getDataUserFacebook());
+            array_push($participants, $participant);
+        }
+
+        return $this->render('Admin/Quizz/show.html.twig', [
+            'quizz' => $quizz,
+            'participants' => $participants
+        ]);
+    }
+
+    /**
      * @Route("/new", name="admin_quizz_new")
      * @Method({"GET", "POST"})
      */
