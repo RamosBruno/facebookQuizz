@@ -21,7 +21,7 @@
                 {% if participation is null %}
                     <a href="{{ path('front_quizz', {'id' : actualQuizz.id}) }}" class="center-block btn btn-primary btn-lg btn-quizz">Je participe !</a>
                 {% else %}
-                    <button  class="center-block btn btn-primary btn-quizz"> Vous avez déjà participé </button>
+                    <button  class="center-block btn btn-primary btn-lg btn-quizz"> Vous avez déjà participé </button>
                 {% endif %}
             {% else %}
                 <div class="quizz-description row">
