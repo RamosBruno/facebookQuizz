@@ -13,7 +13,6 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $userNode = $this->get('facebook')->getUserNode();
         $em = $this->getDoctrine()->getManager();
         $quizzes = $em->getRepository('AppBundle:Quizz')->findAll();
         $actualQuizz = null;
@@ -22,7 +21,10 @@ class DefaultController extends Controller
         $dateNow = new \DateTime();
 
         $session = $this->get('session');
-        $session->set('user', $userNode);
+        if (empty($session->get('user'))) {
+            $userNode = $this->get('facebook')->getUserNode();
+            $session->set('user', $userNode);
+        }
 
         foreach ($quizzes as $quizz) {
             if ($quizz->getActive() && $quizz->getDateStart()->format('Ymd') <= $dateNow->format('Ymd') && $quizz->getDateEnd()->format('Ymd') > $dateNow->format('Ymd')) {
@@ -35,7 +37,7 @@ class DefaultController extends Controller
         }
 
         return $this->render('Front/Default/index.html.twig', [
-            'username' => $userNode['name'],
+            'username' => $session->get('user')['name'],
             'actualQuizz' => $actualQuizz,
             'previousQuizzes' => $previousQuizzes,
             'nextQuizzes' => $nextQuizzes
