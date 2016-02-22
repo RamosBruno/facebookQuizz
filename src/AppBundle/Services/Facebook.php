@@ -87,6 +87,7 @@ class Facebook
         try {
             $fb->post('/'. $user->getId() .'/notifications',
                 array(
+                    'href' => 'https://www.facebook.com/CodeQuizz-560799984085110/app/1647347285546642/',
                     'access_token' => $this->appID . '|' . $this->appSecret,
                     'template' => $template
                 ),
