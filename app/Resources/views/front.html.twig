@@ -45,7 +45,7 @@
 {% endfor %}
 
 {% if app.session.get('isadmin') %}
-<div class="container">
+<div class="container button-admin">
     <a href="{{ path('admin_default_index') }}" target="_blank" class="pull-right"><span class="fa fa-cog"></span> Panel admin</a>
 </div>
 {% endif %}
@@ -54,7 +54,7 @@
 </div>
 
 <div class="container">
-    <div class="row box-container">
+    <div class="row box-container footer">
         <div class="col-md-12 text-center">
             <img src="{{ asset('images/background/' ~ config.imageName) }}" alt="{{ config.name }}"> <br>
             © {{ "now"|date("Y") }} {{ config.name }}

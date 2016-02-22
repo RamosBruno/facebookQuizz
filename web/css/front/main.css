@@ -1,33 +1,21 @@
-.box-container {
-    color: #dcdcdc !important;
-    background-color: #342E30;
-    margin-bottom: 40px;
-}
-
 .btn-primary {
-    color: #fff;
-    background-color: #45619D;
-    border-color: #3C5998;
+    color: #fff !important;
+    background-color: #2299dd;
+    border-color: #16618c;
     border-radius: 0;
 }
 
 .btn-primary:hover,
 .btn-primary:focus {
-    background:  #45619D 0 -15px;
+    color: #fff;
+    background:  #2299dd 0 -15px;
+    border-color: #16618c;
 }
 .btn-primary:active,
 .btn-primary.active {
-    background-color: #45619D !important;
-    border-color: #3C5998;
-}
-
-a:link, a:visited {
-    color: #61e8db;
-}
-
-a:hover, a:active {
-    color: #5fe4d7;
-    text-decoration: none;
+    color: #fff;
+    background-color: #2299dd !important;
+    border-color: #16618c;
 }
 
 a.btn {
@@ -35,35 +23,62 @@ a.btn {
 }
 
 a.btn-quizz:hover, a.btn-quizz:active, a.btn-quizz {
-    color: #fff;
-    margin: 15px auto;
+    background-color: #2299dd;
+    margin: 0 auto 30px auto;
+}
+
+a:link, a:visited {
+    color: #2299dd;
+}
+
+a:hover, a:active {
+    color: #2299dd;
+    text-decoration: none;
+}
+
+.share-fb {
+    margin: 0 auto 20px auto;
+}
+
+.h1, .h2, .h3, h1, h2, h3 {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 h1 {
     font-family: "bitterregular", "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
-    font-size: 35px;
+    font-size: 30px;
     text-align: center;
     text-transform: uppercase;
     text-rendering: optimizeLegibility;
-    margin-bottom: 30px;
 }
 
 h2 {
     font-family: "bitterregular", "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
-    font-size: 25px;
+    font-size: 20px;
     text-transform: uppercase;
     text-rendering: optimizeLegibility;
 }
 
+.button-admin {
+    background-color: #e8e8e8;
+    padding-top: 6px;
+}
+
+.box-container {
+    color: #e8e8e8 !important;
+    background-color: rgba(50, 50, 50, 0.90);
+    margin-bottom: 40px;
+}
+
 .quizz-header {
-    background: #F5F5F5;
-    border-bottom: 5px solid #666263;
-    color: #000;
+    background: #e8e8e8;
+    border-bottom: 3px solid #2299dd;
+    color: #333;
 }
 
 .quizz-description {
     font-family: "bitterregular";
-    color: #FFF;
     font-weight: 400;
     font-size: 1.5em;
     padding: 30px;
@@ -117,4 +132,10 @@ h2 {
 
 .active-quizz {
     padding-bottom: 10px;
+}
+
+.footer {
+    background-color: rgba(50, 50, 50, 0.90);
+    margin-top: -40px;
+    color: #e8e8e8 !important;
 }

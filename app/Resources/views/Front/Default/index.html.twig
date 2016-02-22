@@ -26,7 +26,7 @@
                     </p>
                 </div>
             {% endif %}
-            <div class="text-center">
+            <div class="text-center share-fb">
                 <div id="fb-root"></div>
                 <div class="fb-share-button" data-href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}" data-layout="box_count"></div>
             </div>
@@ -39,12 +39,17 @@
                 <h2 class="text-center">Quizz terminés</h2>
             </div>
             {% for quizz in previousQuizzes %}
-                <div id="quizz_{{ quizz.id }}" class="">
+                <div id="quizz_{{ quizz.id }}">
                     <h3>{{ quizz.name }}</h3>
-                    <p>
-                        {{ quizz.description|raw }}
-                    </p>
-                    <a href="{{ path('results_quizz', {'id' : quizz.id}) }}" class="pull-right">Voir les résultats <span class="fa fa-arrow-circle-right"></span></a>
+                    <div class="col-md-3">
+                        <img src="http://lorempixel.com/150/150/" alt="" class="img-responsive">
+                    </div>
+                    <div class="col-md-9">
+                        <p>
+                            {{ quizz.description|raw }}
+                        </p>
+                        <a href="{{ path('results_quizz', {'id' : quizz.id}) }}" class="pull-right">Voir les résultats <span class="fa fa-arrow-circle-right"></span></a>
+                    </div>
                 </div>
             {% endfor %}
         </div>
@@ -56,12 +61,17 @@
                 <h2 class="text-center">Prochains quizz</h2>
             </div>
             {% for quizz in nextQuizzes %}
-                <div id="quizz_{{ quizz.id }}" class="">
-                    <h3>{{ quizz.name }}</h3>
+            <div id="quizz_{{ quizz.id }}" class="col-md-12">
+                <h3>{{ quizz.name }}</h3>
+                <div class="col-md-3">
+                    <img src="http://lorempixel.com/150/150/" alt="" class="img-responsive">
+                </div>
+                <div class="col-md-9">
                     <p>
                         {{ quizz.description|raw }}
                     </p>
-                    <a href="{{ path('gains_quizz', {'id' : quizz.id}) }}" class="pull-right">Voir les gains <span class="fa fa-arrow-circle-right"></span></a>
+                    <a href="{{ path('results_quizz', {'id' : quizz.id}) }}" class="pull-right">Voir les résultats <span class="fa fa-arrow-circle-right"></span></a>
+                </div>
                 </div>
             {% endfor %}
         </div>
