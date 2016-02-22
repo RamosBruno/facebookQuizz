@@ -118,3 +118,5 @@ h2 {
 .active-quizz {
     padding-bottom: 10px;
 }
+
+button.btn-quizz { margin-bottom: 25px; }
