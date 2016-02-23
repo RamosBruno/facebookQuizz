@@ -86,6 +86,12 @@ class QuizzController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            if ($entity->getActive()) {
+                $quizzActive = $this->getDoctrine()->getRepository('AppBundle:Quizz')->findOneByActive(1);
+                if ($quizzActive && $quizzActive != $entity) {
+                    $quizzActive->setActive(0);
+                }
+            }
             $em->persist($entity);
             $em->flush();
             $this->addFlash('success', "Le Quizz à été créé!");
