@@ -71,7 +71,7 @@ class Quizz
     protected $active;
 
     /**
-     * @var int
+     * @var integer
      *
      * @ORM\Column(type="integer")
      */

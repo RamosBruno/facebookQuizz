@@ -41,7 +41,7 @@ class QuestionController extends Controller
             return $this->redirectToRoute('admin_quizz_edit', ['id' => $entity->getQuizz()->getId()]);
         }
 
-        return $this->render('Admin/question/form.html.twig', [
+        return $this->render('Admin/Question/form.html.twig', [
             'entity' => $entity,
             'form'   => $form->createView(),
         ]);

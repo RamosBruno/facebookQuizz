@@ -24,6 +24,9 @@
 
         $('[name="{{ form.vars.name }}"]').append('<input type="submit" class="hidden" />');
         var save = function() {
+            $('.note-editable').each(function () {
+                $(this).parents('.col-sm-10').find('.form-control').html($(this).code());
+            });
             $('[name="{{ form.vars.name }}"]').find('[type="submit"]').trigger('click');
         };
     </script>
