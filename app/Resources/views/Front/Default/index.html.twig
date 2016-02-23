@@ -43,7 +43,7 @@
                 <h2 class="text-center">Quizz terminés</h2>
             </div>
             {% for quizz in previousQuizzes %}
-                <div id="quizz_{{ quizz.id }}">
+                <div id="quizz_{{ quizz.id }}" class="clear-fix" style="margin-bottom: 10px">
                     <h3>{{ quizz.name }}</h3>
                     <div class="col-md-3">
                         <img src="{{ asset('images/background/' ~ quizz.imageName) }}" alt="" class="img-responsive">
@@ -65,17 +65,16 @@
                 <h2 class="text-center">Prochains quizz</h2>
             </div>
             {% for quizz in nextQuizzes %}
-            <div id="quizz_{{ quizz.id }}" class="col-md-12">
-                <h3>{{ quizz.name }}</h3>
-                <div class="col-md-3">
-                    <img src="{{ asset('images/background/' ~ quizz.imageName) }}" alt="" class="img-responsive">
-                </div>
-                <div class="col-md-9">
-                    <p>
-                        {{ quizz.description|raw }}
-                    </p>
-                    <a href="{{ path('results_quizz', {'id' : quizz.id}) }}" class="pull-right">Voir les résultats <span class="fa fa-arrow-circle-right"></span></a>
-                </div>
+                <div id="quizz_{{ quizz.id }}" class="col-md-12">
+                    <h3>{{ quizz.name }}</h3>
+                    <div class="col-md-3">
+                        <img src="{{ asset('images/background/' ~ quizz.imageName) }}" alt="" class="img-responsive">
+                    </div>
+                    <div class="col-md-9">
+                        <p>
+                            {{ quizz.description|raw }}
+                        </p>
+                    </div>
                 </div>
             {% endfor %}
         </div>
