@@ -72,6 +72,7 @@
                                 {% set right = right +1 %}
                             {% endif %}
                         {% endfor %}
+                        {% if quiz.quizzParticipation|length > 0 %}
                         {% set nb = right * 100 / quiz.quizzParticipation|length %}
                         <div>
                             <span>{{ quiz.name }} - {{ nb|round }}% de bonne réponses</span>
@@ -80,6 +81,7 @@
                         <div class="progress progress-small">
                             <div style="width: {{ nb }}%" class="progress-bar{% if nb < 50 %} progress-bar-danger{% endif %}"></div>
                         </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>

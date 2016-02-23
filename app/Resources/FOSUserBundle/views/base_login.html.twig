@@ -15,9 +15,10 @@
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
+{% set config = configuration.current %}
 
 <div class="middle-box text-center loginscreen  animated fadeInDown">
-    <img src="{{ asset('images/logo_white.png') }}" alt="logo" style="width: 100%" />
+    <img src="{{ asset('images/background/' ~ config.imageName) }}" alt="logo" style="width: 100%" />
         {% block body %}{% endblock %}
     <p class="m-t"> <small>Ceya &copy; 2015</small> </p>
 </div>

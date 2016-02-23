@@ -15,40 +15,49 @@
             <h4 class="question-header col-md-8">{{ actualQuestion.question }}</h4>
         </div>
         <br>
-        <ul class="list-group clear-list m-t">
             <form action="{{ path('reponse_quizz', {'id': actualQuizz.id, 'id_question' : actualQuestion.id}) }}" method="post">
-                <li class="radio col-md-offset-3 col-md-6">
-                    <label for="question1">{{ actualQuestion.response1 }}</label>
-                    <input id="question1" type="radio" name="optionsRadios" value="1" class="">
-                </li>
-                <li class="radio col-md-offset-3 col-md-6">
-                    <label for="question2">{{ actualQuestion.response2 }}</label>
-                    <input id="question2" type="radio" name="optionsRadios" value="2" class="">
-                </li>
-                <li class="radio col-md-offset-3 col-md-6">
-                    <label for="question3">{{ actualQuestion.response3 }}</label>
-                    <input id="question3" type="radio" name="optionsRadios" value="3" class="">
-                </li>
-                <li class="radio col-md-offset-3 col-md-6">
-                    <label for="question4">{{ actualQuestion.response4 }}</label>
-                    <input id="question4" type="radio" name="optionsRadios" value="4" class="">
-                </li>
-                <input type="hidden" name="quizz_id" value="{{ actualQuizz.id }}">
-                <input type="hidden" name="question_id" value="{{ actualQuestion.id }}">
-                <input type="hidden" name="num_question" value="{{ num_question + 1 }}">
-                <input type="hidden" name="participant" value="{{ participant }}">
-                <input type="hidden" name="score" value="{{ score }}">
-                <input type="hidden" name="answer" value="">
-                <input type="hidden" name="countdown" value="">
-                <nav class="col-md-12">
-                    <ul class="pager">
-                        <li class="">
-                            <input type="submit" class="btn btn-primary btn-lg disabled" id="submit_answer" value="Question Suivante">
+                <div class="col-md-12">
+                    <ul class="list-group clear-list m-t">
+                        {% if actualQuestion.response1 %}
+                        <li class="radio col-md-offset-3 col-md-6 col-xs-offset-3 col-xs-6">
+                            <label for="question1">{{ actualQuestion.response1 }}</label>
+                            <input id="question1" type="radio" name="optionsRadios" value="1" class="">
                         </li>
+                        {% endif %}
+                        {% if actualQuestion.response2 %}
+                        <li class="radio col-md-offset-3 col-md-6 col-xs-offset-3 col-xs-6">
+                            <label for="question2">{{ actualQuestion.response2 }}</label>
+                            <input id="question2" type="radio" name="optionsRadios" value="2" class="">
+                        </li>
+                        {% endif %}
+                        {% if actualQuestion.response3 %}
+                        <li class="radio col-md-offset-3 col-md-6 col-xs-offset-3 col-xs-6">
+                            <label for="question3">{{ actualQuestion.response3 }}</label>
+                            <input id="question3" type="radio" name="optionsRadios" value="3" class="">
+                        </li>
+                        {% endif %}
+                        {% if actualQuestion.response4 %}
+                        <li class="radio col-md-offset-3 col-md-6 col-xs-offset-3 col-xs-6">
+                            <label for="question4">{{ actualQuestion.response4 }}</label>
+                            <input id="question4" type="radio" name="optionsRadios" value="4" class="">
+                        </li>
+                        {% endif %}
                     </ul>
-                </nav>
+                    <input type="hidden" name="quizz_id" value="{{ actualQuizz.id }}">
+                    <input type="hidden" name="question_id" value="{{ actualQuestion.id }}">
+                    <input type="hidden" name="num_question" value="{{ num_question + 1 }}">
+                    <input type="hidden" name="participant" value="{{ participant }}">
+                    <input type="hidden" name="score" value="{{ score }}">
+                    <input type="hidden" name="answer" value="">
+                    <input type="hidden" name="countdown" value="">
+                    <div class="text-center">
+                        <br>
+                        <input type="submit" class="btn btn-primary btn-lg disabled" id="submit_answer" value="Question Suivante" disabled="disabled">
+                        <br><br>
+                    </div>
+                </div>
             </form>
-        </ul>
+
     </div>
 </div>
 {% endblock %}
@@ -63,7 +72,7 @@
             }
         }
 
-        function initializeClock() {
+        /*function initializeClock() {
             var clock = $('#countdown');
             var bar = $('#bar-countdown');
             var max = getTimeRemaining().seconds;
@@ -85,6 +94,7 @@
 
                 if(timer.seconds <= 0){
                     clearInterval(time_interval);
+                    $('#submit_answer').prop("disabled", false);
                     $('#submit_answer').trigger('click');
                 }
 
@@ -92,13 +102,14 @@
             }
             updateClock();
             var time_interval = setInterval(updateClock, 1000);
-        }
+        }*/
 
         $(document).ready(function() {
 
             $('input[name=optionsRadios]').change(function() {
                 if ($('#submit_answer').hasClass('disabled')) {
                     $('#submit_answer').removeClass('disabled');
+                    $('#submit_answer').prop("disabled", false);
                 }
 
                 $(this).each(function(){
@@ -111,7 +122,7 @@
                 $('input[name=answer]').val($(this).val());
             });
 
-            initializeClock();
+            //initializeClock();
 
         });
     </script>
