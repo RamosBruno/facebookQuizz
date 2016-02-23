@@ -31,7 +31,10 @@ class DefaultController extends Controller
         foreach ($quizzes as $quizz) {
             if ($quizz->getActive() && $quizz->getDateStart()->format('Ymd') <= $dateNow->format('Ymd') && $quizz->getDateEnd()->format('Ymd') > $dateNow->format('Ymd')) {
                 $actualQuizz = $quizz;
-                $participation = $em->getRepository('AppBundle:QuizzParticipation')->findOneBy(array('dataUserFacebook' => $user->getId(), 'quizz' => $quizz->getId() ));
+
+                if(is_object($user)){
+                    $participation = $em->getRepository('AppBundle:QuizzParticipation')->findOneBy(array('dataUserFacebook' => $user->getId(), 'quizz' => $quizz->getId() ));
+                }
             } else if ($quizz->getDateEnd()->format('Ymd') <= $dateNow->format('Ymd')) {
                 array_push($previousQuizzes, $quizz);
             } else {
